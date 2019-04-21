@@ -5,11 +5,13 @@
 -----------------
 ----settings-----
 -----------------
-local onlyTrackProgressionRelics = false
+local onlyTrackProgressionRelics = true
 local trackerBackgroundEnabled = false
 local trackerBackgroundColor = 0xFF00FF00 -- Color format: OORRGGBB(Opacity, Red, Green, Blue)
 
 -------------------------
+local alucardModeStarted = false
+
 local relics = {
     {
         path = "images/SoulOfBat.png",
@@ -154,6 +156,13 @@ local relics = {
     }
 }
 
+local function checkAlucardModeStart()
+    local playerHp = memory.readbyte(0x097BA0)
+        if playerHp > 60 and playerHp < 85 then
+        alucardModeStarted = true
+    end
+end
+
 local function detectRelics()
     for i = 1, 28, 1 do
         if mainmemory.readbyte(relics[i].address) ~= 0x00 then
@@ -173,7 +182,7 @@ local function drawRelics()
             if relics[i].status and relics[i].progression then
                 gui.drawImage(relics[i].path, 150 - 21 * columns, 20 + 21 * rows, 20, 20, true)
                 rows = rows + 1
-                if rows > 13 then
+                if rows > 14 then
                     rows = 1
                     columns = 2
                 end
@@ -182,7 +191,7 @@ local function drawRelics()
             if relics[i].status then
                 gui.drawImage(relics[i].path, 150 - 21 * columns, 20 + 21 * rows, 20, 20, true)
                 rows = rows + 1
-                if rows > 13 then
+                if rows > 14 then
                     rows = 1
                     columns = 2
                 end
@@ -192,7 +201,11 @@ local function drawRelics()
 end
 
 while true do
-    if emu.framecount() % 120 == 0 then detectRelics() end
-    drawRelics()
+    if alucardModeStarted then
+        drawRelics()
+        if emu.framecount() % 120 == 0 then detectRelics() end
+    else
+        if emu.framecount() > 2100 and emu.framecount() % 120 == 0 then checkAlucardModeStart() end
+    end
     emu.frameadvance()
 end

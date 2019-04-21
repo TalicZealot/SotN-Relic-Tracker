@@ -5,12 +5,14 @@
 -----------------
 ----settings-----
 -----------------
-local onlyTrackProgressionRelics = false
+local onlyTrackProgressionRelics = true
 local trackerBackgroundEnabled = false
 local trackerBackgroundColor = "#00FF00FF" -- Color format: "#RRGGBBOO" (Red, Green, Blue, Opacity)
 
 -------------------------
 require "gd"
+
+local alucardModeStarted = false
 
 local relics = {
     {
@@ -156,12 +158,18 @@ local relics = {
     }
 }
 
+local function checkAlucardModeStart()
+    local playerHp = memory.readbyte(0x097BA0)
+    if playerHp > 60 and playerHp < 85 then
+        alucardModeStarted = true
+        print("start")
+    end
+end
+
 local function detectRelics()
-    if emu.framecount() % 120 == 0 then
-        for i = 1, 28, 1 do
-            if memory.readbyte(relics[i].address) ~= 0x00 then
-                relics[i].status = true
-            end
+    for i = 1, 28, 1 do
+        if memory.readbyte(relics[i].address) ~= 0x00 then
+            relics[i].status = true
         end
     end
 end
@@ -197,6 +205,10 @@ local function drawRelics()
 end
 
 gui.register(function()
-    detectRelics()
-    drawRelics()
+    if alucardModeStarted then
+        drawRelics()
+        if emu.framecount() % 120 == 0 then detectRelics() end
+    else
+        if emu.framecount() > 2100 and emu.framecount() % 120 == 0 then checkAlucardModeStart() end
+    end
 end)
