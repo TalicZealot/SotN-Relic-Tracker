@@ -1,6 +1,11 @@
 # SotN Relic Tracker
 Relic Tracker LUA script for the Castlevania:SotN Randomizer
 
+Settings(toggles inside the scripts):
+* Only track progression relics.
+* Enable tracker background.
+* Set tracker background color.
+
 Bizhawk Instructions: 
 * Download the repository
 * Launch the script after running the game through Tools > Lua Console > Script > Open Script
@@ -13,7 +18,7 @@ Bizhawk Setup:
 
 PSXjin Instructions: 
 * Download the repository
-* Put gd.dll in the PSXjin folder
+* Install https://github.com/rjpcomputing/luaforwindows/releases
 * Launch the script after running the game through File > Lua Scripting > New Lua Script Window (Ctrl + L) > Browse
 
 PSXjin Setup:
