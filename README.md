@@ -1,5 +1,5 @@
-# SotN Relic Tracker
-Relic Tracker LUA script for the Castlevania:SotN Randomizer
+# SotN Relic and Location check Autoracker
+Autotracker LUA script for the Castlevania:SotN Randomizer
 
 Settings(toggles inside the scripts):
 * Only track progression relics.
