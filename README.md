@@ -1,10 +1,5 @@
 # SotN Relic and Location check Autoracker
-Autotracker LUA script for the Castlevania:SotN Randomizer
-
-Settings(toggles inside the scripts):
-* Only track progression relics.
-* Enable tracker background.
-* Set tracker background color.
+Autotracker LUA script for the Castlevania:SotN Randomizer https://sotn.io/
 
 Bizhawk Instructions: 
 * Download the repository
@@ -29,3 +24,9 @@ PSXjin Setup:
 * Configuration > Graphics > Use FPS Limit
 * Configuration > Graphics > Use Frame Skipping
 * Configuration > Graphics > Auto-detect FPS/Frame skipping
+
+Settings(toggles inside the scripts):
+* Only track progression relics.
+* Enable tracker background.
+* Set tracker background color.
+* Lightweight Mode: console only output.

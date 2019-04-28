@@ -26,6 +26,8 @@ local secondCastleAddress = 0x1E5458
 local alucardRooms = 0
 local drawingOffsetX = 0
 local drawingOffsetY = 20
+local firstCastleChecksRemaining = 21
+local secondCastleChecksRemaining = 7
 
 local relics = {
     {
@@ -202,205 +204,177 @@ local relics = {
 local locations = {
     {
         name = "Soul of Bat",
-        path = "images/SoulOfBat.png",
         status = false,
         mapTiles = {{address = 0x06BCCF, values = {85}}},
         mapX = 386,
         mapY = 132
     }, {
         name = "Fire of Bat",
-        path = "images/FireOfBat.png",
         status = false,
-        mapTiles = {{address = 0x06BC32, values = {5, 85, 21}}},
+        mapTiles = {{address = 0x06BC32, values = {5, 85, 21, 189}}},
         mapX = 474,
         mapY = 52
     }, {
         name = "Echo of Bat",
-        path = "images/EchoOfBat.png",
         status = false,
         mapTiles = {{address = 0x06BC78, values = {85}}},
         mapX = 130,
         mapY = 92
     }, {
         name = "Soul of Wolf",
-        path = "images/SoulOfWolf.png",
         status = false,
         mapTiles = {
-            {address = 0x06BCA3, values = {80}},
-            {address = 0x06BC93, values = {16}}
+            {address = 0x06BCA3, values = {80, 240}},
+            {address = 0x06BC93, values = {16, 240}}
         },
         mapX = 490,
         mapY = 108
     }, {
         name = "Power of Wolf",
-        path = "images/PowerOfWolf.png",
         status = false,
         mapTiles = {{address = 0x06BDE4, values = {1, 5}}},
         mapX = 18,
         mapY = 268
     }, {
         name = "Skill of Wolf",
-        path = "images/SkillOfWolf.png",
         status = false,
-        mapTiles = {{address = 0x06BD87, values = {85}}},
+        mapTiles = {{address = 0x06BD87, values = {85, 213}}},
         mapX = 122,
         mapY = 228
     }, {
         name = "Form of Mist",
-        path = "images/FormOfMist.png",
         status = false,
         mapTiles = {{address = 0x06BCD9, values = {5, 85}}},
         mapX = 170,
         mapY = 140
     }, {
         name = "Power of Mist",
-        path = "images/PowerOfMist.png",
         status = false,
-        mapTiles = {{address = 0x06BC0B, values = {1}}},
+        mapTiles = {{address = 0x06BC0B, values = {1, 3}}}, -- doesnt trigger, but works on reload
         mapX = 250,
         mapY = 36
     }, {
         name = "Cube of Zoe",
-        path = "images/CubeOfZoe.png",
         status = false,
-        mapTiles = {{address = 0x06BDB8, values = {1, 4, 5, 85}}},
+        mapTiles = {{address = 0x06BDB8, values = {1, 4, 5, 85, 255}}},
         mapX = 154,
         mapY = 252
     }, {
         name = "Spirit Orb",
-        path = "images/SpiritOrb.png",
         status = false,
-        mapTiles = {{address = 0x06BD7A, values = {20, 21}}},
+        mapTiles = {{address = 0x06BD7A, values = {20, 21, 62}}},
         mapX = 202,
         mapY = 214
     }, {
         name = "Gravity Boots",
-        path = "images/GravityBoots.png",
         status = false,
         mapTiles = {{address = 0x06BCEC, values = {4, 5, 84}}},
         mapX = 274,
         mapY = 148
     }, {
         name = "Leap Stone",
-        path = "images/LeapStone.png",
         status = false,
         mapTiles = {
-            {address = 0x06BC3B, values = {1, 85}},
-            {address = 0x06BC2B, values = {1}}
+            {address = 0x06BC3B, values = {1, 85, 131}},
+            {address = 0x06BC2B, values = {1, 171}} ---doesnt trigger, but works on reload
         },
         mapX = 250,
         mapY = 52
     }, {
         name = "Holy Symbol",
-        path = "images/HolySymbol.png",
         status = false,
         mapTiles = {{address = 0x06BE11, values = {85}}},
         mapX = 442,
         mapY = 292
     }, {
         name = "Faerie Scroll",
-        path = "images/FaerieScroll.png",
         status = false,
-        mapTiles = {{address = 0x06BCA2, values = {21, 85}}},
+        mapTiles = {{address = 0x06BCA2, values = {21, 85, 191}}},
         mapX = 474,
         mapY = 108
     }, {
         name = "Jewel of Open",
-        path = "images/JewelOfOpen.png",
         status = false,
-        mapTiles = {{address = 0x06BCC0, values = {21, 85}}},
+        mapTiles = {{address = 0x06BCC0, values = {21, 85, 127}}},
         mapX = 394,
         mapY = 124
     }, {
         name = "Merman Statue",
-        path = "images/MermanStatue.png",
         status = false,
-        mapTiles = {{address = 0x06BE16, values = {85}}},
+        mapTiles = {{address = 0x06BE16, values = {85, 255}}},
         mapX = 66,
         mapY = 300
     }, {
         name = "Bat Card",
-        path = "images/BatCard.png",
         status = false,
-        mapTiles = {{address = 0x06BD27, values = {84}}},
+        mapTiles = {{address = 0x06BD27, values = {84, 222}}},
         mapX = 106,
         mapY = 180
     }, {
         name = "Ghost Card",
-        path = "images/GhostCard.png",
         status = false,
-        mapTiles = {{address = 0x06BBED, values = {20, 21, 69, 81}}},
+        mapTiles = {{address = 0x06BBED, values = {20, 21, 69, 81, 181, 85, 17}}},
         mapX = 314,
         mapY = 20
     }, {
         name = "Faerie Card",
-        path = "images/FaerieCard.png",
         status = false,
-        mapTiles = {{address = 0x06BCA1, values = {84}}},
+        mapTiles = {{address = 0x06BCA1, values = {84, 126, 85}}},
         mapX = 418,
         mapY = 108
     }, {
         name = "Demon Card",
-        path = "images/DemonCard.png",
         status = false,
         mapTiles = {{address = 0x06BE3B, values = {21}}},
         mapX = 234,
         mapY = 316
     }, {
         name = "Sword Card",
-        path = "images/SwordCard.png",
         status = false,
         mapTiles = {{address = 0x06BC99, values = {64}}},
         mapX = 162,
         mapY = 108
     }, {
         name = "Heart of Vlad",
-        path = "images/HeartOfVlad.png",
         status = false,
         mapTiles = {
             {address = 0x06C29D, values = {85}},
-            {address = 0x06C29E, values = {85}}
+            {address = 0x06C29E, values = {85, 64}}
         },
         mapX = 320,
         mapY = 330
     }, {
         name = "Tooth of Vlad",
-        path = "images/ToothOfVlad.png",
         status = false,
         mapTiles = {{address = 0x06C1F5, values = {80, 84, 85, 5, 21}}},
         mapX = 48,
         mapY = 250
     }, {
         name = "Rib of Vlad",
-        path = "images/RibOfVlad.png",
         status = false,
         mapTiles = {{address = 0x06C26E, values = {85}}},
         mapX = 352,
         mapY = 306
     }, {
         name = "Ring of Vlad",
-        path = "images/RingOfVlad.png",
         status = false,
-        mapTiles = {{address = 0x06C2C9, values = {1, 5, 85}}},
+        mapTiles = {{address = 0x06C2C9, values = {1, 5, 85}}}, -- 5 doesnt trigger, but works on reload
         mapX = 184,
         mapY = 354
     }, {
         name = "Eye of Vlad",
-        path = "images/EyeOfVlad.png",
         status = false,
         mapTiles = {{address = 0x06C0EC, values = {21, 85}}},
         mapX = 264,
         mapY = 114
     }, {
         name = "Force of Echo",
-        path = "images/ForceOfEcho.png",
         status = false,
         mapTiles = {{address = 0x06C0D6, values = {85}}},
         mapX = 64,
         mapY = 106
     }, {
         name = "Gas Cloud",
-        path = "images/GasCloud.png",
         status = false,
         mapTiles = {{address = 0x06C04F, values = {85}}},
         mapX = 368,
@@ -530,6 +504,11 @@ local function detectLocations()
                             memory.readbyte(locations[i].mapTiles[j].address)) then
                     locations[i].status = true
                     changes = changes + 1
+                    if i < 22 then
+                        firstCastleChecksRemaining = firstCastleChecksRemaining - 1
+                    else
+                        secondCastleChecksRemaining = secondCastleChecksRemaining - 1
+                    end
                 end
             end
         end
@@ -554,6 +533,8 @@ local function drawLocations()
                         locationMapColor, mapBorderColor)
             end
         end
+        gui.text(drawingOffsetX, drawingOffsetY, "First Castle checks: "..firstCastleChecksRemaining)
+        gui.text(drawingOffsetX, drawingOffsetY + 12, "Second Castle checks: "..secondCastleChecksRemaining)
     elseif mapCheck == 1 then
         for i = 22, 28, 1 do
             if locations[i].status == false then
@@ -564,6 +545,8 @@ local function drawLocations()
                         locationMapColor, mapBorderColor)
             end
         end
+        gui.text(drawingOffsetX, drawingOffsetY, "First Castle checks: "..firstCastleChecksRemaining)
+        gui.text(drawingOffsetX, drawingOffsetY + 12, "Second Castle checks: "..secondCastleChecksRemaining)
     end
 end
 
