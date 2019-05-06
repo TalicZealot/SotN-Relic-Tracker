@@ -10,6 +10,8 @@ Bizhawk Setup:
 * Config > Display > Maintain aspect ratio: checked
 * Config > Display > Aspect Ratio Selection > Use 1:1 pixel size
 * Config > Display > Expand pixels by integers only: checked
+* PSX > Options > Pixel Pro Mode
+* Sace window through View > Window Size
 
 PSXjin Instructions: 
 * Download the repository

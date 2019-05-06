@@ -23,9 +23,10 @@ local alucardCurrentXpAddress = 0x097BEC
 local mapOpenAddress = 0x0974A4
 local alucardRoomsCountAddress = 0x03C760
 local secondCastleAddress = 0x1E5458
-local alucardRooms = 0
 local drawingOffsetX = 150
 local drawingOffsetY = 40
+-------------------------------------------------
+local alucardRooms = 0
 local firstCastleChecksRemaining = 21
 local secondCastleChecksRemaining = 7
 
