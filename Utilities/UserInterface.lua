@@ -16,9 +16,6 @@ function initForm(settings, guiForm)
     guiForm.relicBox = forms.pictureBox(guiForm.mainForm, 0, 80, 300, 300) 
 end
 
-function updateForm(saveData, guiForm)
-end
-
 function updateSettings(settings, lightweightModeCheckbox, onlyTrackProgressionRelicsCheckbox, pixelProModeCheckbox)
     if forms.ischecked(lightweightModeCheckbox) then
         settings.lightweightMode = true

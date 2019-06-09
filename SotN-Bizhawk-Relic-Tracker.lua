@@ -26,6 +26,7 @@ local guiForm = {
     relicBox = nil
 }
 initForm(settings, guiForm)
+forms.drawBox(guiForm.relicBox, 0, 0, 300, 300, 0xFF110011, 0xFF110011)
 --------
 
 local constants = {
@@ -453,7 +454,6 @@ local function drawRelics()
     local rows = 0
     local columns = 0
 
-    forms.drawBox(guiForm.relicBox, 0, 0, 300, 300, 0xFF110011, 0xFF110011)
     for i = 1, 28, 1 do
         if settings.onlyTrackProgressionRelics then
             if relics[i].status and relics[i].progression then

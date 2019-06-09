@@ -1,11 +1,13 @@
 # SotN Relic and Location check Autoracker
 Autotracker LUA script for the Castlevania:SotN Randomizer https://sotn.io/
-## Version 1.1.0
+## Version 1.1.1
 ### changelog
+#### 1.1.1
+* Fixed Relic box to always be colored
 #### 1.1.0
 * Added support for different rendering modes in bizhawk
 * Extracted relic display in a separate window
-* Added GUI for 
+* Added GUI for settings
 #### 1.0.0
 * Release
 
