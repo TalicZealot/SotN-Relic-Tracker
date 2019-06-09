@@ -13,6 +13,7 @@ Autotracker LUA script for the Castlevania:SotN Randomizer https://sotn.io/
 
 ## Bizhawk Instructions: 
 * Download repository from *Clone or download* > *Download ZIP*
+* Set Config > Customize > Advanced > Lua Core > Lua+LuaInterface
 * Launch the script after running the game through Tools > Lua Console > Script > Open Script
 
 ## Bizhawk Optimal Settings:
