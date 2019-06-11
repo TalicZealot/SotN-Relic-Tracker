@@ -1,5 +1,5 @@
 function initForm(settings, guiForm)
-    guiForm.mainForm = forms.newform(300, 380, "Castlevania: SOTN Relic Autotracker")
+    guiForm.mainForm = forms.newform(300, 420, "Castlevania: SOTN Relic Autotracker")
 
     guiForm.lightweightModeCheckbox = forms.checkbox(guiForm.mainForm, "Lightweight mode", 10, 10)
     forms.setproperty(guiForm.lightweightModeCheckbox, "Checked", settings.lightweightMode)
@@ -13,7 +13,7 @@ function initForm(settings, guiForm)
     forms.setproperty(guiForm.pixelProModeCheckbox, "Checked", settings.pixelProMode)
     forms.setproperty(guiForm.pixelProModeCheckbox, "Width", 200)
 
-    guiForm.relicBox = forms.pictureBox(guiForm.mainForm, 0, 80, 300, 300) 
+    guiForm.relicBox = forms.pictureBox(guiForm.mainForm, 0, 80, 300, 340) 
 end
 
 function updateSettings(settings, lightweightModeCheckbox, onlyTrackProgressionRelicsCheckbox, pixelProModeCheckbox)

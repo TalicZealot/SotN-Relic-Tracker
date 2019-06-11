@@ -13,8 +13,7 @@ local settings = {
     trackerBackgroundEnabled = true,
     debugMode = false,
     drawingOffsetX = 150,
-    drawingOffsetY = 40,
-    relicDisplayBackgroundColor = 0xFF110011
+    drawingOffsetY = 40
 }
 deserializeToObject(settings, "config.ini")
 
@@ -27,7 +26,7 @@ local guiForm = {
     relicBox = nil
 }
 initForm(settings, guiForm)
-forms.drawBox(guiForm.relicBox, 0, 0, 300, 300, settings.relicDisplayBackgroundColor, settings.relicDisplayBackgroundColor)
+forms.drawBox(guiForm.relicBox, 0, 0, 300, 340, 0xFF110011, 0xFF110011)
 --------
 
 local constants = {
@@ -38,7 +37,7 @@ local constants = {
     trackerBackgroundColor = 0xFF00FF00, -- Color format: OORRGGBB(Opacity, Red, Green, Blue)
     locationMapColorReachable = 0xFFf8f848,
     locationMapColor = 0xFF006A00,
-    mapBorderColor = 0xFFC0C0C0,
+    mapBorderColor = 0xFFC0C0C0
 }
 
 local comonVariables = {
@@ -223,6 +222,30 @@ local relics = {
         status = false,
         progression = true,
         address = 0x97981
+    }
+}
+
+local progressionItems = {
+    {
+        name = "Gold Ring",
+        path = "images/large/GoldRing.png",
+        status = false,
+        address = 0x097A7B
+    }, {
+        name = "Silver Ring",
+        path = "images/large/SilverRing.png",
+        status = false,
+        address = 0x097A7C
+    }, {
+        name = "Spike Breaker",
+        path = "images/large/SpikeBreaker.png",
+        status = false,
+        address = 0x097A41
+    }, {
+        name = "Holy Glasses",
+        path = "images/large/HolyGlasses.png",
+        status = false,
+        address = 0x097A55
     }
 }
 
@@ -457,6 +480,20 @@ local function outputRelics()
     print(collectedRelics)
 end
 
+local function outputItems()
+    local collectedItems = "Collected Progression Items: \n\n "
+    for i = 1, 4, 1 do
+        if progressionItems[i].status then
+            if collectedItems == "" then
+                collectedItems = collectedItems .. progressionItems[i].name
+            else
+                collectedItems = collectedItems .. ", " .. progressionItems[i].name
+            end
+        end
+    end
+    print(collectedItems)
+end
+
 local function outputLocations()
     local unvisitedLocations = "Unchecked Locations: \n\n "
     for i = 1, 28, 1 do
@@ -481,7 +518,7 @@ local function drawRelics()
             if relics[i].status and relics[i].progression then
                 forms.drawImage(guiForm.relicBox, relics[i].path, columns * 46, rows * 46, 60, 60, true)
                 columns = columns + 1
-                if columns > 6 then
+                if columns > 5 then
                     rows =  rows + 1
                     columns = 0
                 end
@@ -490,13 +527,25 @@ local function drawRelics()
             if relics[i].status then
                 forms.drawImage(guiForm.relicBox, relics[i].path, columns * 46, rows * 46, 60, 60, true)
                 columns = columns + 1
-                if columns > 6 then
+                if columns > 5 then
                     rows =  rows + 1
                     columns = 0
                 end
             end
         end
     end
+
+    for i = 1, 4, 1 do
+        if progressionItems[i].status then
+            forms.drawImage(guiForm.relicBox, progressionItems[i].path, columns * 46, rows * 46, 60, 60, true)
+            columns = columns + 1
+            if columns > 5 then
+                rows =  rows + 1
+                columns = 0
+            end
+        end
+    end
+
     forms.refresh(guiForm.relicBox)
 end
 
@@ -521,13 +570,6 @@ local function detectRelics()
     end
 
     if settings.lightweightMode == false and changes > 0 then
-        drawRelics()
-    end
-
-    if settings.lightweightMode and changes > 0 then
-        console.clear()
-        outputRelics()
-        outputLocations()
         if comonVariables.hasFlight == false and (relics[1].statuss or 
         (relics[8].statuss and relics[9].statuss) or 
         (relics[13].statuss and relics[14].statuss) or
@@ -546,6 +588,33 @@ local function detectRelics()
         if comonVariables.hasMermanStatue == false and relics[18].statusthen then
             comonVariables.hasMermanStatue = true
         end
+        drawRelics()
+    end
+
+    if settings.lightweightMode and changes > 0 then
+        console.clear()
+        outputRelics()
+        outputLocations()
+    end
+end
+
+local function detectItems()
+    local changes = 0
+    for i = 1, 4, 1 do
+        if progressionItems[i].status == false then
+            if mainmemory.readbyte(progressionItems[i].address) ~= 0x00 then
+                progressionItems[i].status = true
+                changes = changes + 1
+            end
+        end
+    end
+
+    if settings.lightweightMode == false and changes > 0 then
+        drawRelics()
+    end
+
+    if settings.lightweightMode and changes > 0 then
+        outputItems()
     end
 end
 
@@ -683,7 +752,10 @@ while true do
         if settings.lightweightMode == false then
             drawLocations()
         end
-        if emu.framecount() % 120 == 0 then detectRelics() end
+        if emu.framecount() % 120 == 0 then
+             detectRelics()
+             detectItems()
+        end
         if mainmemory.read_u16_le(constants.alucardRoomsCountAddress) > comonVariables.alucardRooms then
             comonVariables.alucardRooms= mainmemory.read_u16_le(constants.alucardRoomsCountAddress)
             detectLocations()

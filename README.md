@@ -1,7 +1,10 @@
 # SotN Relic and Location check Autoracker
 Autotracker LUA script for the Castlevania:SotN Randomizer https://sotn.io/
-## Version 1.2.0
+## Version 1.3.0
 ### changelog
+#### 1.3.0
+* Fixed bug that caused relics to not be shown
+* Added tracking for progression items
 #### 1.2.0
 * Added location reachability color coding
 #### 1.1.1
@@ -15,7 +18,7 @@ Autotracker LUA script for the Castlevania:SotN Randomizer https://sotn.io/
 
 ## Bizhawk Instructions: 
 * Download repository from *Clone or download* > *Download ZIP*
-* Set Config > Customize > Advanced > Lua Core > Lua+LuaInterface
+* Set Config > Customize > Advanced > Lua Core > Lua+LuaInterface > Restart
 * Launch the script after running the game through Tools > Lua Console > Script > Open Script
 
 ## Bizhawk Optimal Settings:
