@@ -13,7 +13,8 @@ local settings = {
     trackerBackgroundEnabled = true,
     debugMode = false,
     drawingOffsetX = 150,
-    drawingOffsetY = 40
+    drawingOffsetY = 40,
+    relicDisplayBackgroundColor = 0xFF110011
 }
 deserializeToObject(settings, "config.ini")
 
@@ -26,7 +27,7 @@ local guiForm = {
     relicBox = nil
 }
 initForm(settings, guiForm)
-forms.drawBox(guiForm.relicBox, 0, 0, 300, 300, 0xFF110011, 0xFF110011)
+forms.drawBox(guiForm.relicBox, 0, 0, 300, 300, settings.relicDisplayBackgroundColor, settings.relicDisplayBackgroundColor)
 --------
 
 local constants = {
@@ -35,6 +36,7 @@ local constants = {
     alucardRoomsCountAddress = 0x03C760,
     secondCastleAddress = 0x1E5458,
     trackerBackgroundColor = 0xFF00FF00, -- Color format: OORRGGBB(Opacity, Red, Green, Blue)
+    locationMapColorReachable = 0xFFf8f848,
     locationMapColor = 0xFF006A00,
     mapBorderColor = 0xFFC0C0C0,
 }
@@ -43,7 +45,12 @@ local comonVariables = {
     alucardModeStarted = false,
     alucardRooms = 0,
     firstCastleChecksRemaining = 21,
-    secondCastleChecksRemaining = 7
+    secondCastleChecksRemaining = 7,
+    hasFlight = false,
+    hasJewelOfOpen = false,
+    hasMist = false,
+    hasLeapstone = false,
+    hasMermanStatue = false
 }
 
 local relics = {
@@ -94,7 +101,8 @@ local relics = {
         path = "images/large/FormOfMist.png",
         status = false,
         progression = true,
-        address = 0x9796B
+        address = 0x9796B,
+        requires = 4
     }, {
         name = "Power of Msit",
         path = "images/large/PowerOfMist.png",
@@ -102,7 +110,7 @@ local relics = {
         progression = true,
         address = 0x9796C
     }, {
-        name = "Fas Cloud",
+        name = "Gas Cloud",
         path = "images/large/GasCloud.png",
         status = false,
         progression = false,
@@ -224,19 +232,22 @@ local locations = {
         status = false,
         mapTiles = {{address = 0x06BCCF, values = {85}}},
         mapX = 386,
-        mapY = 132
+        mapY = 132,
+        requires = 3
     }, {
         name = "Fire of Bat",
         status = false,
         mapTiles = {{address = 0x06BC32, values = {5, 85, 21, 189}}},
         mapX = 474,
-        mapY = 52
+        mapY = 52,
+        requires = 1
     }, {
         name = "Echo of Bat",
         status = false,
         mapTiles = {{address = 0x06BC78, values = {85}}},
         mapX = 130,
-        mapY = 92
+        mapY = 92,
+        requires = 1
     }, {
         name = "Soul of Wolf",
         status = false,
@@ -251,13 +262,15 @@ local locations = {
         status = false,
         mapTiles = {{address = 0x06BDE4, values = {1, 5}}},
         mapX = 18,
-        mapY = 268
+        mapY = 268,
+        requires = 1
     }, {
         name = "Skill of Wolf",
         status = false,
         mapTiles = {{address = 0x06BD87, values = {85, 213}}},
         mapX = 122,
-        mapY = 228
+        mapY = 228,
+        requires = 1
     }, {
         name = "Form of Mist",
         status = false,
@@ -269,7 +282,8 @@ local locations = {
         status = false,
         mapTiles = {{address = 0x06BC0B, values = {1, 3}}}, -- doesnt trigger, but works on reload
         mapX = 250,
-        mapY = 36
+        mapY = 36,
+        requires = 1
     }, {
         name = "Cube of Zoe",
         status = false,
@@ -287,7 +301,8 @@ local locations = {
         status = false,
         mapTiles = {{address = 0x06BCEC, values = {4, 5, 84}}},
         mapX = 274,
-        mapY = 148
+        mapY = 148,
+        requires = 1
     }, {
         name = "Leap Stone",
         status = false,
@@ -302,7 +317,8 @@ local locations = {
         status = false,
         mapTiles = {{address = 0x06BE11, values = {85}}},
         mapX = 442,
-        mapY = 292
+        mapY = 292,
+        requires = 6
     }, {
         name = "Faerie Scroll",
         status = false,
@@ -320,37 +336,43 @@ local locations = {
         status = false,
         mapTiles = {{address = 0x06BE16, values = {85, 255}}},
         mapX = 66,
-        mapY = 300
+        mapY = 300,
+        requires = 2
     }, {
         name = "Bat Card",
         status = false,
         mapTiles = {{address = 0x06BD27, values = {84, 222}}},
         mapX = 106,
-        mapY = 180
+        mapY = 180,
+        requires = 1
     }, {
         name = "Ghost Card",
         status = false,
         mapTiles = {{address = 0x06BBED, values = {20, 21, 69, 81, 181, 85, 17}}},
         mapX = 314,
-        mapY = 20
+        mapY = 20,
+        requires = 1
     }, {
         name = "Faerie Card",
         status = false,
         mapTiles = {{address = 0x06BCA1, values = {84, 126, 85}}},
         mapX = 418,
-        mapY = 108
+        mapY = 108,
+        requires = 4
     }, {
         name = "Demon Card",
         status = false,
         mapTiles = {{address = 0x06BE3B, values = {21}}},
         mapX = 234,
-        mapY = 316
+        mapY = 316,
+        requires = 2
     }, {
         name = "Sword Card",
         status = false,
         mapTiles = {{address = 0x06BC99, values = {64}}},
         mapX = 162,
-        mapY = 108
+        mapY = 108,
+        requires = 1
     }, {
         name = "Heart of Vlad",
         status = false,
@@ -506,6 +528,24 @@ local function detectRelics()
         console.clear()
         outputRelics()
         outputLocations()
+        if comonVariables.hasFlight == false and (relics[1].statuss or 
+        (relics[8].statuss and relics[9].statuss) or 
+        (relics[13].statuss and relics[14].statuss) or
+        (relics[13].statuss and relics[8].statuss) or
+        (relics[13].statuss and relics[5].statuss)) then
+        end
+        if comonVariables.hasJewelOfOpen == false and relics[17].status then
+            comonVariables.hasJewelOfOpen = true
+        end
+        if comonVariables.hasMist == false and relics[8].status then
+            comonVariables.hasMist = true
+        end
+        if comonVariables.hasLeapstone == false and (relics[14].status or comonVariables.hasFlight) then
+            comonVariables.hasLeapstone = true
+        end
+        if comonVariables.hasMermanStatue == false and relics[18].statusthen then
+            comonVariables.hasMermanStatue = true
+        end
     end
 end
 
@@ -552,30 +592,54 @@ local function drawLocations()
         boxSize = 4
     elseif settings.pixelProMode == true then
         scaling = 1
-        boxSize = 5
+        boxSize = 7
     end
+
+    local locationColor = constants.locationMapColorReachable
 
     local mapCheck = memory.readbyte(constants.mapOpenAddress)
     if mapCheck == 1 and mainmemory.read_u8(constants.secondCastleAddress) == 0 then
         for i = 1, 21, 1 do
+            locationColor = constants.locationMapColorReachable
             if locations[i].status == false then
+                if locations[i].requires ~= nil then
+                    if locations[i].requires == 1 and comonVariables.hasFlight == false then
+                        locationColor = constants.locationMapColor
+                    end
+                    if locations[i].requires == 2 and comonVariables.hasJewelOfOpen == false then
+                        locationColor = constants.locationMapColor
+                    end
+                    if locations[i].requires == 3 and comonVariables.hasMist == false then
+                        locationColor = constants.locationMapColor
+                    end
+                    if locations[i].requires == 4 and comonVariables.hasLeapstone == false then
+                        locationColor = constants.locationMapColor
+                    end
+                    if locations[i].requires == 5 and comonVariables.hasMermanStatue == false then
+                        locationColor = constants.locationMapColor
+                    end
+                    if locations[i].requires == 6 and (comonVariables.hasJewelOfOpen == false or comonVariables.hasMermanStatue == false) then
+                        locationColor = constants.locationMapColor
+                    end
+                end
                 gui.drawBox((locations[i].mapX * scaling) + tonumber(settings.drawingOffsetX),
                             (locations[i].mapY * scaling) + tonumber(settings.drawingOffsetY),
                             (locations[i].mapX * scaling) + tonumber(settings.drawingOffsetX) + boxSize,
                             (locations[i].mapY * scaling) + tonumber(settings.drawingOffsetY) + boxSize,
-                            constants.mapBorderColor, constants.locationMapColor)
+                            constants.mapBorderColor, locationColor)
             end
         end
         gui.drawText(0, 0, "First Castle checks: " .. comonVariables.firstCastleChecksRemaining, 0xFFFFFFFF, 0xFF000000, (16 * scaling))
         gui.drawText(0, (17 * scaling), "Second Castle checks: " .. comonVariables.secondCastleChecksRemaining, 0xFFFFFFFF, 0xFF000000, (16 * scaling))
     elseif mapCheck == 1 then
+        locationColor = constants.locationMapColorReachable
         for i = 22, 28, 1 do
             if locations[i].status == false then
                 gui.drawBox((locations[i].mapX * scaling) + tonumber(settings.drawingOffsetX),
                             (locations[i].mapY * scaling) + tonumber(settings.drawingOffsetY),
                             (locations[i].mapX * scaling) + tonumber(settings.drawingOffsetX) + boxSize,
                             (locations[i].mapY * scaling) + tonumber(settings.drawingOffsetY) + boxSize,
-                            constants.mapBorderColor, constants.locationMapColor)
+                            constants.mapBorderColor, locationColor)
             end
         end
         gui.drawText(0, 0, "First Castle checks: " .. comonVariables.firstCastleChecksRemaining, 0xFFFFFFFF, 0xFF000000, (16 * scaling))
