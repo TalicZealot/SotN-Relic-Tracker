@@ -1,7 +1,9 @@
-# SotN Relic and Location check Autoracker
+# SotN Relic and Location check Autotracker
 Autotracker LUA script for the Castlevania:SotN Randomizer https://sotn.io/
-## Version 1.3.0
+## Version 1.3.1
 ### changelog
+#### 1.3.1
+* Fixed a display bug
 #### 1.3.0
 * Fixed bug that caused relics to not be shown
 * Added tracking for progression items

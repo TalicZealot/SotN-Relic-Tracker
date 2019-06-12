@@ -512,6 +512,7 @@ end
 local function drawRelics()
     local rows = 0
     local columns = 0
+    forms.clear(guiForm.relicBox, 0xFF110011)
 
     for i = 1, 28, 1 do
         if settings.onlyTrackProgressionRelics then
@@ -575,6 +576,7 @@ local function detectRelics()
         (relics[13].statuss and relics[14].statuss) or
         (relics[13].statuss and relics[8].statuss) or
         (relics[13].statuss and relics[5].statuss)) then
+            comonVariables.hasFlight = true
         end
         if comonVariables.hasJewelOfOpen == false and relics[17].status then
             comonVariables.hasJewelOfOpen = true
