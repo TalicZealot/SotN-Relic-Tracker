@@ -31,13 +31,25 @@ forms.drawBox(guiForm.relicBox, 0, 0, 300, 340, 0xFF110011, 0xFF110011)
 
 local constants = {
     alucardCurrentXpAddress = 0x097BEC,
+    gameStatus = 0x03C734,
     mapOpenAddress = 0x0974A4,
     alucardRoomsCountAddress = 0x03C760,
     secondCastleAddress = 0x1E5458,
     trackerBackgroundColor = 0xFF00FF00, -- Color format: OORRGGBB(Opacity, Red, Green, Blue)
     locationMapColorReachable = 0xFFf8f848,
     locationMapColor = 0xFF006A00,
-    mapBorderColor = 0xFFC0C0C0
+    mapBorderColor = 0xFFC0C0C0,
+    defaultComonVariables = {
+        alucardModeStarted = false,
+        alucardRooms = 0,
+        firstCastleChecksRemaining = 21,
+        secondCastleChecksRemaining = 7,
+        hasFlight = false,
+        hasJewelOfOpen = false,
+        hasMist = false,
+        hasLeapstone = false,
+        hasMermanStatue = false
+    }
 }
 
 local comonVariables = {
@@ -451,6 +463,19 @@ local function contains(table, val)
     return false
 end
 
+local function resetAllValues()
+    for i = 1, 28, 1 do
+        relics[i].status = false
+    end
+    for i = 1, 28, 1 do
+        locations[i].status = false
+    end
+    for i = 1, 4, 1 do
+        progressionItems[i].status = false
+    end
+    comonVariables = constants.defaultComonVariables
+end
+
 local function checkAlucardModeStart()
     local alucardXp = mainmemory.read_u8(constants.alucardCurrentXpAddress)
     if alucardXp > 0 and alucardXp < 80000 then comonVariables.alucardModeStarted = true end
@@ -740,6 +765,9 @@ local function outputDebugInfo()
     end
 end
 
+--close form on script exit
+event.onexit(function () forms.destroy(guiForm.mainForm) end)
+
 while true do
     --end script when the form is closed
     if forms.gettext(guiForm.mainForm) == "" then
@@ -747,8 +775,12 @@ while true do
         weiteToIni(serializeObject(settings, "settings"), "config.ini")
         return
     end
-    
+
     updateSettings(settings, guiForm.lightweightModeCheckbox, guiForm.onlyTrackProgressionRelicsCheckbox, guiForm.pixelProModeCheckbox)
+
+    if mainmemory.readbyte(constants.gameStatus) ~= 2 then
+       resetAllValues()
+    end
 
     if comonVariables.alucardModeStarted then
         if settings.lightweightMode == false then
