@@ -44,6 +44,7 @@ local constants = {
         alucardRooms = 0,
         firstCastleChecksRemaining = 21,
         secondCastleChecksRemaining = 7,
+        allDracRelics = false,
         hasFlight = false,
         hasJewelOfOpen = false,
         hasMist = false,
@@ -57,6 +58,7 @@ local comonVariables = {
     alucardRooms = 0,
     firstCastleChecksRemaining = 21,
     secondCastleChecksRemaining = 7,
+    allDracRelics = false,
     hasFlight = false,
     hasJewelOfOpen = false,
     hasMist = false,
@@ -467,9 +469,9 @@ local function resetAllValues()
     for i = 1, 28, 1 do
         relics[i].status = false
     end
-    for i = 1, 28, 1 do
-        locations[i].status = false
-    end
+    --for i = 1, 28, 1 do
+    --    locations[i].status = false
+    --end
     for i = 1, 4, 1 do
         progressionItems[i].status = false
     end
@@ -539,7 +541,7 @@ local function drawRelics()
     local columns = 0
     forms.clear(guiForm.relicBox, 0xFF110011)
 
-    for i = 1, 28, 1 do
+    for i = 1, 23, 1 do
         if settings.onlyTrackProgressionRelics then
             if relics[i].status and relics[i].progression then
                 forms.drawImage(guiForm.relicBox, relics[i].path, columns * 46, rows * 46, 60, 60, true)
@@ -561,6 +563,23 @@ local function drawRelics()
         end
     end
 
+    rows =  rows + 1
+    columns = 0
+
+    for i = 23, 28, 1 do
+        if relics[i].status then
+            forms.drawImage(guiForm.relicBox, relics[i].path, columns * 46, rows * 46, 60, 60, true)
+            columns = columns + 1
+            if columns > 5 then
+                rows =  rows + 1
+                columns = 0
+            end
+        end
+    end
+
+    rows =  rows + 1
+    columns = 0
+
     for i = 1, 4, 1 do
         if progressionItems[i].status then
             forms.drawImage(guiForm.relicBox, progressionItems[i].path, columns * 46, rows * 46, 60, 60, true)
@@ -577,7 +596,7 @@ end
 
 local function detectRelics()
     local changes = 0
-    for i = 1, 28, 1 do
+    for i = 1, 23, 1 do
         if settings.onlyTrackProgressionRelics then
             if relics[i].status == false and relics[i].progression then
                 if mainmemory.readbyte(relics[i].address) ~= 0x00 then
@@ -593,6 +612,21 @@ local function detectRelics()
                 end
             end
         end
+    end
+
+    local dracRelics = 0
+    for i = 23, 28, 1 do
+        if relics[i].status == false then
+            if mainmemory.readbyte(relics[i].address) ~= 0x00 then
+                relics[i].status = true
+                changes = changes + 1
+                dracRelics = dracRelics + 1
+            end
+        end
+    end
+
+    if dracRelics == 5 then
+        comonVariables.allDracRelics = true
     end
 
     if settings.lightweightMode == false and changes > 0 then
@@ -778,7 +812,7 @@ while true do
 
     updateSettings(settings, guiForm.lightweightModeCheckbox, guiForm.onlyTrackProgressionRelicsCheckbox, guiForm.pixelProModeCheckbox)
 
-    if mainmemory.readbyte(constants.gameStatus) ~= 2 then
+    if gameinfo.getromhash() ~= "" and mainmemory.readbyte(constants.gameStatus) ~= 2 then
        resetAllValues()
     end
 
