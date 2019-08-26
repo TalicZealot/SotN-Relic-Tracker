@@ -31,11 +31,11 @@ function updateSettings(settings, lightweightModeCheckbox, onlyTrackProgressionR
 
     if forms.ischecked(pixelProModeCheckbox) then
         settings.pixelProMode = true
-        settings.drawingOffsetX = 150
-        settings.drawingOffsetY = 40
+        settings.drawingOffsetX = 147
+        settings.drawingOffsetY = 38
     else
         settings.pixelProMode = false
-        settings.drawingOffsetX = 15
+        settings.drawingOffsetX = 13
         settings.drawingOffsetY = 19
     end
 end

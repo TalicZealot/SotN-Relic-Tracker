@@ -1,7 +1,10 @@
 # SotN Relic and Location check Autotracker
 Autotracker LUA script for the Castlevania:SotN Randomizer https://sotn.io/
-## Version 1.3.3
+## Version 1.3.4
 ### changelog
+#### 1.3.4
+* Adjusted location display visualization
+* Tweaks to location tracking
 #### 1.3.3
 * Fixed crash caused by new Bizhawk Lua core
 * Separated normal relics, Drac relics and Items to different rows

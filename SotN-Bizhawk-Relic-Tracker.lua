@@ -12,8 +12,8 @@ local settings = {
     pixelProMode = true,
     trackerBackgroundEnabled = true,
     debugMode = false,
-    drawingOffsetX = 150,
-    drawingOffsetY = 40
+    drawingOffsetX = 147,
+    drawingOffsetY = 38
 }
 deserializeToObject(settings, "config.ini")
 
@@ -35,7 +35,6 @@ local constants = {
     mapOpenAddress = 0x0974A4,
     alucardRoomsCountAddress = 0x03C760,
     secondCastleAddress = 0x1E5458,
-    trackerBackgroundColor = 0xFF00FF00, -- Color format: OORRGGBB(Opacity, Red, Green, Blue)
     locationMapColorReachable = 0xFFf8f848,
     locationMapColor = 0xFF006A00,
     mapBorderColor = 0xFFC0C0C0,
@@ -330,7 +329,10 @@ local locations = {
     }, {
         name = "Spirit Orb",
         status = false,
-        mapTiles = {{address = 0x06BD7A, values = {20, 21, 62}}},
+        mapTiles = {
+            {address = 0x06BD7A, values = {20, 21, 62}},
+            {address = 0x06BD6A, values = {20, 16}}
+        },
         mapX = 202,
         mapY = 214
     }, {
@@ -544,21 +546,21 @@ local function drawRelics()
     for i = 1, 23, 1 do
         if settings.onlyTrackProgressionRelics then
             if relics[i].status and relics[i].progression then
-                forms.drawImage(guiForm.relicBox, relics[i].path, columns * 46, rows * 46, 60, 60, true)
-                columns = columns + 1
                 if columns > 5 then
                     rows =  rows + 1
                     columns = 0
                 end
+                forms.drawImage(guiForm.relicBox, relics[i].path, columns * 46, rows * 46, 60, 60, true)
+                columns = columns + 1
             end
         else
             if relics[i].status then
-                forms.drawImage(guiForm.relicBox, relics[i].path, columns * 46, rows * 46, 60, 60, true)
-                columns = columns + 1
                 if columns > 5 then
                     rows =  rows + 1
                     columns = 0
                 end
+                forms.drawImage(guiForm.relicBox, relics[i].path, columns * 46, rows * 46, 60, 60, true)
+                columns = columns + 1
             end
         end
     end
@@ -615,7 +617,7 @@ local function detectRelics()
     end
 
     local dracRelics = 0
-    for i = 23, 28, 1 do
+    for i = 24, 28, 1 do
         if relics[i].status == false then
             if mainmemory.readbyte(relics[i].address) ~= 0x00 then
                 relics[i].status = true
@@ -716,13 +718,15 @@ end
 local function drawLocations()
     local scaling = 1
     local boxSize = 5
+    local adjustedOffsetX = tonumber(settings.drawingOffsetX)
+    local adjustedOffsetY = tonumber(settings.drawingOffsetY)
 
     if settings.pixelProMode == false then
         scaling = 0.5
         boxSize = 4
     elseif settings.pixelProMode == true then
         scaling = 1
-        boxSize = 7
+        boxSize = 9
     end
 
     local locationColor = constants.locationMapColorReachable
@@ -752,10 +756,10 @@ local function drawLocations()
                         locationColor = constants.locationMapColor
                     end
                 end
-                gui.drawBox((locations[i].mapX * scaling) + tonumber(settings.drawingOffsetX),
-                            (locations[i].mapY * scaling) + tonumber(settings.drawingOffsetY),
-                            (locations[i].mapX * scaling) + tonumber(settings.drawingOffsetX) + boxSize,
-                            (locations[i].mapY * scaling) + tonumber(settings.drawingOffsetY) + boxSize,
+                gui.drawBox((locations[i].mapX * scaling) + adjustedOffsetX,
+                            (locations[i].mapY * scaling) + adjustedOffsetY,
+                            (locations[i].mapX * scaling) + adjustedOffsetX + boxSize,
+                            (locations[i].mapY * scaling) + adjustedOffsetY + boxSize,
                             constants.mapBorderColor, locationColor)
             end
         end
@@ -765,10 +769,10 @@ local function drawLocations()
         locationColor = constants.locationMapColorReachable
         for i = 22, 28, 1 do
             if locations[i].status == false then
-                gui.drawBox((locations[i].mapX * scaling) + tonumber(settings.drawingOffsetX),
-                            (locations[i].mapY * scaling) + tonumber(settings.drawingOffsetY),
-                            (locations[i].mapX * scaling) + tonumber(settings.drawingOffsetX) + boxSize,
-                            (locations[i].mapY * scaling) + tonumber(settings.drawingOffsetY) + boxSize,
+                gui.drawBox((locations[i].mapX * scaling) + adjustedOffsetX,
+                            (locations[i].mapY * scaling) + adjustedOffsetY,
+                            (locations[i].mapX * scaling) + adjustedOffsetX + boxSize,
+                            (locations[i].mapY * scaling) + adjustedOffsetY + boxSize,
                             constants.mapBorderColor, locationColor)
             end
         end
