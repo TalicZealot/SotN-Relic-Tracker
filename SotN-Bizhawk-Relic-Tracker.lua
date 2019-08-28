@@ -35,10 +35,16 @@ local constants = {
     mapOpenAddress = 0x0974A4,
     alucardRoomsCountAddress = 0x03C760,
     secondCastleAddress = 0x1E5458,
+    rightHandSlotAddress = 0x097C00,
+    headSlotAddress = 0x097C08,
+    armorSlotAddress = 0x097C0C,
+    accessorySlot1Address = 0x097C14,
+    accessorySlot2Address = 0x097C18,
     locationMapColorReachable = 0xFF6FD400,
     locationMapColor = 0xFF696969,
     mapBorderColor = 0xFFC0C0C0,
-    defaultComonVariables = {
+    thrustWeaponImagePath = "images/large/ObsidianSword.png",
+    defaultcommonVariables = {
         alucardModeStarted = false,
         alucardRooms = 0,
         firstCastleChecksRemaining = 21,
@@ -53,8 +59,10 @@ local constants = {
     }
 }
 
-local comonVariables = {
+local commonVariables = {
     alucardModeStarted = false,
+    gameInMainMenu = false,
+    gameReset = false,
     alucardRooms = 0,
     firstCastleChecksRemaining = 21,
     secondCastleChecksRemaining = 7,
@@ -64,7 +72,8 @@ local comonVariables = {
     hasMist = false,
     hasLeapstone = false,
     hasMermanStatue = false,
-    hasGravityBoots = false
+    hasGravityBoots = false,
+    hasThrustWeapon = false
 }
 
 local relics = {
@@ -245,22 +254,60 @@ local progressionItems = {
         name = "Gold Ring",
         path = "images/large/GoldRing.png",
         status = false,
-        address = 0x097A7B
+        address = 0x097A7B,
+        equippedValue = 72
     }, {
         name = "Silver Ring",
         path = "images/large/SilverRing.png",
         status = false,
-        address = 0x097A7C
+        address = 0x097A7C,
+        equippedValue = 73
     }, {
         name = "Spike Breaker",
         path = "images/large/SpikeBreaker.png",
         status = false,
-        address = 0x097A41
+        address = 0x097A41,
+        equippedValue = 14
     }, {
         name = "Holy Glasses",
         path = "images/large/HolyGlasses.png",
         status = false,
-        address = 0x097A55
+        address = 0x097A55,
+        equippedValue = 34
+    }
+}
+
+local divekickStateItems = {
+    {
+        name = "Estoc",
+        path = "images/large/GoldRing.png",
+        status = false,
+        address = 0x0979E9,
+        equippedValue = 95
+    }, {
+        name = "Claymore",
+        path = "images/large/SilverRing.png",
+        status = false,
+        address = 0x0979EC,
+        equippedValue = 98
+    }, {
+        name = "Flamberge",
+        path = "images/large/SpikeBreaker.png",
+        status = false,
+        address = 0x0979EF,
+        equippedValue = 101
+    }, {
+        name = "Zweihander",
+        path = "images/large/HolyGlasses.png",
+        status = false,
+        address = 0x0979F1,
+        equippedValue = 103
+    }, {
+        name = "Obsidian Sword",
+        path = "images/large/HolyGlasses.png",
+        status = false,
+        address = 0x0979F5,
+        equippedValue = 107
     }
 }
 
@@ -483,12 +530,14 @@ local function resetAllValues()
     for i = 1, 4, 1 do
         progressionItems[i].status = false
     end
-    comonVariables = constants.defaultComonVariables
+    commonVariables = constants.defaultcommonVariables
 end
 
 local function checkAlucardModeStart()
     local alucardXp = mainmemory.read_u8(constants.alucardCurrentXpAddress)
-    if alucardXp > 0 and alucardXp < 80000 then comonVariables.alucardModeStarted = true end
+    if alucardXp > 0 and alucardXp < 80000 then
+        commonVariables.alucardModeStarted = true
+    end
 end
 
 local function outputRelics()
@@ -571,6 +620,14 @@ local function drawRelics()
         end
     end
 
+    if commonVariables.hasThrustWeapon then
+        if columns > 5 then
+            rows =  rows + 1
+            columns = 0
+        end
+        forms.drawImage(guiForm.relicBox, constants.thrustWeaponImagePath, columns * 46, rows * 46, 60, 60, true)
+    end
+
     rows =  rows + 1
     columns = 0
 
@@ -634,31 +691,37 @@ local function detectRelics()
     end
 
     if dracRelics == 5 then
-        comonVariables.allDracRelics = true
+        commonVariables.allDracRelics = true
     end
 
     if settings.lightweightMode == false and changes > 0 then
-        if comonVariables.hasFlight == false and (relics[1].status or 
-        (relics[8].status and relics[9].status) or 
+        if commonVariables.hasJewelOfOpen == false and relics[17].status then
+            commonVariables.hasJewelOfOpen = true
+        end
+        if commonVariables.hasMist == false and relics[8].status then
+            commonVariables.hasMist = true
+        end
+        if commonVariables.hasLeapstone == false and (relics[14].status or relics[5].status or relics[8].status or commonVariables.hasFlight) then
+            commonVariables.hasLeapstone = true
+        end
+        if commonVariables.hasMermanStatue == false and relics[18].status then
+            commonVariables.hasMermanStatue = true
+        end
+        if commonVariables.hasGravityBoots == false and (relics[13].status or commonVariables.hasFlight) then
+            commonVariables.hasGravityBoots = true
+            if commonVariables.hasThrustWeapon then
+                commonVariables.hasFlight = true
+            end
+        end
+        if commonVariables.hasFlight == false and (relics[1].status or 
+        (commonVariables.hasGravityBoots and commonVariables.hasLeapstone) or 
+        (relics[8].status and relics[9].status) or
         (relics[13].status and relics[14].status) or
         (relics[13].status and relics[8].status) or
         (relics[13].status and relics[5].status)) then
-            comonVariables.hasFlight = true
-        end
-        if comonVariables.hasJewelOfOpen == false and relics[17].status then
-            comonVariables.hasJewelOfOpen = true
-        end
-        if comonVariables.hasMist == false and relics[8].status then
-            comonVariables.hasMist = true
-        end
-        if comonVariables.hasLeapstone == false and (relics[14].status or relics[5].status or relics[8].status or comonVariables.hasFlight) then
-            comonVariables.hasLeapstone = true
-        end
-        if comonVariables.hasMermanStatue == false and relics[18].status then
-            comonVariables.hasMermanStatue = true
-        end
-        if comonVariables.hasGravityBoots == false and (relics[13].status or comonVariables.hasFlight) then
-            comonVariables.hasGravityBoots = true
+            commonVariables.hasFlight = true
+            commonVariables.hasLeapstone = true
+            commonVariables.hasGravityBoots = true
         end
         drawRelics()
     end
@@ -677,6 +740,34 @@ local function detectItems()
             if mainmemory.readbyte(progressionItems[i].address) ~= 0x00 then
                 progressionItems[i].status = true
                 changes = changes + 1
+            elseif i == 1 and (mainmemory.readbyte(constants.accessorySlot1Address) == progressionItems[i].equippedValue or mainmemory.readbyte(constants.accessorySlot2Address) == progressionItems[i].equippedValue) then
+                progressionItems[i].status = true
+                changes = changes + 1
+            elseif i == 2 and (mainmemory.readbyte(constants.accessorySlot1Address) == progressionItems[i].equippedValue or mainmemory.readbyte(constants.accessorySlot2Address) == progressionItems[i].equippedValue) then
+                progressionItems[i].status = true
+                changes = changes + 1
+            elseif i == 3 and mainmemory.readbyte(constants.armorSlotAddress) == progressionItems[i].equippedValue then
+                progressionItems[i].status = true
+                changes = changes + 1
+            elseif i == 4 and mainmemory.readbyte(constants.headSlotAddress) == progressionItems[i].equippedValue then
+                progressionItems[i].status = true
+                changes = changes + 1
+            end
+        end
+    end
+
+    if commonVariables.hasThrustWeapon == false then--and commonVariables.hasFlight == false and commonVariables.hasLeapstone == false then
+        for i = 1, 5, 1 do
+            if divekickStateItems[i].status == false then
+                if mainmemory.readbyte(divekickStateItems[i].address) ~= 0x00 or mainmemory.readbyte(constants.rightHandSlotAddress) == divekickStateItems[i].equippedValue then
+                    divekickStateItems[i].status = true
+                    commonVariables.hasLeapstone = true
+                    commonVariables.hasThrustWeapon = true
+                    changes = changes + 1
+                    if commonVariables.hasGravityBoots then
+                        commonVariables.hasFlight = true
+                    end
+                end
             end
         end
     end
@@ -692,7 +783,7 @@ end
 
 local function detectLocations()
     local changes = 0
-    local debugLocations = "\n\n".. comonVariables.alucardRooms
+    local debugLocations = "\n\n".. commonVariables.alucardRooms
     for i = 1, 28, 1 do
         if locations[i].status == false then
             for j = 1, #locations[i].mapTiles do
@@ -704,9 +795,9 @@ local function detectLocations()
                     locations[i].status = true
                     changes = changes + 1
                     if i < 22 then
-                        comonVariables.firstCastleChecksRemaining = comonVariables.firstCastleChecksRemaining - 1
+                        commonVariables.firstCastleChecksRemaining = commonVariables.firstCastleChecksRemaining - 1
                     else
-                        comonVariables.secondCastleChecksRemaining = comonVariables.secondCastleChecksRemaining - 1
+                        commonVariables.secondCastleChecksRemaining = commonVariables.secondCastleChecksRemaining - 1
                     end
                 end
             end
@@ -747,27 +838,27 @@ local function drawLocations()
             locationUnreachable = false
             if locations[i].status == false then
 
-                if locations[i].requiresFlight ~= nil and comonVariables.hasFlight == false then
+                if locations[i].requiresFlight ~= nil and commonVariables.hasFlight == false then
                     locationUnreachable = true
                 end
 
-                if locations[i].requiresJewelOfOpen ~= nil and comonVariables.hasJewelOfOpen == false then
+                if locations[i].requiresJewelOfOpen ~= nil and commonVariables.hasJewelOfOpen == false then
                     locationUnreachable = true
                 end
 
-                if locations[i].requiresMist ~= nil and comonVariables.hasMist == false then
+                if locations[i].requiresMist ~= nil and commonVariables.hasMist == false then
                     locationUnreachable = true
                 end
 
-                if locations[i].requiresLeapstone ~= nil and comonVariables.hasLeapstone == false then
+                if locations[i].requiresLeapstone ~= nil and commonVariables.hasLeapstone == false then
                     locationUnreachable = true
                 end
 
-                if locations[i].requiresMermanStatue ~= nil and comonVariables.hasMermanStatue == false then
+                if locations[i].requiresMermanStatue ~= nil and commonVariables.hasMermanStatue == false then
                     locationUnreachable = true
                 end
 
-                if locations[i].requiresGravityBoots ~= nil and comonVariables.hasGravityBoots == false then
+                if locations[i].requiresGravityBoots ~= nil and commonVariables.hasGravityBoots == false then
                     locationUnreachable = true
                 end
 
@@ -782,8 +873,8 @@ local function drawLocations()
                             constants.mapBorderColor, locationColor)
             end
         end
-        gui.drawText(0, 0, "First Castle checks: " .. comonVariables.firstCastleChecksRemaining, 0xFFFFFFFF, 0xFF000000, (16 * scaling))
-        gui.drawText(0, (17 * scaling), "Second Castle checks: " .. comonVariables.secondCastleChecksRemaining, 0xFFFFFFFF, 0xFF000000, (16 * scaling))
+        gui.drawText(0, 0, "First Castle checks: " .. commonVariables.firstCastleChecksRemaining, 0xFFFFFFFF, 0xFF000000, (16 * scaling))
+        gui.drawText(0, (17 * scaling), "Second Castle checks: " .. commonVariables.secondCastleChecksRemaining, 0xFFFFFFFF, 0xFF000000, (16 * scaling))
     elseif mapCheck == 1 then
         locationColor = constants.locationMapColorReachable
         for i = 22, 28, 1 do
@@ -795,8 +886,8 @@ local function drawLocations()
                             constants.mapBorderColor, locationColor)
             end
         end
-        gui.drawText(0, 0, "First Castle checks: " .. comonVariables.firstCastleChecksRemaining, 0xFFFFFFFF, 0xFF000000, (16 * scaling))
-        gui.drawText(0, (17 * scaling), "Second Castle checks: " .. comonVariables.secondCastleChecksRemaining, 0xFFFFFFFF, 0xFF000000, (16 * scaling))
+        gui.drawText(0, 0, "First Castle checks: " .. commonVariables.firstCastleChecksRemaining, 0xFFFFFFFF, 0xFF000000, (16 * scaling))
+        gui.drawText(0, (17 * scaling), "Second Castle checks: " .. commonVariables.secondCastleChecksRemaining, 0xFFFFFFFF, 0xFF000000, (16 * scaling))
     end
 end
 
@@ -839,11 +930,23 @@ while true do
 
     updateSettings(settings, guiForm.lightweightModeCheckbox, guiForm.onlyTrackProgressionRelicsCheckbox, guiForm.pixelProModeCheckbox)
 
-    if gameinfo.getromhash() ~= "" and mainmemory.readbyte(constants.gameStatus) ~= 2 then
-       resetAllValues()
+    if commonVariables.gameInMainMenu == false and gameinfo.getromhash() ~= "" and mainmemory.readbyte(constants.gameStatus) ~= 2 then
+        commonVariables.gameInMainMenu = true
+        commonVariables.gameReset = false
     end
 
-    if comonVariables.alucardModeStarted then
+    if commonVariables.gameReset == true then
+        resetAllValues()
+        forms.clear(guiForm.relicBox, 0xFF110011)
+        forms.refresh(guiForm.relicBox)
+    end
+
+    if commonVariables.gameInMainMenu == true and mainmemory.readbyte(constants.gameStatus) == 2 then
+        commonVariables.gameReset = true
+        commonVariables.gameInMainMenu = false
+    end
+
+    if commonVariables.alucardModeStarted then
         if settings.lightweightMode == false then
             drawLocations()
         end
@@ -851,8 +954,8 @@ while true do
              detectRelics()
              detectItems()
         end
-        if mainmemory.read_u16_le(constants.alucardRoomsCountAddress) > comonVariables.alucardRooms then
-            comonVariables.alucardRooms= mainmemory.read_u16_le(constants.alucardRoomsCountAddress)
+        if mainmemory.read_u16_le(constants.alucardRoomsCountAddress) > commonVariables.alucardRooms then
+            commonVariables.alucardRooms= mainmemory.read_u16_le(constants.alucardRoomsCountAddress)
             detectLocations()
         end
         if settings.debugMode then outputDebugInfo() end

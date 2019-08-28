@@ -1,7 +1,10 @@
 # SotN Relic and Location check Autotracker
 Autotracker LUA script for the Castlevania:SotN Randomizer https://sotn.io/
-## Version 1.3.5
+## Version 1.3.6
 ### changelog
+#### 1.3.6
+* Added thrust weapon tracking
+* Improved soft reset behavior
 #### 1.3.5
 * Setings save behavior adjustments
 * Rewrote location availability logic
