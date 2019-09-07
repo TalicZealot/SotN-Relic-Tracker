@@ -1,7 +1,24 @@
 # SotN Relic and Location check Autotracker
 Autotracker LUA script for the Castlevania:SotN Randomizer https://sotn.io/
-## Version 1.3.6
+## Version 1.3.7
+
+## Bizhawk Instructions: 
+* Download repository from *Clone or download* > *Download ZIP*
+* Set Config > Customize > Advanced > Lua Core > Lua+LuaInterface > Restart
+* Launch the script after running the game through Tools > Lua Console > Script > Open Script
+
+## Bizhawk Optimal Settings:
+* Config > Display > Scaling Filter: None
+* Config > Display > Maintain aspect ratio: checked
+* Config > Display > Aspect Ratio Selection > Use 1:1 pixel size
+* Config > Display > Expand pixels by integers only: checked
+* PSX > Options > Pixel Pro Mode
+* Sace window through View > Window Size
+
 ### changelog
+#### 1.3.7
+* Bug fixes
+* Leapstone location availability fix
 #### 1.3.6
 * Added thrust weapon tracking
 * Improved soft reset behavior
@@ -33,19 +50,6 @@ Autotracker LUA script for the Castlevania:SotN Randomizer https://sotn.io/
 * Added GUI for settings
 #### 1.0.0
 * Release
-
-## Bizhawk Instructions: 
-* Download repository from *Clone or download* > *Download ZIP*
-* Set Config > Customize > Advanced > Lua Core > Lua+LuaInterface > Restart
-* Launch the script after running the game through Tools > Lua Console > Script > Open Script
-
-## Bizhawk Optimal Settings:
-* Config > Display > Scaling Filter: None
-* Config > Display > Maintain aspect ratio: checked
-* Config > Display > Aspect Ratio Selection > Use 1:1 pixel size
-* Config > Display > Expand pixels by integers only: checked
-* PSX > Options > Pixel Pro Mode
-* Sace window through View > Window Size
 
 ## PSXjin Instructions: 
 * Download the repository

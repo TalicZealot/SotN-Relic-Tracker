@@ -7,7 +7,7 @@ require "Utilities/Serialization"
 require "Utilities/UserInterface"
 
 local settings = {
-    lightweightMode = false, -- Only output to the console. Turn on if you're experiencing emulator performance issues.
+    lightweightMode = false,
     onlyTrackProgressionRelics = true,
     pixelProMode = true,
     trackerBackgroundEnabled = true,
@@ -46,6 +46,8 @@ local constants = {
     thrustWeaponImagePath = "images/large/ObsidianSword.png",
     defaultcommonVariables = {
         alucardModeStarted = false,
+        gameInMainMenu = false,
+        gameReset = false,
         alucardRooms = 0,
         firstCastleChecksRemaining = 21,
         secondCastleChecksRemaining = 7,
@@ -55,7 +57,8 @@ local constants = {
         hasMist = false,
         hasLeapstone = false,
         hasMermanStatue = false,
-        hasGravityBoots = false
+        hasGravityBoots = false,
+        hasThrustWeapon = false
     }
 }
 
@@ -401,7 +404,8 @@ local locations = {
         },
         mapX = 250,
         mapY = 52,
-        requiresJewelOfOpen = true
+        requiresJewelOfOpen = true,
+        requiresLeapstoneAlternate = true
     }, {
         name = "Holy Symbol",
         status = false,
@@ -756,7 +760,7 @@ local function detectItems()
         end
     end
 
-    if commonVariables.hasThrustWeapon == false then--and commonVariables.hasFlight == false and commonVariables.hasLeapstone == false then
+    if commonVariables.hasThrustWeapon == false then-- and commonVariables.hasFlight == false and commonVariables.hasLeapstone == false then
         for i = 1, 5, 1 do
             if divekickStateItems[i].status == false then
                 if mainmemory.readbyte(divekickStateItems[i].address) ~= 0x00 or mainmemory.readbyte(constants.rightHandSlotAddress) == divekickStateItems[i].equippedValue then
@@ -862,6 +866,10 @@ local function drawLocations()
                     locationUnreachable = true
                 end
 
+                if locations[i].requiresLeapstoneAlternate ~= nil and commonVariables.hasLeapstone == true then
+                    locationUnreachable = false
+                end
+
                 if locationUnreachable then
                     locationColor = constants.locationMapColor
                 end
@@ -895,21 +903,8 @@ local function outputDebugInfo()
     local inputs = input.get()
 
     if inputs["Comma"] == true and inputs["Period"] == true then
-        local locationsData = "Locations: \n\n "
-
-        for i = 1, 28, 1 do
-            locationsData = locationsData .. locations[i].name
-            locationsData = locationsData .. " "
-
-            if locations[i].status then
-                locationsData = locationsData .. "checked"
-            else
-                locationsData = locationsData .. "unchecked"
-            end
-
-            locationsData = locationsData .. "\n\n"
-        end
-        print(locationsData)
+        local locationsData = "commonVariables: \n\n "
+        print(commonVariables)
     end
 end
 
@@ -936,6 +931,7 @@ while true do
     end
 
     if commonVariables.gameReset == true then
+        commonVariables.gameReset = false
         resetAllValues()
         forms.clear(guiForm.relicBox, 0xFF110011)
         forms.refresh(guiForm.relicBox)
