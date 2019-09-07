@@ -760,7 +760,7 @@ local function detectItems()
         end
     end
 
-    if commonVariables.hasThrustWeapon == false then-- and commonVariables.hasFlight == false and commonVariables.hasLeapstone == false then
+    if commonVariables.hasThrustWeapon == false and commonVariables.hasFlight == false and commonVariables.hasLeapstone == false then
         for i = 1, 5, 1 do
             if divekickStateItems[i].status == false then
                 if mainmemory.readbyte(divekickStateItems[i].address) ~= 0x00 or mainmemory.readbyte(constants.rightHandSlotAddress) == divekickStateItems[i].equippedValue then
