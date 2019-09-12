@@ -10,10 +10,15 @@ local settings = {
     lightweightMode = false,
     onlyTrackProgressionRelics = true,
     pixelProMode = true,
-    trackerBackgroundEnabled = true,
     debugMode = false,
     drawingOffsetX = 147,
-    drawingOffsetY = 38
+    drawingOffsetY = 38,
+    cloakExteriorR = 0,
+    cloakExteriorG = 0,
+    cloakExteriorB = 0,
+    cloakLiningR = 0,
+    cloakLiningG = 0,
+    cloakLiningB = 0,
 }
 deserializeToObject(settings, "config.ini")
 
@@ -43,6 +48,13 @@ local constants = {
     locationMapColorReachable = 0xFF6FD400,
     locationMapColor = 0xFF696969,
     mapBorderColor = 0xFFC0C0C0,
+    cloakExteriorRaddress = 0x03CAA8,
+    cloakExteriorGaddress = 0x03CAAC,
+    cloakExteriorBaddress = 0x03CAB0,
+    cloakLiningRaddress = 0x03CAB4,
+    cloakLiningGaddress = 0x03CAB8,
+    cloakLiningBaddress = 0x03CABC,
+    settingsSubmenuOpenAddress = 0x03D04E,
     thrustWeaponImagePath = "images/large/ObsidianSword.png",
     defaultcommonVariables = {
         alucardModeStarted = false,
@@ -519,6 +531,24 @@ local locations = {
 
 gui.clearImageCache()
 
+local function setcloakColor()
+    mainmemory.writebyte(constants.cloakExteriorRaddress, tonumber(settings.cloakExteriorR))
+    mainmemory.writebyte(constants.cloakExteriorGaddress, tonumber(settings.cloakExteriorG))
+    mainmemory.writebyte(constants.cloakExteriorBaddress, tonumber(settings.cloakExteriorB))
+    mainmemory.writebyte(constants.cloakLiningRaddress, tonumber(settings.cloakLiningR))
+    mainmemory.writebyte(constants.cloakLiningGaddress, tonumber(settings.cloakLiningG))
+    mainmemory.writebyte(constants.cloakLiningBaddress, tonumber(settings.cloakLiningB))
+end
+
+local function getcloakColor()
+    settings.cloakExteriorR = mainmemory.readbyte(constants.cloakExteriorRaddress)
+    settings.cloakExteriorG = mainmemory.readbyte(constants.cloakExteriorGaddress)
+    settings.cloakExteriorB = mainmemory.readbyte(constants.cloakExteriorBaddress)
+    settings.cloakLiningR = mainmemory.readbyte(constants.cloakLiningRaddress)
+    settings.cloakLiningG = mainmemory.readbyte(constants.cloakLiningGaddress)
+    settings.cloakLiningB = mainmemory.readbyte(constants.cloakLiningBaddress)
+end
+
 local function contains(table, val)
     for i = 1, #table do if table[i] == val then return true end end
     return false
@@ -541,6 +571,7 @@ local function checkAlucardModeStart()
     local alucardXp = mainmemory.read_u8(constants.alucardCurrentXpAddress)
     if alucardXp > 0 and alucardXp < 80000 then
         commonVariables.alucardModeStarted = true
+        setcloakColor()
     end
 end
 
@@ -635,7 +666,7 @@ local function drawRelics()
     rows =  rows + 1
     columns = 0
 
-    for i = 23, 28, 1 do
+    for i = 24, 28, 1 do
         if relics[i].status then
             forms.drawImage(guiForm.relicBox, relics[i].path, columns * 46, rows * 46, 60, 60, true)
             columns = columns + 1
@@ -913,6 +944,9 @@ event.onexit(
     function ()
          forms.destroy(guiForm.mainForm)
          --update ini file settings and save data
+         if gameinfo.getromhash() ~= "" then
+            getcloakColor()
+         end
          weiteToIni(serializeObject(settings, "settings"), "config.ini")
     end
 )
