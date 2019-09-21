@@ -1,6 +1,6 @@
 # SotN Relic and Location check Autotracker
 Autotracker LUA script for the Castlevania:SotN Randomizer https://sotn.io/
-## Version 1.4.0
+## Version 1.4.1
 
 ## Bizhawk Instructions: 
 * Download repository from *Clone or download* > *Download ZIP*
@@ -18,6 +18,10 @@ Autotracker LUA script for the Castlevania:SotN Randomizer https://sotn.io/
 * Sace window through View > Window Size
 
 ### changelog
+#### 1.4.1
+* Changed Joseph's Cloak functionality to randomize color
+* Replaced light mode toggle with cloak random color toggle
+* Adjustments to location availability logic
 #### 1.4.0
 * Fixed Sword Card being counted as a Drac relic
 * Added Joseph's Cloak color saving

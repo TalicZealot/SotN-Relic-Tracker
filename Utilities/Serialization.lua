@@ -35,6 +35,12 @@ function deserializeToObject(object, path)
                 if  keys[j] ~= "skip" then
                     if string.find(lines[i], keys[j]) then
                         local value = string.gsub(lines[i], keys[j] .. "=", "")
+                        if value == "true" then
+                            value = true
+                        end
+                        if value == "false" then
+                            value = false
+                        end
                         object[keys[j]] = value
                         keys[j] = "skip"
                         break

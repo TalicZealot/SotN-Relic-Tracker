@@ -1,9 +1,9 @@
 function initForm(settings, guiForm)
     guiForm.mainForm = forms.newform(300, 420, "Castlevania: SOTN Relic Autotracker")
 
-    guiForm.lightweightModeCheckbox = forms.checkbox(guiForm.mainForm, "Lightweight mode", 10, 10)
-    forms.setproperty(guiForm.lightweightModeCheckbox, "Checked", settings.lightweightMode)
-    forms.setproperty(guiForm.lightweightModeCheckbox, "Width", 200)
+    guiForm.cloakColorCheckbox = forms.checkbox(guiForm.mainForm, "Cloak random color", 10, 10)
+    forms.setproperty(guiForm.cloakColorCheckbox, "Checked", settings.pixelProMode)
+    forms.setproperty(guiForm.cloakColorCheckbox, "Width", 200)
 
     guiForm.onlyTrackProgressionRelicsCheckbox = forms.checkbox(guiForm.mainForm, "Only track progression relics", 10, 30)
     forms.setproperty(guiForm.onlyTrackProgressionRelicsCheckbox, "Checked", settings.onlyTrackProgressionRelics)
@@ -16,11 +16,11 @@ function initForm(settings, guiForm)
     guiForm.relicBox = forms.pictureBox(guiForm.mainForm, 0, 80, 300, 340) 
 end
 
-function updateSettings(settings, lightweightModeCheckbox, onlyTrackProgressionRelicsCheckbox, pixelProModeCheckbox)
-    if forms.ischecked(lightweightModeCheckbox) then
-        settings.lightweightMode = true
+function updateSettings(settings, cloakColorCheckbox, onlyTrackProgressionRelicsCheckbox, pixelProModeCheckbox)
+    if forms.ischecked(cloakColorCheckbox) then
+        settings.randomCloakColor = true
     else
-        settings.lightweightMode = false
+        settings.randomCloakColor = false
     end
 
     if forms.ischecked(onlyTrackProgressionRelicsCheckbox) then

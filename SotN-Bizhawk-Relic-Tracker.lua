@@ -8,24 +8,19 @@ require "Utilities/UserInterface"
 
 local settings = {
     lightweightMode = false,
+    randomCloakColor = true,
     onlyTrackProgressionRelics = true,
     pixelProMode = true,
     debugMode = false,
     drawingOffsetX = 147,
     drawingOffsetY = 38,
-    cloakExteriorR = 0,
-    cloakExteriorG = 0,
-    cloakExteriorB = 0,
-    cloakLiningR = 0,
-    cloakLiningG = 0,
-    cloakLiningB = 0,
 }
 deserializeToObject(settings, "config.ini")
 
 ---UI---
 local guiForm = {
     mainForm = nil,
-    lightweightModeCheckbox = nil,
+    cloakColorCheckbox = nil,
     onlyTrackProgressionRelicsCheckbox = nil,
     pixelProModeCheckbox = nil,
     relicBox = nil
@@ -68,6 +63,7 @@ local constants = {
         hasJewelOfOpen = false,
         hasMist = false,
         hasLeapstone = false,
+        hasDivekick = false,
         hasMermanStatue = false,
         hasGravityBoots = false,
         hasThrustWeapon = false
@@ -86,6 +82,7 @@ local commonVariables = {
     hasJewelOfOpen = false,
     hasMist = false,
     hasLeapstone = false,
+    hasDivekick = false,
     hasMermanStatue = false,
     hasGravityBoots = false,
     hasThrustWeapon = false
@@ -377,7 +374,7 @@ local locations = {
         mapTiles = {{address = 0x06BCD9, values = {5, 85}}}, --5 doesnt trigger, but works on reload
         mapX = 170,
         mapY = 140,
-        requiresLeapstone = true
+        requiresDivekick = true
     }, {
         name = "Power of Mist",
         status = false,
@@ -417,7 +414,7 @@ local locations = {
         mapX = 250,
         mapY = 52,
         requiresJewelOfOpen = true,
-        requiresLeapstoneAlternate = true
+        requiresDivekickAlternate = true
     }, {
         name = "Holy Symbol",
         status = false,
@@ -465,14 +462,15 @@ local locations = {
         mapTiles = {{address = 0x06BCA1, values = {84, 126, 85}}},
         mapX = 418,
         mapY = 108,
-        requiresLeapstone = true
+        requiresDivekick = true
     }, {
         name = "Demon Card",
         status = false,
         mapTiles = {{address = 0x06BE3B, values = {21}}},
         mapX = 234,
         mapY = 316,
-        requiresJewelOfOpen = true
+        requiresJewelOfOpen = true,
+        requiresLeapstone = true
     }, {
         name = "Sword Card",
         status = false,
@@ -532,21 +530,13 @@ local locations = {
 gui.clearImageCache()
 
 local function setcloakColor()
-    mainmemory.writebyte(constants.cloakExteriorRaddress, tonumber(settings.cloakExteriorR))
-    mainmemory.writebyte(constants.cloakExteriorGaddress, tonumber(settings.cloakExteriorG))
-    mainmemory.writebyte(constants.cloakExteriorBaddress, tonumber(settings.cloakExteriorB))
-    mainmemory.writebyte(constants.cloakLiningRaddress, tonumber(settings.cloakLiningR))
-    mainmemory.writebyte(constants.cloakLiningGaddress, tonumber(settings.cloakLiningG))
-    mainmemory.writebyte(constants.cloakLiningBaddress, tonumber(settings.cloakLiningB))
-end
 
-local function getcloakColor()
-    settings.cloakExteriorR = mainmemory.readbyte(constants.cloakExteriorRaddress)
-    settings.cloakExteriorG = mainmemory.readbyte(constants.cloakExteriorGaddress)
-    settings.cloakExteriorB = mainmemory.readbyte(constants.cloakExteriorBaddress)
-    settings.cloakLiningR = mainmemory.readbyte(constants.cloakLiningRaddress)
-    settings.cloakLiningG = mainmemory.readbyte(constants.cloakLiningGaddress)
-    settings.cloakLiningB = mainmemory.readbyte(constants.cloakLiningBaddress)
+    mainmemory.writebyte(constants.cloakExteriorRaddress, math.random(0, 255))
+    mainmemory.writebyte(constants.cloakExteriorGaddress, math.random(0, 255))
+    mainmemory.writebyte(constants.cloakExteriorBaddress, math.random(0, 255))
+    mainmemory.writebyte(constants.cloakLiningRaddress, math.random(0, 255))
+    mainmemory.writebyte(constants.cloakLiningGaddress, math.random(0, 255))
+    mainmemory.writebyte(constants.cloakLiningBaddress, math.random(0, 255))
 end
 
 local function contains(table, val)
@@ -571,7 +561,9 @@ local function checkAlucardModeStart()
     local alucardXp = mainmemory.read_u8(constants.alucardCurrentXpAddress)
     if alucardXp > 0 and alucardXp < 80000 then
         commonVariables.alucardModeStarted = true
-        setcloakColor()
+        if settings.randomCloakColor then
+            setcloakColor()
+        end
     end
 end
 
@@ -736,8 +728,11 @@ local function detectRelics()
         if commonVariables.hasMist == false and relics[8].status then
             commonVariables.hasMist = true
         end
-        if commonVariables.hasLeapstone == false and (relics[14].status or relics[5].status or relics[8].status or commonVariables.hasFlight) then
+        if commonVariables.hasLeapstone == false and (relics[14].status or relics[13].status or commonVariables.hasFlight) then
             commonVariables.hasLeapstone = true
+        end
+        if commonVariables.hasDivekick == false and (relics[14].status or relics[5].status or relics[8].status or commonVariables.hasFlight) then
+            commonVariables.hasDivekick = true
         end
         if commonVariables.hasMermanStatue == false and relics[18].status then
             commonVariables.hasMermanStatue = true
@@ -757,11 +752,12 @@ local function detectRelics()
             commonVariables.hasFlight = true
             commonVariables.hasLeapstone = true
             commonVariables.hasGravityBoots = true
+            commonVariables.hasDivekick = true
         end
         drawRelics()
     end
 
-    if settings.lightweightMode and changes > 0 then
+    if settings.lightweightMode == true and changes > 0 then
         console.clear()
         outputRelics()
         outputLocations()
@@ -796,7 +792,7 @@ local function detectItems()
             if divekickStateItems[i].status == false then
                 if mainmemory.readbyte(divekickStateItems[i].address) ~= 0x00 or mainmemory.readbyte(constants.rightHandSlotAddress) == divekickStateItems[i].equippedValue then
                     divekickStateItems[i].status = true
-                    commonVariables.hasLeapstone = true
+                    commonVariables.hasDivekick = true
                     commonVariables.hasThrustWeapon = true
                     changes = changes + 1
                     if commonVariables.hasGravityBoots then
@@ -811,7 +807,7 @@ local function detectItems()
         drawRelics()
     end
 
-    if settings.lightweightMode and changes > 0 then
+    if settings.lightweightMode == true and changes > 0 then
         outputItems()
     end
 end
@@ -889,6 +885,10 @@ local function drawLocations()
                     locationUnreachable = true
                 end
 
+                if locations[i].requiresDivekick ~= nil and commonVariables.hasDivekick == false then
+                    locationUnreachable = true
+                end
+
                 if locations[i].requiresMermanStatue ~= nil and commonVariables.hasMermanStatue == false then
                     locationUnreachable = true
                 end
@@ -897,7 +897,7 @@ local function drawLocations()
                     locationUnreachable = true
                 end
 
-                if locations[i].requiresLeapstoneAlternate ~= nil and commonVariables.hasLeapstone == true then
+                if locations[i].requiresDivekickAlternate ~= nil and commonVariables.hasDivekick == true then
                     locationUnreachable = false
                 end
 
@@ -944,9 +944,6 @@ event.onexit(
     function ()
          forms.destroy(guiForm.mainForm)
          --update ini file settings and save data
-         if gameinfo.getromhash() ~= "" then
-            getcloakColor()
-         end
          weiteToIni(serializeObject(settings, "settings"), "config.ini")
     end
 )
@@ -957,7 +954,7 @@ while true do
         return
     end
 
-    updateSettings(settings, guiForm.lightweightModeCheckbox, guiForm.onlyTrackProgressionRelicsCheckbox, guiForm.pixelProModeCheckbox)
+    updateSettings(settings, guiForm.cloakColorCheckbox, guiForm.onlyTrackProgressionRelicsCheckbox, guiForm.pixelProModeCheckbox)
 
     if commonVariables.gameInMainMenu == false and gameinfo.getromhash() ~= "" and mainmemory.readbyte(constants.gameStatus) ~= 2 then
         commonVariables.gameInMainMenu = true
