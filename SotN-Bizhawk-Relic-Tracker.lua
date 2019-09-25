@@ -743,8 +743,7 @@ local function detectRelics()
                 commonVariables.hasFlight = true
             end
         end
-        if commonVariables.hasFlight == false and (relics[1].status or 
-        (commonVariables.hasGravityBoots and commonVariables.hasLeapstone) or 
+        if commonVariables.hasFlight == false and (relics[1].status or
         (relics[8].status and relics[9].status) or
         (relics[13].status and relics[14].status) or
         (relics[13].status and relics[8].status) or
