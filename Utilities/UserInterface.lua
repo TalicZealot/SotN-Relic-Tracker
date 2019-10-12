@@ -2,7 +2,7 @@ function initForm(settings, guiForm)
     guiForm.mainForm = forms.newform(300, 420, "Castlevania: SOTN Relic Autotracker")
 
     guiForm.cloakColorCheckbox = forms.checkbox(guiForm.mainForm, "Cloak random color", 10, 10)
-    forms.setproperty(guiForm.cloakColorCheckbox, "Checked", settings.pixelProMode)
+    forms.setproperty(guiForm.cloakColorCheckbox, "Checked", settings.randomCloakColor)
     forms.setproperty(guiForm.cloakColorCheckbox, "Width", 200)
 
     guiForm.onlyTrackProgressionRelicsCheckbox = forms.checkbox(guiForm.mainForm, "Only track progression relics", 10, 30)
