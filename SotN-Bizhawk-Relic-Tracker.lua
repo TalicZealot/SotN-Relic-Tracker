@@ -50,6 +50,7 @@ local constants = {
     cloakLiningGaddress = 0x03CAB8,
     cloakLiningBaddress = 0x03CABC,
     settingsSubmenuOpenAddress = 0x03D04E,
+    seedNameStartAddress = 0x1A7840,
     thrustWeaponImagePath = "images/large/ObsidianSword.png",
     defaultcommonVariables = {
         alucardModeStarted = false,
@@ -66,7 +67,7 @@ local constants = {
         hasDivekick = false,
         hasMermanStatue = false,
         hasGravityBoots = false,
-        hasThrustWeapon = false
+        hasThrustWeapon = false,
     }
 }
 
@@ -85,8 +86,10 @@ local commonVariables = {
     hasDivekick = false,
     hasMermanStatue = false,
     hasGravityBoots = false,
-    hasThrustWeapon = false
+    hasThrustWeapon = false,
 }
+
+local seedName = ""
 
 local relics = {
     {   --1
@@ -625,6 +628,8 @@ local function drawRelics()
     local columns = 0
     forms.clear(guiForm.relicBox, 0xFF110011)
 
+    forms.drawString(guiForm.relicBox, 10, 4, "Seed: " .. seedName, 0xFFFFFFFF, 0xFF110011, 24, "arial", "bold")
+
     for i = 1, 23, 1 do
         if settings.onlyTrackProgressionRelics then
             if relics[i].status and relics[i].progression then
@@ -632,7 +637,7 @@ local function drawRelics()
                     rows =  rows + 1
                     columns = 0
                 end
-                forms.drawImage(guiForm.relicBox, relics[i].path, columns * 46, rows * 46, 60, 60, true)
+                forms.drawImage(guiForm.relicBox, relics[i].path, columns * 46, rows * 46 + 34, 60, 60, true)
                 columns = columns + 1
             end
         else
@@ -641,7 +646,7 @@ local function drawRelics()
                     rows =  rows + 1
                     columns = 0
                 end
-                forms.drawImage(guiForm.relicBox, relics[i].path, columns * 46, rows * 46, 60, 60, true)
+                forms.drawImage(guiForm.relicBox, relics[i].path, columns * 46, rows * 46 + 34, 60, 60, true)
                 columns = columns + 1
             end
         end
@@ -652,7 +657,7 @@ local function drawRelics()
             rows =  rows + 1
             columns = 0
         end
-        forms.drawImage(guiForm.relicBox, constants.thrustWeaponImagePath, columns * 46, rows * 46, 60, 60, true)
+        forms.drawImage(guiForm.relicBox, constants.thrustWeaponImagePath, columns * 46, rows * 46 + 34, 60, 60, true)
     end
 
     rows =  rows + 1
@@ -660,7 +665,7 @@ local function drawRelics()
 
     for i = 24, 28, 1 do
         if relics[i].status then
-            forms.drawImage(guiForm.relicBox, relics[i].path, columns * 46, rows * 46, 60, 60, true)
+            forms.drawImage(guiForm.relicBox, relics[i].path, columns * 46, rows * 46 + 34, 60, 60, true)
             columns = columns + 1
             if columns > 5 then
                 rows =  rows + 1
@@ -674,7 +679,7 @@ local function drawRelics()
 
     for i = 1, 4, 1 do
         if progressionItems[i].status then
-            forms.drawImage(guiForm.relicBox, progressionItems[i].path, columns * 46, rows * 46, 60, 60, true)
+            forms.drawImage(guiForm.relicBox, progressionItems[i].path, columns * 46, rows * 46 + 34, 60, 60, true)
             columns = columns + 1
             if columns > 5 then
                 rows =  rows + 1
@@ -954,6 +959,23 @@ while true do
     end
 
     updateSettings(settings, guiForm.cloakColorCheckbox, guiForm.onlyTrackProgressionRelicsCheckbox, guiForm.pixelProModeCheckbox)
+
+    --get seed name from ram
+    if seedName == "" and gameinfo.getromhash() ~= "" and mainmemory.readbyte(constants.gameStatus) == 8 then
+        local num = false
+        for i = 0, 31, 1 do
+            if mainmemory.readbyte(constants.seedNameStartAddress + i) == 130 then
+                num = true
+            else
+                if num then
+                    num = false
+                    seedName = seedName .. (mainmemory.readbyte(constants.seedNameStartAddress + i) - 79);
+                else
+                    seedName = seedName .. string.char(mainmemory.readbyte(constants.seedNameStartAddress + i));
+                end
+            end
+        end
+    end
 
     if commonVariables.gameInMainMenu == false and gameinfo.getromhash() ~= "" and mainmemory.readbyte(constants.gameStatus) ~= 2 then
         commonVariables.gameInMainMenu = true

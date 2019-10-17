@@ -13,7 +13,7 @@ function initForm(settings, guiForm)
     forms.setproperty(guiForm.pixelProModeCheckbox, "Checked", settings.pixelProMode)
     forms.setproperty(guiForm.pixelProModeCheckbox, "Width", 200)
 
-    guiForm.relicBox = forms.pictureBox(guiForm.mainForm, 0, 80, 300, 340) 
+    guiForm.relicBox = forms.pictureBox(guiForm.mainForm, 0, 80, 300, 374) 
 end
 
 function updateSettings(settings, cloakColorCheckbox, onlyTrackProgressionRelicsCheckbox, pixelProModeCheckbox)
