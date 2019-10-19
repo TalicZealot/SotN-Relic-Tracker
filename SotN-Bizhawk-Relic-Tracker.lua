@@ -26,7 +26,7 @@ local guiForm = {
     relicBox = nil
 }
 initForm(settings, guiForm)
-forms.drawBox(guiForm.relicBox, 0, 0, 300, 340, 0xFF110011, 0xFF110011)
+forms.drawBox(guiForm.relicBox, 0, 0, 320, 374, 0xFF110011, 0xFF110011)
 --------
 
 local constants = {
@@ -628,7 +628,7 @@ local function drawRelics()
     local columns = 0
     forms.clear(guiForm.relicBox, 0xFF110011)
 
-    forms.drawString(guiForm.relicBox, 10, 4, "Seed: " .. seedName, 0xFFFFFFFF, 0xFF110011, 24, "arial", "bold")
+    forms.drawString(guiForm.relicBox, 4, 4, seedName, 0xFFFFFFFF, 0xFF110011, 25, "arial", "bold")
 
     for i = 1, 23, 1 do
         if settings.onlyTrackProgressionRelics then

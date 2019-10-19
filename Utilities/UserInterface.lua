@@ -1,5 +1,5 @@
 function initForm(settings, guiForm)
-    guiForm.mainForm = forms.newform(300, 420, "Castlevania: SOTN Relic Autotracker")
+    guiForm.mainForm = forms.newform(320, 440, "Castlevania: SOTN Relic Autotracker")
 
     guiForm.cloakColorCheckbox = forms.checkbox(guiForm.mainForm, "Cloak random color", 10, 10)
     forms.setproperty(guiForm.cloakColorCheckbox, "Checked", settings.randomCloakColor)
@@ -13,7 +13,7 @@ function initForm(settings, guiForm)
     forms.setproperty(guiForm.pixelProModeCheckbox, "Checked", settings.pixelProMode)
     forms.setproperty(guiForm.pixelProModeCheckbox, "Width", 200)
 
-    guiForm.relicBox = forms.pictureBox(guiForm.mainForm, 0, 80, 300, 374) 
+    guiForm.relicBox = forms.pictureBox(guiForm.mainForm, 0, 80, 320, 374) 
 end
 
 function updateSettings(settings, cloakColorCheckbox, onlyTrackProgressionRelicsCheckbox, pixelProModeCheckbox)
