@@ -1,6 +1,6 @@
 # SotN Relic and Location check Autotracker
 Autotracker LUA script for the Castlevania:SotN Randomizer https://sotn.io/
-## Version 1.4.5
+## Version 1.4.6
 
 ## Bizhawk Instructions: 
 * Download repository from *Clone or download* > *Download ZIP*
@@ -18,6 +18,8 @@ Autotracker LUA script for the Castlevania:SotN Randomizer https://sotn.io/
 * Sace window through View > Window Size
 
 ### changelog
+#### 1.4.6
+* Adjusted cloak color randomization.
 #### 1.4.5
 * Adjusted seed name display for more visibility.
 #### 1.4.4

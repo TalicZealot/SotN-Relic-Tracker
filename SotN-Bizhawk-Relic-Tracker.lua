@@ -534,12 +534,18 @@ gui.clearImageCache()
 
 local function setcloakColor()
 
-    mainmemory.writebyte(constants.cloakExteriorRaddress, math.random(0, 255))
-    mainmemory.writebyte(constants.cloakExteriorGaddress, math.random(0, 255))
-    mainmemory.writebyte(constants.cloakExteriorBaddress, math.random(0, 255))
-    mainmemory.writebyte(constants.cloakLiningRaddress, math.random(0, 255))
-    mainmemory.writebyte(constants.cloakLiningGaddress, math.random(0, 255))
-    mainmemory.writebyte(constants.cloakLiningBaddress, math.random(0, 255))
+    local rand1 = math.random(0, 255)
+    mainmemory.writebyte(constants.cloakExteriorRaddress, rand1)
+    local rand2 = math.random(0, 255)
+    mainmemory.writebyte(constants.cloakExteriorGaddress, rand2)
+    local rand3 = math.random(0, 255)
+    mainmemory.writebyte(constants.cloakExteriorBaddress, rand3)
+    local rand4 = math.random(0, 255)
+    mainmemory.writebyte(constants.cloakLiningRaddress, rand4)
+    local rand5 = math.random(0, 255)
+    mainmemory.writebyte(constants.cloakLiningGaddress, rand5)
+    local rand6 = math.random(0, 255)
+    mainmemory.writebyte(constants.cloakLiningBaddress, rand6)
 end
 
 local function contains(table, val)
@@ -985,6 +991,7 @@ while true do
     if commonVariables.gameReset == true then
         commonVariables.gameReset = false
         resetAllValues()
+        setcloakColor()
         forms.clear(guiForm.relicBox, 0xFF110011)
         forms.refresh(guiForm.relicBox)
     end
