@@ -68,6 +68,7 @@ local constants = {
         hasMermanStatue = false,
         hasGravityBoots = false,
         hasThrustWeapon = false,
+        hasPowerOfWolf = false
     }
 }
 
@@ -87,6 +88,7 @@ local commonVariables = {
     hasMermanStatue = false,
     hasGravityBoots = false,
     hasThrustWeapon = false,
+    hasPowerOfWolf = false
 }
 
 local seedName = ""
@@ -126,7 +128,7 @@ local relics = {
         name = "Power of Wolf",
         path = "images/large/PowerOfWolf.png",
         status = false,
-        progression = false,
+        progression = true,
         address = 0x97969
     }, {--7
         name = "Skill of Wolf",
@@ -473,7 +475,8 @@ local locations = {
         mapX = 234,
         mapY = 316,
         requiresJewelOfOpen = true,
-        requiresLeapstone = true
+        requiresLeapstone = true,
+        requiresPowerOfWolfAlternate = true
     }, {
         name = "Sword Card",
         status = false,
@@ -739,10 +742,10 @@ local function detectRelics()
         if commonVariables.hasMist == false and relics[8].status then
             commonVariables.hasMist = true
         end
-        if commonVariables.hasLeapstone == false and (relics[14].status or relics[13].status or commonVariables.hasFlight) then
+        if commonVariables.hasLeapstone == false and (relics[14].status or commonVariables.hasFlight) then
             commonVariables.hasLeapstone = true
         end
-        if commonVariables.hasDivekick == false and (relics[14].status or relics[5].status or relics[8].status or commonVariables.hasFlight) then
+        if commonVariables.hasDivekick == false and (relics[14].status or relics[13].status or relics[5].status or relics[8].status or commonVariables.hasFlight) then
             commonVariables.hasDivekick = true
         end
         if commonVariables.hasMermanStatue == false and relics[18].status then
@@ -754,12 +757,17 @@ local function detectRelics()
                 commonVariables.hasFlight = true
             end
         end
+        if commonVariables.hasPowerOfWolf == false and (relics[5].status and relics[6].status) then
+            commonVariables.hasPowerOfWolf = true
+            print('pow')
+        end
         if commonVariables.hasFlight == false and (relics[1].status or
         (relics[8].status and relics[9].status) or
         (relics[13].status and relics[14].status) or
         (relics[13].status and relics[8].status) or
         (relics[13].status and relics[5].status)) then
             commonVariables.hasFlight = true
+            commonVariables.hasPowerOfWolf = true
             commonVariables.hasLeapstone = true
             commonVariables.hasGravityBoots = true
             commonVariables.hasDivekick = true
@@ -907,7 +915,11 @@ local function drawLocations()
                     locationUnreachable = true
                 end
 
-                if locations[i].requiresDivekickAlternate ~= nil and commonVariables.hasDivekick == true then
+                if locations[i].requiresDivekickAlternate ~= nil and commonVariables.hasDivekick == true and locationUnreachable == true then
+                    locationUnreachable = false
+                end
+
+                if locations[i].requiresPowerOfWolfAlternate ~= nil and commonVariables.hasPowerOfWolf == true and locationUnreachable == true then
                     locationUnreachable = false
                 end
 
