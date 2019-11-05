@@ -68,7 +68,8 @@ local constants = {
         hasMermanStatue = false,
         hasGravityBoots = false,
         hasThrustWeapon = false,
-        hasPowerOfWolf = false
+        hasPowerOfWolf = false,
+        imagesCached = false
     }
 }
 
@@ -88,7 +89,8 @@ local commonVariables = {
     hasMermanStatue = false,
     hasGravityBoots = false,
     hasThrustWeapon = false,
-    hasPowerOfWolf = false
+    hasPowerOfWolf = false,
+    imagesCached = false
 }
 
 local seedName = ""
@@ -632,6 +634,55 @@ local function outputLocations()
     print(unvisitedLocations)
 end
 
+local function cacheImages()
+    local rows = 0
+    local columns = 0
+    forms.clear(guiForm.relicBox, 0xFF110011)
+
+    for i = 1, 23, 1 do
+        if columns > 5 then
+            rows =  rows + 1
+            columns = 0
+        end
+        forms.drawImage(guiForm.relicBox, relics[i].path, columns * 46, rows * 46 + 34, 60, 60, true)
+        columns = columns + 1
+    end
+
+    if columns > 5 then
+        rows =  rows + 1
+        columns = 0
+    end
+    forms.drawImage(guiForm.relicBox, constants.thrustWeaponImagePath, columns * 46, rows * 46 + 34, 60, 60, true)
+
+    rows =  rows + 1
+    columns = 0
+
+    for i = 24, 28, 1 do
+        forms.drawImage(guiForm.relicBox, relics[i].path, columns * 46, rows * 46 + 34, 60, 60, true)
+            columns = columns + 1
+            if columns > 5 then
+                rows =  rows + 1
+                columns = 0
+            end
+    end
+
+    rows =  rows + 1
+    columns = 0
+
+    for i = 1, 4, 1 do
+        forms.drawImage(guiForm.relicBox, progressionItems[i].path, columns * 46, rows * 46 + 34, 60, 60, true)
+            columns = columns + 1
+            if columns > 5 then
+                rows =  rows + 1
+                columns = 0
+            end
+    end
+
+    forms.refresh(guiForm.relicBox)
+    forms.clear(guiForm.relicBox, 0xFF110011)
+    forms.refresh(guiForm.relicBox)
+end
+
 local function drawRelics()
     local rows = 0
     local columns = 0
@@ -700,6 +751,11 @@ local function drawRelics()
     forms.refresh(guiForm.relicBox)
 end
 
+local function drawSeedName()
+    forms.drawString(guiForm.relicBox, 4, 4, seedName, 0xFFFFFFFF, 0xFF110011, 25, "arial", "bold")
+    forms.refresh(guiForm.relicBox)
+end
+
 local function detectRelics()
     local changes = 0
     for i = 1, 23, 1 do
@@ -757,9 +813,8 @@ local function detectRelics()
                 commonVariables.hasFlight = true
             end
         end
-        if commonVariables.hasPowerOfWolf == false and (relics[5].status and relics[6].status) then
+        if commonVariables.hasPowerOfWolf == false and ((relics[5].status and relics[6].status) or (relics[5].status and commonVariables.hasThrustWeapon)) then
             commonVariables.hasPowerOfWolf = true
-            print('pow')
         end
         if commonVariables.hasFlight == false and (relics[1].status or
         (relics[8].status and relics[9].status) or
@@ -978,6 +1033,12 @@ while true do
 
     updateSettings(settings, guiForm.cloakColorCheckbox, guiForm.onlyTrackProgressionRelicsCheckbox, guiForm.pixelProModeCheckbox)
 
+
+    if commonVariables.imagesCached == false then
+        cacheImages()
+        commonVariables.imagesCached = true
+    end
+
     --get seed name from ram
     if seedName == "" and gameinfo.getromhash() ~= "" and mainmemory.readbyte(constants.gameStatus) == 8 then
         local num = false
@@ -993,6 +1054,7 @@ while true do
                 end
             end
         end
+        drawSeedName()
     end
 
     if commonVariables.gameInMainMenu == false and gameinfo.getromhash() ~= "" and mainmemory.readbyte(constants.gameStatus) ~= 2 then
