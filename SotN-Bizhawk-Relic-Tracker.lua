@@ -9,11 +9,18 @@ require "Utilities/UserInterface"
 local settings = {
     lightweightMode = false,
     randomCloakColor = true,
+    customCloakColor = false,
     onlyTrackProgressionRelics = true,
     pixelProMode = true,
     debugMode = false,
     drawingOffsetX = 147,
     drawingOffsetY = 38,
+    cloakExteriorR = 0,
+    cloakExteriorG = 0,
+    cloakExteriorB = 0,
+    cloakLiningR = 0,
+    cloakLiningG = 0,
+    cloakLiningB = 0
 }
 deserializeToObject(settings, "config.ini")
 
@@ -68,8 +75,7 @@ local constants = {
         hasMermanStatue = false,
         hasGravityBoots = false,
         hasThrustWeapon = false,
-        hasPowerOfWolf = false,
-        imagesCached = false
+        hasPowerOfWolf = false
     }
 }
 
@@ -89,9 +95,10 @@ local commonVariables = {
     hasMermanStatue = false,
     hasGravityBoots = false,
     hasThrustWeapon = false,
-    hasPowerOfWolf = false,
-    imagesCached = false
+    hasPowerOfWolf = false
 }
+
+local imagesCached = false
 
 local seedName = ""
 
@@ -538,19 +545,27 @@ local locations = {
 gui.clearImageCache()
 
 local function setcloakColor()
-
-    local rand1 = math.random(0, 255)
-    mainmemory.writebyte(constants.cloakExteriorRaddress, rand1)
-    local rand2 = math.random(0, 255)
-    mainmemory.writebyte(constants.cloakExteriorGaddress, rand2)
-    local rand3 = math.random(0, 255)
-    mainmemory.writebyte(constants.cloakExteriorBaddress, rand3)
-    local rand4 = math.random(0, 255)
-    mainmemory.writebyte(constants.cloakLiningRaddress, rand4)
-    local rand5 = math.random(0, 255)
-    mainmemory.writebyte(constants.cloakLiningGaddress, rand5)
-    local rand6 = math.random(0, 255)
-    mainmemory.writebyte(constants.cloakLiningBaddress, rand6)
+    if settings.randomCloakColor then
+        local rand1 = math.random(0, 255)
+        mainmemory.writebyte(constants.cloakExteriorRaddress, rand1)
+        local rand2 = math.random(0, 255)
+        mainmemory.writebyte(constants.cloakExteriorGaddress, rand2)
+        local rand3 = math.random(0, 255)
+        mainmemory.writebyte(constants.cloakExteriorBaddress, rand3)
+        local rand4 = math.random(0, 255)
+        mainmemory.writebyte(constants.cloakLiningRaddress, rand4)
+        local rand5 = math.random(0, 255)
+        mainmemory.writebyte(constants.cloakLiningGaddress, rand5)
+        local rand6 = math.random(0, 255)
+        mainmemory.writebyte(constants.cloakLiningBaddress, rand6)
+    elseif settings.customCloakColor then
+        mainmemory.writebyte(constants.cloakExteriorRaddress, tonumber(settings.cloakExteriorR))
+        mainmemory.writebyte(constants.cloakExteriorGaddress, tonumber(settings.cloakExteriorG))
+        mainmemory.writebyte(constants.cloakExteriorBaddress, tonumber(settings.cloakExteriorB))
+        mainmemory.writebyte(constants.cloakLiningRaddress, tonumber(settings.cloakLiningR))
+        mainmemory.writebyte(constants.cloakLiningGaddress, tonumber(settings.cloakLiningG))
+        mainmemory.writebyte(constants.cloakLiningBaddress, tonumber(settings.cloakLiningB))
+    end
 end
 
 local function contains(table, val)
@@ -562,9 +577,6 @@ local function resetAllValues()
     for i = 1, 28, 1 do
         relics[i].status = false
     end
-    --for i = 1, 28, 1 do
-    --    locations[i].status = false
-    --end
     for i = 1, 4, 1 do
         progressionItems[i].status = false
     end
@@ -575,9 +587,7 @@ local function checkAlucardModeStart()
     local alucardXp = mainmemory.read_u8(constants.alucardCurrentXpAddress)
     if alucardXp > 0 and alucardXp < 80000 then
         commonVariables.alucardModeStarted = true
-        if settings.randomCloakColor then
-            setcloakColor()
-        end
+        setcloakColor()
     end
 end
 
@@ -752,6 +762,7 @@ local function drawRelics()
 end
 
 local function drawSeedName()
+    forms.clear(guiForm.relicBox, 0xFF110011)
     forms.drawString(guiForm.relicBox, 4, 4, seedName, 0xFFFFFFFF, 0xFF110011, 25, "arial", "bold")
     forms.refresh(guiForm.relicBox)
 end
@@ -1034,9 +1045,9 @@ while true do
     updateSettings(settings, guiForm.cloakColorCheckbox, guiForm.onlyTrackProgressionRelicsCheckbox, guiForm.pixelProModeCheckbox)
 
 
-    if commonVariables.imagesCached == false then
+    if imagesCached == false then
         cacheImages()
-        commonVariables.imagesCached = true
+        imagesCached = true
     end
 
     --get seed name from ram
@@ -1066,8 +1077,7 @@ while true do
         commonVariables.gameReset = false
         resetAllValues()
         setcloakColor()
-        forms.clear(guiForm.relicBox, 0xFF110011)
-        forms.refresh(guiForm.relicBox)
+        drawSeedName()
     end
 
     if commonVariables.gameInMainMenu == true and mainmemory.readbyte(constants.gameStatus) == 2 then
