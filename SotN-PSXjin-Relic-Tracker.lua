@@ -29,6 +29,31 @@ local drawingOffsetY = 20
 local firstCastleChecksRemaining = 21
 local secondCastleChecksRemaining = 7
 
+local constants = {
+    alucardCurrentXpAddress = 0x097BEC,
+    gameStatus = 0x03C734,
+    mapOpenAddress = 0x0974A4,
+    alucardRoomsCountAddress = 0x03C760,
+    secondCastleAddress = 0x1E5458,
+    rightHandSlotAddress = 0x097C00,
+    headSlotAddress = 0x097C08,
+    armorSlotAddress = 0x097C0C,
+    accessorySlot1Address = 0x097C14,
+    accessorySlot2Address = 0x097C18,
+    locationMapColorReachable = 0xFF6FD400,
+    locationMapColor = 0xFF696969,
+    mapBorderColor = 0xFFC0C0C0,
+    cloakExteriorRaddress = 0x03CAA8,
+    cloakExteriorGaddress = 0x03CAAC,
+    cloakExteriorBaddress = 0x03CAB0,
+    cloakLiningRaddress = 0x03CAB4,
+    cloakLiningGaddress = 0x03CAB8,
+    cloakLiningBaddress = 0x03CABC,
+    settingsSubmenuOpenAddress = 0x03D04E,
+    seedNameStartAddress = 0x1A7840,
+    thrustWeaponImagePath = "images/large/ObsidianSword.png"
+}
+
 local relics = {
     {
         name = "Soul of Bat",
@@ -250,19 +275,25 @@ local locations = {
     }, {
         name = "Power of Mist",
         status = false,
-        mapTiles = {{address = 0x06BC0B, values = {1, 3}}}, -- doesnt trigger, but works on reload
+        mapTiles = {
+            {address = 0x06BC0B, values = {1, 3}},
+            {address = 0x06BC1B, values = {1}}
+        }, -- doesnt trigger, but works on reload
         mapX = 250,
         mapY = 36
     }, {
         name = "Cube of Zoe",
         status = false,
-        mapTiles = {{address = 0x06BDB8, values = {1, 4, 5, 85, 255}}},
+        mapTiles = {{address = 0x06BDB8, values = {1, 4, 5, 84, 85, 255}}},
         mapX = 154,
         mapY = 252
     }, {
         name = "Spirit Orb",
         status = false,
-        mapTiles = {{address = 0x06BD7A, values = {20, 21, 62}}},
+        mapTiles = {
+            {address = 0x06BD7A, values = {20, 21, 62}},
+            {address = 0x06BD6A, values = {20, 16}}
+        },
         mapX = 202,
         mapY = 214
     }, {
@@ -307,7 +338,7 @@ local locations = {
     }, {
         name = "Bat Card",
         status = false,
-        mapTiles = {{address = 0x06BD27, values = {84, 222}}},
+        mapTiles = {{address = 0x06BD27, values = {80, 84, 85, 222}}},
         mapX = 106,
         mapY = 180
     }, {
@@ -392,9 +423,27 @@ local function clearConsole()
         "\n\n \n\n \n\n \n\n \n\n \n\n \n\n \n\n \n\n \n\n \n\n \n\n \n\n \n\n \n\n \n\n \n\n \n\n \n\n \n\n \n\n \n\n \n\n \n\n \n\n \n\n \n\n \n\n \n\n \n\n \n\n \n\n \n\n \n\n \n\n \n\n")
 end
 
+local function setcloakColor()
+    local rand1 = math.random(0, 220)
+    memory.writebyte(constants.cloakExteriorRaddress, rand1)
+    local rand2 = math.random(0, 220)
+    memory.writebyte(constants.cloakExteriorGaddress, rand2)
+    local rand3 = math.random(0, 220)
+    memory.writebyte(constants.cloakExteriorBaddress, rand3)
+    local rand4 = math.random(0, 220)
+    memory.writebyte(constants.cloakLiningRaddress, rand4)
+    local rand5 = math.random(0, 220)
+    memory.writebyte(constants.cloakLiningGaddress, rand5)
+    local rand6 = math.random(0, 220)
+    memory.writebyte(constants.cloakLiningBaddress, rand6)
+end
+
 local function checkAlucardModeStart()
     local alucardXp = memory.readbyte(alucardCurrentXpAddress)
-    if alucardXp > 0 and alucardXp < 80000 then alucardModeStarted = true end
+    if alucardXp > 0 and alucardXp < 80000 then
+         alucardModeStarted = true
+         setcloakColor()
+    end
 end
 
 local function outputRelics()

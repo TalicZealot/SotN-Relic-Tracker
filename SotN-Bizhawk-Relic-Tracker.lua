@@ -58,25 +58,7 @@ local constants = {
     cloakLiningBaddress = 0x03CABC,
     settingsSubmenuOpenAddress = 0x03D04E,
     seedNameStartAddress = 0x1A7840,
-    thrustWeaponImagePath = "images/large/ObsidianSword.png",
-    defaultcommonVariables = {
-        alucardModeStarted = false,
-        gameInMainMenu = false,
-        gameReset = false,
-        alucardRooms = 0,
-        firstCastleChecksRemaining = 21,
-        secondCastleChecksRemaining = 7,
-        allDracRelics = false,
-        hasFlight = false,
-        hasJewelOfOpen = false,
-        hasMist = false,
-        hasLeapstone = false,
-        hasDivekick = false,
-        hasMermanStatue = false,
-        hasGravityBoots = false,
-        hasThrustWeapon = false,
-        hasPowerOfWolf = false
-    }
+    thrustWeaponImagePath = "images/large/ObsidianSword.png"
 }
 
 local commonVariables = {
@@ -392,7 +374,10 @@ local locations = {
     }, {
         name = "Power of Mist",
         status = false,
-        mapTiles = {{address = 0x06BC0B, values = {1, 3}}}, -- doesnt trigger, but works on reload
+        mapTiles = {
+            {address = 0x06BC0B, values = {1, 3}},
+            {address = 0x06BC1B, values = {1}}
+        },
         mapX = 250,
         mapY = 36,
         requiresFlight = true
@@ -459,7 +444,7 @@ local locations = {
     }, {
         name = "Bat Card",
         status = false,
-        mapTiles = {{address = 0x06BD27, values = {84, 222}}},
+        mapTiles = {{address = 0x06BD27, values = {80, 84, 85, 222}}},
         mapX = 106,
         mapY = 180,
         requiresGravityBoots = true
@@ -546,17 +531,17 @@ gui.clearImageCache()
 
 local function setcloakColor()
     if settings.randomCloakColor then
-        local rand1 = math.random(0, 255)
+        local rand1 = math.random(0, 220)
         mainmemory.writebyte(constants.cloakExteriorRaddress, rand1)
-        local rand2 = math.random(0, 255)
+        local rand2 = math.random(0, 220)
         mainmemory.writebyte(constants.cloakExteriorGaddress, rand2)
-        local rand3 = math.random(0, 255)
+        local rand3 = math.random(0, 220)
         mainmemory.writebyte(constants.cloakExteriorBaddress, rand3)
-        local rand4 = math.random(0, 255)
+        local rand4 = math.random(0, 220)
         mainmemory.writebyte(constants.cloakLiningRaddress, rand4)
-        local rand5 = math.random(0, 255)
+        local rand5 = math.random(0, 220)
         mainmemory.writebyte(constants.cloakLiningGaddress, rand5)
-        local rand6 = math.random(0, 255)
+        local rand6 = math.random(0, 220)
         mainmemory.writebyte(constants.cloakLiningBaddress, rand6)
     elseif settings.customCloakColor then
         mainmemory.writebyte(constants.cloakExteriorRaddress, tonumber(settings.cloakExteriorR))
@@ -580,7 +565,22 @@ local function resetAllValues()
     for i = 1, 4, 1 do
         progressionItems[i].status = false
     end
-    commonVariables = constants.defaultcommonVariables
+    commonVariables.alucardModeStarted = false
+    commonVariables.gameInMainMenu = false
+    commonVariables.gameReset = false
+    commonVariables.alucardRooms = 0
+    commonVariables.firstCastleChecksRemaining = 21
+    commonVariables.secondCastleChecksRemaining = 7
+    commonVariables.allDracRelics = false
+    commonVariables.hasFlight = false
+    commonVariables.hasJewelOfOpen = false
+    commonVariables.hasMist = false
+    commonVariables.hasLeapstone = false
+    commonVariables.hasDivekick = false
+    commonVariables.hasMermanStatue = false
+    commonVariables.hasGravityBoots = false
+    commonVariables.hasThrustWeapon = false
+    commonVariables.hasPowerOfWolf = false
 end
 
 local function checkAlucardModeStart()
