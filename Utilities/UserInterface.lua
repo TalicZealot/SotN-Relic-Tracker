@@ -11,12 +11,16 @@ function initForm(settings, guiForm)
 
     guiForm.pixelProModeCheckbox = forms.checkbox(guiForm.mainForm, "PixelPro mode", 10, 50)
     forms.setproperty(guiForm.pixelProModeCheckbox, "Checked", settings.pixelProMode)
-    forms.setproperty(guiForm.pixelProModeCheckbox, "Width", 200)
+    forms.setproperty(guiForm.pixelProModeCheckbox, "Width", 150)
+
+    guiForm.extendedLocationsCheckbox = forms.checkbox(guiForm.mainForm, "Extended Locations", 160, 50)
+    forms.setproperty(guiForm.extendedLocationsCheckbox, "Checked", settings.extendedLocations)
+    forms.setproperty(guiForm.extendedLocationsCheckbox, "Width", 200)
 
     guiForm.relicBox = forms.pictureBox(guiForm.mainForm, 0, 80, 320, 374) 
 end
 
-function updateSettings(settings, cloakColorCheckbox, onlyTrackProgressionRelicsCheckbox, pixelProModeCheckbox)
+function updateSettings(settings, cloakColorCheckbox, onlyTrackProgressionRelicsCheckbox, pixelProModeCheckbox, extendedLocationsCheckbox)
     if forms.ischecked(cloakColorCheckbox) then
         settings.randomCloakColor = true
     else
@@ -27,6 +31,12 @@ function updateSettings(settings, cloakColorCheckbox, onlyTrackProgressionRelics
         settings.onlyTrackProgressionRelics = true
     else
         settings.onlyTrackProgressionRelics = false
+    end
+
+    if forms.ischecked(extendedLocationsCheckbox) then
+        settings.extendedLocations = true
+    else
+        settings.extendedLocations = false
     end
 
     if forms.ischecked(pixelProModeCheckbox) then

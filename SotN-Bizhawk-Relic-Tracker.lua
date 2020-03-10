@@ -12,6 +12,7 @@ local settings = {
     customCloakColor = false,
     onlyTrackProgressionRelics = true,
     pixelProMode = true,
+    extendedLocations = true,
     debugMode = false,
     drawingOffsetX = 147,
     drawingOffsetY = 38,
@@ -30,6 +31,7 @@ local guiForm = {
     cloakColorCheckbox = nil,
     onlyTrackProgressionRelicsCheckbox = nil,
     pixelProModeCheckbox = nil,
+    extendedLocationsCheckbox = nil,
     relicBox = nil
 }
 initForm(settings, guiForm)
@@ -480,6 +482,22 @@ local locations = {
         requires = 1,
         requiresFlight = true
     }, {
+        name = "Crystal Cloak",
+        status = false,
+        mapTiles = {{address = 0x06BDDE, values = {85}}},
+        mapX = 322,
+        mapY = 268,
+        requiresJewelOfOpen = true,
+    }, {
+        name = "Mormegil",
+        status = false,
+        mapTiles = {{address = 0x06BE98, values = {81, 85}}},
+        mapX = 138,
+        mapY = 364,
+        requiresJewelOfOpen = true,
+        requiresLeapstone = true,
+        requiresPowerOfWolfAlternate = true
+    }, {
         name = "Heart of Vlad",
         status = false,
         mapTiles = {
@@ -524,6 +542,18 @@ local locations = {
         mapTiles = {{address = 0x06C04F, values = {85}}},
         mapX = 368,
         mapY = 34
+    }, {
+        name = "Ring of Arcana",
+        status = false,
+        mapTiles = {{address = 0x06C1C0, values = {5}}},
+        mapX = 400,
+        mapY = 218,
+    }, {
+        name = "Dark Blade",
+        status = false,
+        mapTiles = {{address = 0x06C109, values = {85}}},
+        mapX = 184,
+        mapY = 130,
     }
 }
 
@@ -588,6 +618,11 @@ local function checkAlucardModeStart()
     if alucardXp > 0 and alucardXp < 80000 then
         commonVariables.alucardModeStarted = true
         setcloakColor()
+    end
+
+    if settings.extendedLocations == true then
+        commonVariables.firstCastleChecksRemaining = 23
+        commonVariables.secondCastleChecksRemaining = 9
     end
 end
 
@@ -899,7 +934,7 @@ end
 local function detectLocations()
     local changes = 0
     local debugLocations = "\n\n".. commonVariables.alucardRooms
-    for i = 1, 28, 1 do
+    for i = 1, 32, 1 do
         if locations[i].status == false then
             for j = 1, #locations[i].mapTiles do
                 if settings.debugMode then
@@ -909,7 +944,7 @@ local function detectLocations()
                             mainmemory.readbyte(locations[i].mapTiles[j].address)) then
                     locations[i].status = true
                     changes = changes + 1
-                    if i < 22 then
+                    if i < 24 then
                         commonVariables.firstCastleChecksRemaining = commonVariables.firstCastleChecksRemaining - 1
                     else
                         commonVariables.secondCastleChecksRemaining = commonVariables.secondCastleChecksRemaining - 1
@@ -935,6 +970,13 @@ local function drawLocations()
     local boxSize = 5
     local adjustedOffsetX = tonumber(settings.drawingOffsetX)
     local adjustedOffsetY = tonumber(settings.drawingOffsetY)
+    local firstCastleRelics = 21
+    local secondCastleRelics = 30
+
+    if settings.extendedLocations == true then
+        firstCastleRelics = 23
+        secondCastleRelics = 32
+    end
 
     if settings.pixelProMode == false then
         scaling = 0.5
@@ -948,7 +990,7 @@ local function drawLocations()
 
     local mapCheck = memory.readbyte(constants.mapOpenAddress)
     if mapCheck == 1 and mainmemory.read_u8(constants.secondCastleAddress) == 0 then
-        for i = 1, 21, 1 do
+        for i = 1, firstCastleRelics, 1 do
             locationColor = constants.locationMapColorReachable
             locationUnreachable = false
             if locations[i].status == false then
@@ -1004,7 +1046,7 @@ local function drawLocations()
         gui.drawText(0, (17 * scaling), "Second Castle checks: " .. commonVariables.secondCastleChecksRemaining, 0xFFFFFFFF, 0xFF000000, (16 * scaling))
     elseif mapCheck == 1 then
         locationColor = constants.locationMapColorReachable
-        for i = 22, 28, 1 do
+        for i = 24, secondCastleRelics, 1 do
             if locations[i].status == false then
                 gui.drawBox((locations[i].mapX * scaling) + adjustedOffsetX,
                             (locations[i].mapY * scaling) + adjustedOffsetY,
@@ -1032,7 +1074,7 @@ event.onexit(
     function ()
          forms.destroy(guiForm.mainForm)
          --update ini file settings and save data
-         weiteToIni(serializeObject(settings, "settings"), "config.ini")
+         writeToIni(serializeObject(settings, "settings"), "config.ini")
     end
 )
 
@@ -1042,7 +1084,7 @@ while true do
         return
     end
 
-    updateSettings(settings, guiForm.cloakColorCheckbox, guiForm.onlyTrackProgressionRelicsCheckbox, guiForm.pixelProModeCheckbox)
+    updateSettings(settings, guiForm.cloakColorCheckbox, guiForm.onlyTrackProgressionRelicsCheckbox, guiForm.pixelProModeCheckbox, guiForm.extendedLocationsCheckbox)
 
 
     if imagesCached == false then

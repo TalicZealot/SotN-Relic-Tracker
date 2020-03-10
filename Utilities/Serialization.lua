@@ -15,7 +15,7 @@ function serializeObject(object, sectionName)
     return text
 end
 
-function weiteToIni(text, path)
+function writeToIni(text, path)
     local file = assert(io.open(path, "w"))
     file:write(text)
     file:close()
