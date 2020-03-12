@@ -68,8 +68,6 @@ local commonVariables = {
     gameInMainMenu = false,
     gameReset = false,
     alucardRooms = 0,
-    firstCastleChecksRemaining = 21,
-    secondCastleChecksRemaining = 7,
     allDracRelics = false,
     hasFlight = false,
     hasJewelOfOpen = false,
@@ -545,7 +543,7 @@ local locations = {
     }, {
         name = "Ring of Arcana",
         status = false,
-        mapTiles = {{address = 0x06C1C0, values = {5}}},
+        mapTiles = {{address = 0x06C1C0, values = {5, 21}}},
         mapX = 400,
         mapY = 218,
     }, {
@@ -599,8 +597,6 @@ local function resetAllValues()
     commonVariables.gameInMainMenu = false
     commonVariables.gameReset = false
     commonVariables.alucardRooms = 0
-    commonVariables.firstCastleChecksRemaining = 21
-    commonVariables.secondCastleChecksRemaining = 7
     commonVariables.allDracRelics = false
     commonVariables.hasFlight = false
     commonVariables.hasJewelOfOpen = false
@@ -618,11 +614,6 @@ local function checkAlucardModeStart()
     if alucardXp > 0 and alucardXp < 80000 then
         commonVariables.alucardModeStarted = true
         setcloakColor()
-    end
-
-    if settings.extendedLocations == true then
-        commonVariables.firstCastleChecksRemaining = 23
-        commonVariables.secondCastleChecksRemaining = 9
     end
 end
 
@@ -944,11 +935,6 @@ local function detectLocations()
                             mainmemory.readbyte(locations[i].mapTiles[j].address)) then
                     locations[i].status = true
                     changes = changes + 1
-                    if i < 24 then
-                        commonVariables.firstCastleChecksRemaining = commonVariables.firstCastleChecksRemaining - 1
-                    else
-                        commonVariables.secondCastleChecksRemaining = commonVariables.secondCastleChecksRemaining - 1
-                    end
                 end
             end
         end
@@ -972,6 +958,8 @@ local function drawLocations()
     local adjustedOffsetY = tonumber(settings.drawingOffsetY)
     local firstCastleRelics = 21
     local secondCastleRelics = 30
+    local firstCastleChecksRemaining = 0
+    local secondCastleChecksRemaining = 0
 
     if settings.extendedLocations == true then
         firstCastleRelics = 23
@@ -1035,6 +1023,8 @@ local function drawLocations()
                     locationColor = constants.locationMapColor
                 end
 
+                firstCastleChecksRemaining = firstCastleChecksRemaining + 1
+
                 gui.drawBox((locations[i].mapX * scaling) + adjustedOffsetX,
                             (locations[i].mapY * scaling) + adjustedOffsetY,
                             (locations[i].mapX * scaling) + adjustedOffsetX + boxSize,
@@ -1042,12 +1032,22 @@ local function drawLocations()
                             constants.mapBorderColor, locationColor)
             end
         end
-        gui.drawText(0, 0, "First Castle checks: " .. commonVariables.firstCastleChecksRemaining, 0xFFFFFFFF, 0xFF000000, (16 * scaling))
-        gui.drawText(0, (17 * scaling), "Second Castle checks: " .. commonVariables.secondCastleChecksRemaining, 0xFFFFFFFF, 0xFF000000, (16 * scaling))
+
+        for i = 24, secondCastleRelics, 1 do
+            if locations[i].status == false then
+                secondCastleChecksRemaining = secondCastleChecksRemaining + 1
+            end
+        end
+
+        gui.drawText(0, 0, "First Castle checks: " .. firstCastleChecksRemaining, 0xFFFFFFFF, 0xFF000000, (16 * scaling))
+        gui.drawText(0, (17 * scaling), "Second Castle checks: " .. secondCastleChecksRemaining, 0xFFFFFFFF, 0xFF000000, (16 * scaling))
     elseif mapCheck == 1 then
         locationColor = constants.locationMapColorReachable
         for i = 24, secondCastleRelics, 1 do
             if locations[i].status == false then
+
+                secondCastleChecksRemaining = secondCastleChecksRemaining + 1
+
                 gui.drawBox((locations[i].mapX * scaling) + adjustedOffsetX,
                             (locations[i].mapY * scaling) + adjustedOffsetY,
                             (locations[i].mapX * scaling) + adjustedOffsetX + boxSize,
@@ -1055,8 +1055,15 @@ local function drawLocations()
                             constants.mapBorderColor, locationColor)
             end
         end
-        gui.drawText(0, 0, "First Castle checks: " .. commonVariables.firstCastleChecksRemaining, 0xFFFFFFFF, 0xFF000000, (16 * scaling))
-        gui.drawText(0, (17 * scaling), "Second Castle checks: " .. commonVariables.secondCastleChecksRemaining, 0xFFFFFFFF, 0xFF000000, (16 * scaling))
+
+        for i = 1, firstCastleRelics, 1 do
+            if locations[i].status == false then
+                firstCastleChecksRemaining = firstCastleChecksRemaining + 1
+            end
+        end
+
+        gui.drawText(0, 0, "First Castle checks: " .. firstCastleChecksRemaining, 0xFFFFFFFF, 0xFF000000, (16 * scaling))
+        gui.drawText(0, (17 * scaling), "Second Castle checks: " .. secondCastleChecksRemaining, 0xFFFFFFFF, 0xFF000000, (16 * scaling))
     end
 end
 
