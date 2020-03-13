@@ -1,6 +1,6 @@
 # SotN Relic and Location check Autotracker
 Autotracker LUA script for the Castlevania:SotN Randomizer https://sotn.io/
-## Version 1.5.0
+## Version 1.5.1
 
 ## Bizhawk Instructions: 
 * Download repository from *Clone or download* > *Download ZIP*
@@ -17,7 +17,25 @@ Autotracker LUA script for the Castlevania:SotN Randomizer https://sotn.io/
 * PSX > Options > Pixel Pro Mode
 * Sace window through View > Window Size
 
-### changelog
+## PSXjin Instructions: 
+* Download the repository
+* Install https://github.com/rjpcomputing/luaforwindows/releases
+* If needed copy GD.dll from the installation folder to the script folder
+* Launch the script after running the game through File > Lua Scripting > New Lua Script Window (Ctrl + L) > Browse
+
+## PSXjin Setup:
+* Configuration > Graphics > Color Depth > 32
+* Configuration > Graphics > Window Mode > Size: 1030 x 962
+* Configuration > Graphics > Stretch to full window size
+* Configuration > Graphics > No Dithering
+* Configuration > Graphics > Use FPS Limit
+* Configuration > Graphics > Use Frame Skipping
+* Configuration > Graphics > Auto-detect FPS/Frame skipping
+
+<details><summary>### changelog</summary>
+
+#### 1.5.1
+* Added update.bat, which people can use to quickly update the Bizhawk lua file.
 #### 1.5.0
 * Added new locations for Guarded rando logic in a toggleable 'Extended Locations' mode
 * Better remaining location counting
@@ -81,17 +99,4 @@ Autotracker LUA script for the Castlevania:SotN Randomizer https://sotn.io/
 #### 1.0.0
 * Release
 
-## PSXjin Instructions: 
-* Download the repository
-* Install https://github.com/rjpcomputing/luaforwindows/releases
-* If needed copy GD.dll from the installation folder to the script folder
-* Launch the script after running the game through File > Lua Scripting > New Lua Script Window (Ctrl + L) > Browse
-
-## PSXjin Setup:
-* Configuration > Graphics > Color Depth > 32
-* Configuration > Graphics > Window Mode > Size: 1030 x 962
-* Configuration > Graphics > Stretch to full window size
-* Configuration > Graphics > No Dithering
-* Configuration > Graphics > Use FPS Limit
-* Configuration > Graphics > Use Frame Skipping
-* Configuration > Graphics > Auto-detect FPS/Frame skipping
+</details>
