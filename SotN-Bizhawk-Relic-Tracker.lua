@@ -63,6 +63,29 @@ local constants = {
     thrustWeaponImagePath = "images/large/ObsidianSword.png"
 }
 
+local characterMap = {
+    [0x43] = ',',
+    [0x44] = '.',
+    [0x46] = ':',
+    [0x47] = ';',
+    [0x48] = '?',
+    [0x49] = '!',
+    [0x4d] = '`',
+    [0x4e] = '"',
+    [0x4f] = '^',
+    [0x51] = '_',
+    [0x60] = '~',
+    [0x66] = '\'',
+    [0x69] = '(',
+    [0x6a] = ')',
+    [0x6d] = '[',
+    [0x6e] = ']',
+    [0x6f] = '{',
+    [0x70] = '}',
+    [0x7b] = '+',
+    [0x7c] = '-'
+}
+
 local commonVariables = {
     alucardModeStarted = false,
     gameInMainMenu = false,
@@ -1101,16 +1124,23 @@ while true do
 
     --get seed name from ram
     if seedName == "" and gameinfo.getromhash() ~= "" and mainmemory.readbyte(constants.gameStatus) == 8 then
-        local num = false
-        for i = 0, 31, 1 do
-            if mainmemory.readbyte(constants.seedNameStartAddress + i) == 130 then
-                num = true
+        local digit = false
+        local symbol = false
+        for i = 0, 28, 1 do
+            local currentByte = mainmemory.readbyte(constants.seedNameStartAddress + i)
+            if currentByte == 130 then
+                digit = true
+            elseif currentByte == 129 or currentByte == 130 then
+                symbol = true
             else
-                if num then
-                    num = false
-                    seedName = seedName .. (mainmemory.readbyte(constants.seedNameStartAddress + i) - 79);
+                if digit then
+                    digit = false
+                    seedName = seedName .. (currentByte - 79);
+                elseif symbol then
+                    symbol = false
+                    seedName = seedName .. characterMap[currentByte]
                 else
-                    seedName = seedName .. string.char(mainmemory.readbyte(constants.seedNameStartAddress + i));
+                    seedName = seedName .. string.char(currentByte);
                 end
             end
         end
