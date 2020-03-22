@@ -100,7 +100,8 @@ local commonVariables = {
     hasMermanStatue = false,
     hasGravityBoots = false,
     hasThrustWeapon = false,
-    hasPowerOfWolf = false
+    hasPowerOfWolf = false,
+    hasTransformation = false
 }
 
 local imagesCached = false
@@ -363,7 +364,8 @@ local locations = {
         mapTiles = {{address = 0x06BC78, values = {85}}},
         mapX = 130,
         mapY = 92,
-        requiresFlight = true
+        requiresFlight = true,
+        requiresTransformation = true
     }, {
         name = "Soul of Wolf",--4
         status = false,
@@ -857,6 +859,7 @@ local function detectRelics()
         end
         if commonVariables.hasMist == false and relics[8].status then
             commonVariables.hasMist = true
+            commonVariables.hasTransformation = true
         end
         if commonVariables.hasLeapstone == false and (relics[14].status or commonVariables.hasFlight) then
             commonVariables.hasLeapstone = true
@@ -871,10 +874,17 @@ local function detectRelics()
             commonVariables.hasGravityBoots = true
             if commonVariables.hasThrustWeapon then
                 commonVariables.hasFlight = true
+                commonVariables.hasPowerOfWolf = true
+                commonVariables.hasLeapstone = true
+                commonVariables.hasGravityBoots = true
+                commonVariables.hasDivekick = true
             end
         end
         if commonVariables.hasPowerOfWolf == false and ((relics[5].status and relics[6].status) or (relics[5].status and commonVariables.hasThrustWeapon)) then
             commonVariables.hasPowerOfWolf = true
+        end
+        if commonVariables.hasTransformation == false and relics[5].status or relics[1].status then
+            commonVariables.hasTransformation = true
         end
         if commonVariables.hasFlight == false and (relics[1].status or
         (relics[8].status and relics[9].status) or
@@ -1010,35 +1020,39 @@ local function drawLocations()
                     locationUnreachable = true
                 end
 
-                if locations[i].requiresJewelOfOpen ~= nil and commonVariables.hasJewelOfOpen == false then
+                if locationUnreachable == false and locations[i].requiresTransformation ~= nil and commonVariables.hasTransformation == false then
                     locationUnreachable = true
                 end
 
-                if locations[i].requiresMist ~= nil and commonVariables.hasMist == false then
+                if locationUnreachable == false and locations[i].requiresJewelOfOpen ~= nil and commonVariables.hasJewelOfOpen == false then
                     locationUnreachable = true
                 end
 
-                if locations[i].requiresLeapstone ~= nil and commonVariables.hasLeapstone == false then
+                if locationUnreachable == false and locations[i].requiresMist ~= nil and commonVariables.hasMist == false then
                     locationUnreachable = true
                 end
 
-                if locations[i].requiresDivekick ~= nil and commonVariables.hasDivekick == false then
+                if locationUnreachable == false and locations[i].requiresLeapstone ~= nil and commonVariables.hasLeapstone == false then
                     locationUnreachable = true
                 end
 
-                if locations[i].requiresMermanStatue ~= nil and commonVariables.hasMermanStatue == false then
+                if locationUnreachable == false and locations[i].requiresDivekick ~= nil and commonVariables.hasDivekick == false then
                     locationUnreachable = true
                 end
 
-                if locations[i].requiresGravityBoots ~= nil and commonVariables.hasGravityBoots == false then
+                if locationUnreachable == false and locations[i].requiresMermanStatue ~= nil and commonVariables.hasMermanStatue == false then
                     locationUnreachable = true
                 end
 
-                if locations[i].requiresDivekickAlternate ~= nil and commonVariables.hasDivekick == true and locationUnreachable == true then
+                if locationUnreachable == false and locations[i].requiresGravityBoots ~= nil and commonVariables.hasGravityBoots == false then
+                    locationUnreachable = true
+                end
+
+                if locationUnreachable == false and locations[i].requiresDivekickAlternate ~= nil and commonVariables.hasDivekick == true and locationUnreachable == true then
                     locationUnreachable = false
                 end
 
-                if locations[i].requiresPowerOfWolfAlternate ~= nil and commonVariables.hasPowerOfWolf == true and locationUnreachable == true then
+                if locationUnreachable == false and locations[i].requiresPowerOfWolfAlternate ~= nil and commonVariables.hasPowerOfWolf == true and locationUnreachable == true then
                     locationUnreachable = false
                 end
 
