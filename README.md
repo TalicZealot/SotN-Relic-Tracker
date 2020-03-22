@@ -1,6 +1,6 @@
 # SotN Relic and Location check Autotracker
 Autotracker LUA script for the Castlevania:SotN Randomizer https://sotn.io/
-## Version 1.5.2
+## Version 1.5.3
 
 ## Bizhawk Instructions: 
 * Download repository from *Clone or download* > *Download ZIP*
@@ -34,6 +34,9 @@ Autotracker LUA script for the Castlevania:SotN Randomizer https://sotn.io/
 
 <details><summary>changelog</summary>
 
+#### 1.5.3
+* Added new locations for Guarded rando logic to psxjin tracker.
+* Added seed name console display to psxjin tracker.
 #### 1.5.2
 * Added character decoding for non-alphanumeric symbols.
 #### 1.5.1

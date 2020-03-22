@@ -344,28 +344,28 @@ local divekickStateItems = {
 
 local locations = {
     {
-        name = "Soul of Bat",
+        name = "Soul of Bat",--1
         status = false,
         mapTiles = {{address = 0x06BCCF, values = {85}}},
         mapX = 386,
         mapY = 132,
         requiresMist = true
     }, {
-        name = "Fire of Bat",
+        name = "Fire of Bat",--2
         status = false,
         mapTiles = {{address = 0x06BC32, values = {5, 85, 21, 189}}},
         mapX = 474,
         mapY = 52,
         requiresFlight = true
     }, {
-        name = "Echo of Bat",
+        name = "Echo of Bat",--3
         status = false,
         mapTiles = {{address = 0x06BC78, values = {85}}},
         mapX = 130,
         mapY = 92,
         requiresFlight = true
     }, {
-        name = "Soul of Wolf",
+        name = "Soul of Wolf",--4
         status = false,
         mapTiles = {
             {address = 0x06BCA3, values = {80, 240}},
@@ -374,28 +374,28 @@ local locations = {
         mapX = 490,
         mapY = 108
     }, {
-        name = "Power of Wolf",
+        name = "Power of Wolf",--5
         status = false,
         mapTiles = {{address = 0x06BDE4, values = {1, 5}}},
         mapX = 18,
         mapY = 268,
         requiresFlight = true
     }, {
-        name = "Skill of Wolf",
+        name = "Skill of Wolf",--6
         status = false,
         mapTiles = {{address = 0x06BD87, values = {85, 213}}},
         mapX = 122,
         mapY = 228,
         requiresGravityBoots = true
     }, {
-        name = "Form of Mist",
+        name = "Form of Mist",--7
         status = false,
         mapTiles = {{address = 0x06BCD9, values = {5, 85}}}, --5 doesnt trigger, but works on reload
         mapX = 170,
         mapY = 140,
         requiresDivekick = true
     }, {
-        name = "Power of Mist",
+        name = "Power of Mist",--8
         status = false,
         mapTiles = {
             {address = 0x06BC0B, values = {1, 3}},
@@ -405,13 +405,13 @@ local locations = {
         mapY = 36,
         requiresFlight = true
     }, {
-        name = "Cube of Zoe",
+        name = "Cube of Zoe",--9
         status = false,
         mapTiles = {{address = 0x06BDB8, values = {1, 4, 5, 85, 84, 255}}},
         mapX = 154,
         mapY = 252
     }, {
-        name = "Spirit Orb",
+        name = "Spirit Orb",--10
         status = false,
         mapTiles = {
             {address = 0x06BD7A, values = {20, 21, 62}},
@@ -420,14 +420,14 @@ local locations = {
         mapX = 202,
         mapY = 214
     }, {
-        name = "Gravity Boots",
+        name = "Gravity Boots",--11
         status = false,
         mapTiles = {{address = 0x06BCEC, values = {4, 5, 84}}},
         mapX = 274,
         mapY = 148,
         requiresFlight = true
     }, {
-        name = "Leap Stone",
+        name = "Leap Stone",--12
         status = false,
         mapTiles = {
             {address = 0x06BC3B, values = {1, 85, 131}},
@@ -438,7 +438,7 @@ local locations = {
         requiresJewelOfOpen = true,
         requiresDivekickAlternate = true
     }, {
-        name = "Holy Symbol",
+        name = "Holy Symbol",--13
         status = false,
         mapTiles = {{address = 0x06BE11, values = {85}}},
         mapX = 442,
@@ -446,47 +446,47 @@ local locations = {
         requiresJewelOfOpen = true,
         requiresMermanStatue  = true
     }, {
-        name = "Faerie Scroll",
+        name = "Faerie Scroll",--14
         status = false,
         mapTiles = {{address = 0x06BCA2, values = {21, 85, 191}}},
         mapX = 474,
         mapY = 108
     }, {
-        name = "Jewel of Open",
+        name = "Jewel of Open",--15
         status = false,
         mapTiles = {{address = 0x06BCC0, values = {21, 85, 127}}},
         mapX = 394,
         mapY = 124
     }, {
-        name = "Merman Statue",
+        name = "Merman Statue",--16
         status = false,
         mapTiles = {{address = 0x06BE16, values = {85, 255}}},
         mapX = 66,
         mapY = 300,
         requiresJewelOfOpen = true
     }, {
-        name = "Bat Card",
+        name = "Bat Card",--17
         status = false,
         mapTiles = {{address = 0x06BD27, values = {80, 84, 85, 222}}},
         mapX = 106,
         mapY = 180,
         requiresGravityBoots = true
     }, {
-        name = "Ghost Card",
+        name = "Ghost Card",--18
         status = false,
         mapTiles = {{address = 0x06BBED, values = {20, 21, 69, 81, 181, 85, 17}}},
         mapX = 314,
         mapY = 20,
         requiresFlight = true
     }, {
-        name = "Faerie Card",
+        name = "Faerie Card",--19
         status = false,
         mapTiles = {{address = 0x06BCA1, values = {84, 126, 85}}},
         mapX = 418,
         mapY = 108,
         requiresDivekick = true
     }, {
-        name = "Demon Card",
+        name = "Demon Card",--20
         status = false,
         mapTiles = {{address = 0x06BE3B, values = {21}}},
         mapX = 234,
@@ -495,7 +495,7 @@ local locations = {
         requiresLeapstone = true,
         requiresPowerOfWolfAlternate = true
     }, {
-        name = "Sword Card",
+        name = "Sword Card",--21
         status = false,
         mapTiles = {{address = 0x06BC99, values = {64}}},
         mapX = 162,
@@ -503,14 +503,14 @@ local locations = {
         requires = 1,
         requiresFlight = true
     }, {
-        name = "Crystal Cloak",
+        name = "Crystal Cloak",--22
         status = false,
         mapTiles = {{address = 0x06BDDE, values = {85}}},
         mapX = 322,
         mapY = 268,
         requiresJewelOfOpen = true,
     }, {
-        name = "Mormegil",
+        name = "Mormegil",--23
         status = false,
         mapTiles = {{address = 0x06BE98, values = {81, 85}}},
         mapX = 138,
@@ -519,7 +519,7 @@ local locations = {
         requiresLeapstone = true,
         requiresPowerOfWolfAlternate = true
     }, {
-        name = "Heart of Vlad",
+        name = "Heart of Vlad",--24
         status = false,
         mapTiles = {
             {address = 0x06C29D, values = {85}},
@@ -528,49 +528,49 @@ local locations = {
         mapX = 320,
         mapY = 330
     }, {
-        name = "Tooth of Vlad",
+        name = "Tooth of Vlad",--25
         status = false,
         mapTiles = {{address = 0x06C1F5, values = {80, 84, 85, 5, 21}}},
         mapX = 48,
         mapY = 250
     }, {
-        name = "Rib of Vlad",
+        name = "Rib of Vlad",--26
         status = false,
         mapTiles = {{address = 0x06C26E, values = {85}}},
         mapX = 352,
         mapY = 306
     }, {
-        name = "Ring of Vlad",
+        name = "Ring of Vlad",--27
         status = false,
         mapTiles = {{address = 0x06C2C9, values = {1, 5, 85}}}, -- 5 doesnt trigger, but works on reload
         mapX = 184,
         mapY = 354
     }, {
-        name = "Eye of Vlad",
+        name = "Eye of Vlad",--28
         status = false,
         mapTiles = {{address = 0x06C0EC, values = {21, 85}}},
         mapX = 264,
         mapY = 114
     }, {
-        name = "Force of Echo",
+        name = "Force of Echo",--29
         status = false,
         mapTiles = {{address = 0x06C0D6, values = {85}}},
         mapX = 64,
         mapY = 106
     }, {
-        name = "Gas Cloud",
+        name = "Gas Cloud",--30
         status = false,
         mapTiles = {{address = 0x06C04F, values = {85}}},
         mapX = 368,
         mapY = 34
     }, {
-        name = "Ring of Arcana",
+        name = "Ring of Arcana",--31
         status = false,
         mapTiles = {{address = 0x06C1C0, values = {5, 21}}},
         mapX = 400,
         mapY = 218,
     }, {
-        name = "Dark Blade",
+        name = "Dark Blade",--32
         status = false,
         mapTiles = {{address = 0x06C109, values = {85}}},
         mapX = 184,
@@ -979,14 +979,14 @@ local function drawLocations()
     local boxSize = 5
     local adjustedOffsetX = tonumber(settings.drawingOffsetX)
     local adjustedOffsetY = tonumber(settings.drawingOffsetY)
-    local firstCastleRelics = 21
-    local secondCastleRelics = 30
+    local firstCastleLocations = 21
+    local secondCastleLocations = 30
     local firstCastleChecksRemaining = 0
     local secondCastleChecksRemaining = 0
 
     if settings.extendedLocations == true then
-        firstCastleRelics = 23
-        secondCastleRelics = 32
+        firstCastleLocations = 23
+        secondCastleLocations = 32
     end
 
     if settings.pixelProMode == false then
@@ -1001,7 +1001,7 @@ local function drawLocations()
 
     local mapCheck = memory.readbyte(constants.mapOpenAddress)
     if mapCheck == 1 and mainmemory.read_u8(constants.secondCastleAddress) == 0 then
-        for i = 1, firstCastleRelics, 1 do
+        for i = 1, firstCastleLocations, 1 do
             locationColor = constants.locationMapColorReachable
             locationUnreachable = false
             if locations[i].status == false then
@@ -1056,7 +1056,7 @@ local function drawLocations()
             end
         end
 
-        for i = 24, secondCastleRelics, 1 do
+        for i = 24, secondCastleLocations, 1 do
             if locations[i].status == false then
                 secondCastleChecksRemaining = secondCastleChecksRemaining + 1
             end
@@ -1066,7 +1066,7 @@ local function drawLocations()
         gui.drawText(0, (17 * scaling), "Second Castle checks: " .. secondCastleChecksRemaining, 0xFFFFFFFF, 0xFF000000, (16 * scaling))
     elseif mapCheck == 1 then
         locationColor = constants.locationMapColorReachable
-        for i = 24, secondCastleRelics, 1 do
+        for i = 24, secondCastleLocations, 1 do
             if locations[i].status == false then
 
                 secondCastleChecksRemaining = secondCastleChecksRemaining + 1
@@ -1079,7 +1079,7 @@ local function drawLocations()
             end
         end
 
-        for i = 1, firstCastleRelics, 1 do
+        for i = 1, firstCastleLocations, 1 do
             if locations[i].status == false then
                 firstCastleChecksRemaining = firstCastleChecksRemaining + 1
             end
