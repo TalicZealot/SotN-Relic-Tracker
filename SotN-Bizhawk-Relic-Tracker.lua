@@ -355,7 +355,7 @@ local locations = {
         mapTiles = {{address = 0x06BC78, values = {85}}},
         mapX = 130,
         mapY = 92,
-        locks = {{1}, {13, 5}, {13, 8}, {13, 14}, {8, 9}}
+        locks = {{1}, {13, 5}, {13, 8}, {8, 9}}
     }, {
         name = "Soul of Wolf",--4
         status = false,
