@@ -508,6 +508,10 @@ local function clearConsole()
 end
 
 local function setcloakColor()
+    -- Initialize the pseudo random number generator
+    math.randomseed( os.time() )
+    math.random(); math.random(); math.random()
+    --
     local rand1 = math.random(0, 220)
     memory.writebyte(constants.cloakExteriorRaddress, rand1)
     local rand2 = math.random(0, 220)

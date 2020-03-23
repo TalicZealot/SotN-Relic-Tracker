@@ -92,16 +92,7 @@ local commonVariables = {
     gameReset = false,
     alucardRooms = 0,
     allDracRelics = false,
-    hasFlight = false,
-    hasJewelOfOpen = false,
-    hasMist = false,
-    hasLeapstone = false,
-    hasDivekick = false,
-    hasMermanStatue = false,
-    hasGravityBoots = false,
-    hasThrustWeapon = false,
-    hasPowerOfWolf = false,
-    hasTransformation = false
+    hasThrustWeapon = false
 }
 
 local imagesCached = false
@@ -278,7 +269,7 @@ local relics = {
         status = false,
         progression = true,
         address = 0x97981
-    }
+    } --29(thrust), 30(spikebreaker), 31(rings)
 }
 
 local progressionItems = {
@@ -350,22 +341,21 @@ local locations = {
         mapTiles = {{address = 0x06BCCF, values = {85}}},
         mapX = 386,
         mapY = 132,
-        requiresMist = true
+        locks = {{8}}
     }, {
         name = "Fire of Bat",--2
         status = false,
         mapTiles = {{address = 0x06BC32, values = {5, 85, 21, 189}}},
         mapX = 474,
         mapY = 52,
-        requiresFlight = true
+        locks = {{1}, {13, 5}, {13, 8}, {13, 14}, {13, 29}, {8, 9}}
     }, {
         name = "Echo of Bat",--3
         status = false,
         mapTiles = {{address = 0x06BC78, values = {85}}},
         mapX = 130,
         mapY = 92,
-        requiresFlight = true,
-        requiresTransformation = true
+        locks = {{1}, {13, 5}, {13, 8}, {13, 14}, {8, 9}}
     }, {
         name = "Soul of Wolf",--4
         status = false,
@@ -374,28 +364,29 @@ local locations = {
             {address = 0x06BC93, values = {16, 240}}
         },
         mapX = 490,
-        mapY = 108
+        mapY = 108,
+        reachable = true
     }, {
         name = "Power of Wolf",--5
         status = false,
         mapTiles = {{address = 0x06BDE4, values = {1, 5}}},
         mapX = 18,
         mapY = 268,
-        requiresFlight = true
+        locks = {{1}, {13, 5}, {13, 8}, {13, 14}, {13, 29}, {8, 9}}
     }, {
         name = "Skill of Wolf",--6
         status = false,
         mapTiles = {{address = 0x06BD87, values = {85, 213}}},
         mapX = 122,
         mapY = 228,
-        requiresGravityBoots = true
+        locks = {{1}, {13}, {8, 9}}
     }, {
         name = "Form of Mist",--7
         status = false,
         mapTiles = {{address = 0x06BCD9, values = {5, 85}}}, --5 doesnt trigger, but works on reload
         mapX = 170,
         mapY = 140,
-        requiresDivekick = true
+        locks = {{1}, {5}, {8}, {13}, {14}, {29}}
     }, {
         name = "Power of Mist",--8
         status = false,
@@ -405,13 +396,14 @@ local locations = {
         },
         mapX = 250,
         mapY = 36,
-        requiresFlight = true
+        locks = {{1}, {13, 5}, {13, 8}, {13, 14}, {13, 29}, {8, 9}}
     }, {
         name = "Cube of Zoe",--9
         status = false,
         mapTiles = {{address = 0x06BDB8, values = {1, 4, 5, 85, 84, 255}}},
         mapX = 154,
-        mapY = 252
+        mapY = 252,
+        reachable = true
     }, {
         name = "Spirit Orb",--10
         status = false,
@@ -420,14 +412,15 @@ local locations = {
             {address = 0x06BD6A, values = {20, 16}}
         },
         mapX = 202,
-        mapY = 214
+        mapY = 214,
+        reachable = true
     }, {
         name = "Gravity Boots",--11
         status = false,
         mapTiles = {{address = 0x06BCEC, values = {4, 5, 84}}},
         mapX = 274,
         mapY = 148,
-        requiresFlight = true
+        locks = {{1}, {13, 5}, {13, 8}, {13, 14}, {13, 29}, {8, 9}}
     }, {
         name = "Leap Stone",--12
         status = false,
@@ -437,65 +430,63 @@ local locations = {
         },
         mapX = 250,
         mapY = 52,
-        requiresJewelOfOpen = true,
-        requiresDivekickAlternate = true
+        locks = {{17}, {1}, {5}, {8}, {13}, {14}, {29}}
     }, {
         name = "Holy Symbol",--13
         status = false,
         mapTiles = {{address = 0x06BE11, values = {85}}},
         mapX = 442,
         mapY = 292,
-        requiresJewelOfOpen = true,
-        requiresMermanStatue  = true
+        locks = {{17, 18}}
     }, {
         name = "Faerie Scroll",--14
         status = false,
         mapTiles = {{address = 0x06BCA2, values = {21, 85, 191}}},
         mapX = 474,
-        mapY = 108
+        mapY = 108,
+        reachable = true
     }, {
         name = "Jewel of Open",--15
         status = false,
         mapTiles = {{address = 0x06BCC0, values = {21, 85, 127}}},
         mapX = 394,
-        mapY = 124
+        mapY = 124,
+        reachable = true
     }, {
         name = "Merman Statue",--16
         status = false,
         mapTiles = {{address = 0x06BE16, values = {85, 255}}},
         mapX = 66,
         mapY = 300,
-        requiresJewelOfOpen = true
+        locks = {{17}}
     }, {
         name = "Bat Card",--17
         status = false,
         mapTiles = {{address = 0x06BD27, values = {80, 84, 85, 222}}},
         mapX = 106,
         mapY = 180,
-        requiresGravityBoots = true
+        locks = {{1}, {13}, {8, 9}}
     }, {
         name = "Ghost Card",--18
         status = false,
         mapTiles = {{address = 0x06BBED, values = {20, 21, 69, 81, 181, 85, 17}}},
         mapX = 314,
         mapY = 20,
-        requiresFlight = true
+        locks = {{1}, {13, 5}, {13, 8}, {13, 14}, {13, 29}, {8, 9}}
     }, {
         name = "Faerie Card",--19
         status = false,
         mapTiles = {{address = 0x06BCA1, values = {84, 126, 85}}},
         mapX = 418,
         mapY = 108,
-        requiresDivekick = true
+        locks = {{1}, {5}, {8}, {13}, {14}, {29}}
     }, {
         name = "Demon Card",--20
         status = false,
         mapTiles = {{address = 0x06BE3B, values = {21}}},
         mapX = 234,
         mapY = 316,
-        requiresJewelOfOpen = true,
-        requiresLeapstone = true,
-        requiresPowerOfWolfAlternate = true
+        locks = {{17, 1}, {17, 14},  {17, 13, 5},  {17, 13, 8},  {17, 13, 29}, {17, 8, 9}, {17, 5, 6}}
     }, {
         name = "Sword Card",--21
         status = false,
@@ -503,23 +494,21 @@ local locations = {
         mapX = 162,
         mapY = 108,
         requires = 1,
-        requiresFlight = true
+        locks = {{1}, {13, 5}, {13, 8}, {13, 14}, {13, 29}, {8, 9}}
     }, {
         name = "Crystal Cloak",--22
         status = false,
         mapTiles = {{address = 0x06BDDE, values = {85}}},
         mapX = 322,
         mapY = 268,
-        requiresJewelOfOpen = true,
+        locks = {{17}}
     }, {
         name = "Mormegil",--23
         status = false,
         mapTiles = {{address = 0x06BE98, values = {81, 85}}},
         mapX = 138,
         mapY = 364,
-        requiresJewelOfOpen = true,
-        requiresLeapstone = true,
-        requiresPowerOfWolfAlternate = true
+        locks = {{17, 1}, {17, 14},  {17, 13, 5},  {17, 13, 8},  {17, 13, 29}, {17, 8, 9}, {17, 5, 6}}
     }, {
         name = "Heart of Vlad",--24
         status = false,
@@ -528,61 +517,75 @@ local locations = {
             {address = 0x06C29E, values = {85, 64}}
         },
         mapX = 320,
-        mapY = 330
+        mapY = 330,
+        reachable = true
     }, {
         name = "Tooth of Vlad",--25
         status = false,
         mapTiles = {{address = 0x06C1F5, values = {80, 84, 85, 5, 21}}},
         mapX = 48,
-        mapY = 250
+        mapY = 250,
+        reachable = true
     }, {
         name = "Rib of Vlad",--26
         status = false,
         mapTiles = {{address = 0x06C26E, values = {85}}},
         mapX = 352,
-        mapY = 306
+        mapY = 306,
+        reachable = true
     }, {
         name = "Ring of Vlad",--27
         status = false,
         mapTiles = {{address = 0x06C2C9, values = {1, 5, 85}}}, -- 5 doesnt trigger, but works on reload
         mapX = 184,
-        mapY = 354
+        mapY = 354,
+        reachable = true
     }, {
         name = "Eye of Vlad",--28
         status = false,
         mapTiles = {{address = 0x06C0EC, values = {21, 85}}},
         mapX = 264,
-        mapY = 114
+        mapY = 114,
+        reachable = true
     }, {
         name = "Force of Echo",--29
         status = false,
         mapTiles = {{address = 0x06C0D6, values = {85}}},
         mapX = 64,
-        mapY = 106
+        mapY = 106,
+        reachable = true
     }, {
         name = "Gas Cloud",--30
         status = false,
         mapTiles = {{address = 0x06C04F, values = {85}}},
         mapX = 368,
-        mapY = 34
+        mapY = 34,
+        reachable = true
     }, {
         name = "Ring of Arcana",--31
         status = false,
         mapTiles = {{address = 0x06C1C0, values = {5, 21}}},
         mapX = 400,
         mapY = 218,
+        reachable = true
     }, {
         name = "Dark Blade",--32
         status = false,
         mapTiles = {{address = 0x06C109, values = {85}}},
         mapX = 184,
         mapY = 130,
+        reachable = true
     }
+    --{{address = 0x06BC66, values = {21, 85}}}, --silver ring requires spike
 }
 
 gui.clearImageCache()
 
 local function setcloakColor()
+    -- Initialize the pseudo random number generator
+    math.randomseed( os.time() )
+    math.random(); math.random(); math.random()
+    --
     if settings.randomCloakColor then
         local rand1 = math.random(0, 220)
         mainmemory.writebyte(constants.cloakExteriorRaddress, rand1)
@@ -618,20 +621,17 @@ local function resetAllValues()
     for i = 1, 4, 1 do
         progressionItems[i].status = false
     end
+    for i = 1, 23, 1 do
+        if i ~= 4 and i ~= 9 and i ~= 10 and i ~= 14 and i ~= 15 then
+            locations[i].reachable = false
+        end
+    end
     commonVariables.alucardModeStarted = false
     commonVariables.gameInMainMenu = false
     commonVariables.gameReset = false
     commonVariables.alucardRooms = 0
     commonVariables.allDracRelics = false
-    commonVariables.hasFlight = false
-    commonVariables.hasJewelOfOpen = false
-    commonVariables.hasMist = false
-    commonVariables.hasLeapstone = false
-    commonVariables.hasDivekick = false
-    commonVariables.hasMermanStatue = false
-    commonVariables.hasGravityBoots = false
     commonVariables.hasThrustWeapon = false
-    commonVariables.hasPowerOfWolf = false
 end
 
 local function checkAlucardModeStart()
@@ -786,7 +786,13 @@ local function drawRelics()
 
     for i = 24, 28, 1 do
         if relics[i].status then
-            forms.drawImage(guiForm.relicBox, relics[i].path, columns * 46, rows * 46 + 34, 60, 60, true)
+            if commonVariables.allDracRelics then
+                forms.drawImage(guiForm.relicBox, relics[i].path, (columns * 46), (rows * 46) + 34, 60, 60, true)
+            else
+                local prefix = string.sub(relics[i].path, 1, 13)
+                local suffix = string.sub(relics[i].path, 14)
+                forms.drawImage(guiForm.relicBox, prefix .. "Unfinished" .. suffix, (columns * 46), (rows * 46) + 34, 60, 60, true)
+            end
             columns = columns + 1
             if columns > 5 then
                 rows =  rows + 1
@@ -844,58 +850,44 @@ local function detectRelics()
             if mainmemory.readbyte(relics[i].address) ~= 0x00 then
                 relics[i].status = true
                 changes = changes + 1
-                dracRelics = dracRelics + 1
             end
+        elseif commonVariables.allDracRelics == false then
+            dracRelics = dracRelics + 1
         end
     end
 
     if dracRelics == 5 then
         commonVariables.allDracRelics = true
+        changes = changes + 1
     end
 
     if settings.lightweightMode == false and changes > 0 then
-        if commonVariables.hasJewelOfOpen == false and relics[17].status then
-            commonVariables.hasJewelOfOpen = true
-        end
-        if commonVariables.hasMist == false and relics[8].status then
-            commonVariables.hasMist = true
-            commonVariables.hasTransformation = true
-        end
-        if commonVariables.hasLeapstone == false and (relics[14].status or commonVariables.hasFlight) then
-            commonVariables.hasLeapstone = true
-        end
-        if commonVariables.hasDivekick == false and (relics[14].status or relics[13].status or relics[5].status or relics[8].status or commonVariables.hasFlight) then
-            commonVariables.hasDivekick = true
-        end
-        if commonVariables.hasMermanStatue == false and relics[18].status then
-            commonVariables.hasMermanStatue = true
-        end
-        if commonVariables.hasGravityBoots == false and (relics[13].status or commonVariables.hasFlight) then
-            commonVariables.hasGravityBoots = true
-            if commonVariables.hasThrustWeapon then
-                commonVariables.hasFlight = true
-                commonVariables.hasPowerOfWolf = true
-                commonVariables.hasLeapstone = true
-                commonVariables.hasGravityBoots = true
-                commonVariables.hasDivekick = true
+        for i = 1, 32, 1 do
+            if locations[i].reachable ~= true then
+                for j = 1, #locations[i].locks, 1 do
+                    local requirements = 0
+                    for k = 1, #locations[i].locks[j], 1 do
+                        if locations[i].locks[j][k] == 29 then
+                            if  commonVariables.hasThrustWeapon then
+                                requirements = requirements + 1
+                            else
+                                requirements = 0
+                            end
+                            break
+                        end
+                        if relics[locations[i].locks[j][k]].status == false then
+                            requirements = 0
+                            break
+                        elseif relics[locations[i].locks[j][k]].status == true then
+                            requirements = requirements + 1
+                        end
+                    end
+                    if requirements == #locations[i].locks[j] then
+                        locations[i].reachable = true
+                        break
+                    end
+                end
             end
-        end
-        if commonVariables.hasPowerOfWolf == false and ((relics[5].status and relics[6].status) or (relics[5].status and commonVariables.hasThrustWeapon)) then
-            commonVariables.hasPowerOfWolf = true
-        end
-        if commonVariables.hasTransformation == false and relics[5].status or relics[1].status then
-            commonVariables.hasTransformation = true
-        end
-        if commonVariables.hasFlight == false and (relics[1].status or
-        (relics[8].status and relics[9].status) or
-        (relics[13].status and relics[14].status) or
-        (relics[13].status and relics[8].status) or
-        (relics[13].status and relics[5].status)) then
-            commonVariables.hasFlight = true
-            commonVariables.hasPowerOfWolf = true
-            commonVariables.hasLeapstone = true
-            commonVariables.hasGravityBoots = true
-            commonVariables.hasDivekick = true
         end
         drawRelics()
     end
@@ -930,7 +922,7 @@ local function detectItems()
         end
     end
 
-    if commonVariables.hasThrustWeapon == false and commonVariables.hasFlight == false and commonVariables.hasLeapstone == false then
+    if commonVariables.hasThrustWeapon == false then
         for i = 1, 5, 1 do
             if divekickStateItems[i].status == false then
                 if mainmemory.readbyte(divekickStateItems[i].address) ~= 0x00 or mainmemory.readbyte(constants.rightHandSlotAddress) == divekickStateItems[i].equippedValue then
@@ -1013,50 +1005,9 @@ local function drawLocations()
     if mapCheck == 1 and mainmemory.read_u8(constants.secondCastleAddress) == 0 then
         for i = 1, firstCastleLocations, 1 do
             locationColor = constants.locationMapColorReachable
-            locationUnreachable = false
             if locations[i].status == false then
 
-                if locations[i].requiresFlight ~= nil and commonVariables.hasFlight == false then
-                    locationUnreachable = true
-                end
-
-                if locationUnreachable == false and locations[i].requiresTransformation ~= nil and commonVariables.hasTransformation == false then
-                    locationUnreachable = true
-                end
-
-                if locationUnreachable == false and locations[i].requiresJewelOfOpen ~= nil and commonVariables.hasJewelOfOpen == false then
-                    locationUnreachable = true
-                end
-
-                if locationUnreachable == false and locations[i].requiresMist ~= nil and commonVariables.hasMist == false then
-                    locationUnreachable = true
-                end
-
-                if locationUnreachable == false and locations[i].requiresLeapstone ~= nil and commonVariables.hasLeapstone == false then
-                    locationUnreachable = true
-                end
-
-                if locationUnreachable == false and locations[i].requiresDivekick ~= nil and commonVariables.hasDivekick == false then
-                    locationUnreachable = true
-                end
-
-                if locationUnreachable == false and locations[i].requiresMermanStatue ~= nil and commonVariables.hasMermanStatue == false then
-                    locationUnreachable = true
-                end
-
-                if locationUnreachable == false and locations[i].requiresGravityBoots ~= nil and commonVariables.hasGravityBoots == false then
-                    locationUnreachable = true
-                end
-
-                if locationUnreachable == false and locations[i].requiresDivekickAlternate ~= nil and commonVariables.hasDivekick == true and locationUnreachable == true then
-                    locationUnreachable = false
-                end
-
-                if locationUnreachable == false and locations[i].requiresPowerOfWolfAlternate ~= nil and commonVariables.hasPowerOfWolf == true and locationUnreachable == true then
-                    locationUnreachable = false
-                end
-
-                if locationUnreachable then
+                if locations[i].reachable ~= true then
                     locationColor = constants.locationMapColor
                 end
 

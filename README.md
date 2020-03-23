@@ -1,6 +1,6 @@
 # SotN Relic and Location check Autotracker
 Autotracker LUA script for the Castlevania:SotN Randomizer https://sotn.io/
-## Version 1.5.4
+## Version 1.6.0
 
 ## Bizhawk Instructions: 
 * Download repository from *Clone or download* > *Download ZIP*
@@ -34,6 +34,11 @@ Autotracker LUA script for the Castlevania:SotN Randomizer https://sotn.io/
 
 <details><summary>changelog</summary>
 
+#### 1.6.0
+* Complete vlad relic set indication.
+* Better cloak randomization.
+* Redone location availability in preparation for new logic.
+* Psxjin update bat file.
 #### 1.5.4
 * Location availability fix.
 #### 1.5.3
