@@ -148,7 +148,6 @@ local relics = {
         status = false,
         progression = true,
         address = 0x9796B,
-        requires = 4
     }, {--9
         name = "Power of Msit",
         path = "images/large/PowerOfMist.png",
@@ -269,7 +268,7 @@ local relics = {
         status = false,
         progression = true,
         address = 0x97981
-    } --29(thrust), 30(spikebreaker), 31(rings)
+    }
 }
 
 local progressionItems = {
@@ -383,7 +382,7 @@ local locations = {
     }, {
         name = "Form of Mist",--7
         status = false,
-        mapTiles = {{address = 0x06BCD9, values = {5, 85}}}, --5 doesnt trigger, but works on reload
+        mapTiles = {{address = 0x06BCD9, values = {5, 85}}},
         mapX = 170,
         mapY = 140,
         locks = {{1}, {5}, {8}, {13}, {14}, {29}}
@@ -417,7 +416,7 @@ local locations = {
     }, {
         name = "Gravity Boots",--11
         status = false,
-        mapTiles = {{address = 0x06BCEC, values = {4, 5, 84}}},
+        mapTiles = {{address = 0x06BCEC, values = {4, 5, 84}}},--note
         mapX = 274,
         mapY = 148,
         locks = {{1}, {13, 5}, {13, 8}, {13, 14}, {13, 29}, {8, 9}}
@@ -493,7 +492,6 @@ local locations = {
         mapTiles = {{address = 0x06BC99, values = {64}}},
         mapX = 162,
         mapY = 108,
-        requires = 1,
         locks = {{1}, {13, 5}, {13, 8}, {13, 14}, {13, 29}, {8, 9}}
     }, {
         name = "Crystal Cloak",--22
@@ -510,7 +508,38 @@ local locations = {
         mapY = 364,
         locks = {{17, 1}, {17, 14},  {17, 13, 5},  {17, 13, 8},  {17, 13, 29}, {17, 8, 9}, {17, 5, 6}}
     }, {
-        name = "Heart of Vlad",--24
+        name = "Gold Ring",--24
+        status = false,
+        mapTiles = {{address = 0x06BD8F, values = {80}}},
+        mapX = 362,
+        mapY = 228,
+        locks = {{17, 1}, {17, 14},  {17, 13, 5},  {17, 13, 8},  {17, 13, 29}, {17, 8, 9}, {17, 5, 6}, {17, 4, 7}, {17, 7, 8}, {17, 4, 12}}
+    },
+    {
+        name = "Spikebreaker",--25
+        status = false,
+        mapTiles = {{address = 0x06BEAE, values = {21}}},
+        mapX = 330,
+        mapY = 372,
+        locks = {{17, 1}, {17, 7, 8}}
+    },
+    {
+        name = "Silver Ring",--26
+        status = false,
+        mapTiles = {{address = 0x06BC66, values = {21, 85}}},
+        mapX = 68,
+        mapY = 84,
+        locks = {{30, 8}}
+    },
+    {
+        name = "Holy Glasses",--27
+        status = false,
+        mapTiles = {{address = 0x06BD6C, values = {64, 80}}},
+        mapX = 258,
+        mapY = 212,
+        locks = {{31}}
+    }, {
+        name = "Heart of Vlad",--28
         status = false,
         mapTiles = {
             {address = 0x06C29D, values = {85}},
@@ -520,63 +549,62 @@ local locations = {
         mapY = 330,
         reachable = true
     }, {
-        name = "Tooth of Vlad",--25
+        name = "Tooth of Vlad",--29
         status = false,
         mapTiles = {{address = 0x06C1F5, values = {80, 84, 85, 5, 21}}},
         mapX = 48,
         mapY = 250,
         reachable = true
     }, {
-        name = "Rib of Vlad",--26
+        name = "Rib of Vlad",--30
         status = false,
         mapTiles = {{address = 0x06C26E, values = {85}}},
         mapX = 352,
         mapY = 306,
         reachable = true
     }, {
-        name = "Ring of Vlad",--27
+        name = "Ring of Vlad",--31
         status = false,
         mapTiles = {{address = 0x06C2C9, values = {1, 5, 85}}}, -- 5 doesnt trigger, but works on reload
         mapX = 184,
         mapY = 354,
         reachable = true
     }, {
-        name = "Eye of Vlad",--28
+        name = "Eye of Vlad",--32
         status = false,
         mapTiles = {{address = 0x06C0EC, values = {21, 85}}},
         mapX = 264,
         mapY = 114,
         reachable = true
     }, {
-        name = "Force of Echo",--29
+        name = "Force of Echo",--33
         status = false,
         mapTiles = {{address = 0x06C0D6, values = {85}}},
         mapX = 64,
         mapY = 106,
         reachable = true
     }, {
-        name = "Gas Cloud",--30
+        name = "Gas Cloud",--34
         status = false,
         mapTiles = {{address = 0x06C04F, values = {85}}},
         mapX = 368,
         mapY = 34,
         reachable = true
     }, {
-        name = "Ring of Arcana",--31
+        name = "Ring of Arcana",--35
         status = false,
         mapTiles = {{address = 0x06C1C0, values = {5, 21}}},
         mapX = 400,
         mapY = 218,
         reachable = true
     }, {
-        name = "Dark Blade",--32
+        name = "Dark Blade",--36
         status = false,
         mapTiles = {{address = 0x06C109, values = {85}}},
         mapX = 184,
         mapY = 130,
         reachable = true
     }
-    --{{address = 0x06BC66, values = {21, 85}}}, --silver ring requires spike
 }
 
 gui.clearImageCache()
@@ -615,13 +643,13 @@ local function contains(table, val)
 end
 
 local function resetAllValues()
-    for i = 1, 28, 1 do
+    for i = 1, #relics, 1 do
         relics[i].status = false
     end
-    for i = 1, 4, 1 do
+    for i = 1, #progressionItems, 1 do
         progressionItems[i].status = false
     end
-    for i = 1, 23, 1 do
+    for i = 1, #locations, 1 do
         if i ~= 4 and i ~= 9 and i ~= 10 and i ~= 14 and i ~= 15 then
             locations[i].reachable = false
         end
@@ -720,11 +748,25 @@ local function cacheImages()
 
     for i = 24, 28, 1 do
         forms.drawImage(guiForm.relicBox, relics[i].path, columns * 46, rows * 46 + 34, 60, 60, true)
-            columns = columns + 1
-            if columns > 5 then
-                rows =  rows + 1
-                columns = 0
-            end
+        columns = columns + 1
+        if columns > 5 then
+            rows =  rows + 1
+            columns = 0
+        end
+    end
+
+    rows =  rows + 1
+    columns = 0
+
+    for i = 24, 28, 1 do
+        local prefix = string.sub(relics[i].path, 1, 13)
+        local suffix = string.sub(relics[i].path, 14)
+        forms.drawImage(guiForm.relicBox, prefix .. "Unfinished" .. suffix, (columns * 46), (rows * 46) + 34, 60, 60, true)
+        columns = columns + 1
+        if columns > 5 then
+            rows =  rows + 1
+            columns = 0
+        end
     end
 
     rows =  rows + 1
@@ -862,20 +904,34 @@ local function detectRelics()
     end
 
     if settings.lightweightMode == false and changes > 0 then
-        for i = 1, 32, 1 do
+        drawRelics()
+        for i = 1, #locations, 1 do
             if locations[i].reachable ~= true then
                 for j = 1, #locations[i].locks, 1 do
                     local requirements = 0
                     for k = 1, #locations[i].locks[j], 1 do
                         if locations[i].locks[j][k] == 29 then
-                            if  commonVariables.hasThrustWeapon then
+                            if commonVariables.hasThrustWeapon then
                                 requirements = requirements + 1
                             else
                                 requirements = 0
+                                break
                             end
-                            break
-                        end
-                        if relics[locations[i].locks[j][k]].status == false then
+                        elseif locations[i].locks[j][k] == 30 then
+                            if progressionItems[3].status then
+                                requirements = requirements + 1
+                            else
+                                requirements = 0
+                                break
+                            end
+                        elseif locations[i].locks[j][k] == 31 then
+                            if progressionItems[1].status and progressionItems[2].status then
+                                requirements = requirements + 1
+                            else
+                                requirements = 0
+                                break
+                            end
+                        elseif relics[locations[i].locks[j][k]].status == false then
                             requirements = 0
                             break
                         elseif relics[locations[i].locks[j][k]].status == true then
@@ -889,7 +945,6 @@ local function detectRelics()
                 end
             end
         end
-        drawRelics()
     end
 
     if settings.lightweightMode == true and changes > 0 then
@@ -940,11 +995,53 @@ local function detectItems()
 
     if settings.lightweightMode == false and changes > 0 then
         drawRelics()
+        for i = 1, #locations, 1 do
+            if locations[i].reachable ~= true then
+                for j = 1, #locations[i].locks, 1 do
+                    local requirements = 0
+                    for k = 1, #locations[i].locks[j], 1 do
+                        if locations[i].locks[j][k] == 29 then
+                            if commonVariables.hasThrustWeapon then
+                                requirements = requirements + 1
+                            else
+                                requirements = 0
+                                break
+                            end
+                        elseif locations[i].locks[j][k] == 30 then
+                            if progressionItems[3].status then
+                                requirements = requirements + 1
+                            else
+                                requirements = 0
+                                break
+                            end
+                        elseif locations[i].locks[j][k] == 31 then
+                            if progressionItems[1].status and progressionItems[2].status then
+                                requirements = requirements + 1
+                            else
+                                requirements = 0
+                                break
+                            end
+                        elseif relics[locations[i].locks[j][k]].status == false then
+                            requirements = 0
+                            break
+                        elseif relics[locations[i].locks[j][k]].status == true then
+                            requirements = requirements + 1
+                        end
+                    end
+                    if requirements == #locations[i].locks[j] then
+                        locations[i].reachable = true
+                        break
+                    end
+                end
+            end
+        end
     end
 
     if settings.lightweightMode == true and changes > 0 then
         outputItems()
     end
+
+    return changes
 end
 
 local function detectLocations()
@@ -982,13 +1079,13 @@ local function drawLocations()
     local adjustedOffsetX = tonumber(settings.drawingOffsetX)
     local adjustedOffsetY = tonumber(settings.drawingOffsetY)
     local firstCastleLocations = 21
-    local secondCastleLocations = 30
+    local secondCastleLocations = 34
     local firstCastleChecksRemaining = 0
     local secondCastleChecksRemaining = 0
 
     if settings.extendedLocations == true then
-        firstCastleLocations = 23
-        secondCastleLocations = 32
+        firstCastleLocations = 27
+        secondCastleLocations = 36
     end
 
     if settings.pixelProMode == false then
@@ -1134,12 +1231,12 @@ while true do
             drawLocations()
         end
         if emu.framecount() % 120 == 0 then
-             detectRelics()
-             detectItems()
-        end
-        if mainmemory.read_u16_le(constants.alucardRoomsCountAddress) > commonVariables.alucardRooms then
-            commonVariables.alucardRooms= mainmemory.read_u16_le(constants.alucardRoomsCountAddress)
-            detectLocations()
+            if mainmemory.read_u16_le(constants.alucardRoomsCountAddress) > commonVariables.alucardRooms then
+                commonVariables.alucardRooms = mainmemory.read_u16_le(constants.alucardRoomsCountAddress)
+                detectLocations()
+            end
+            detectItems()
+            detectRelics()
         end
         if settings.debugMode then outputDebugInfo() end
     else

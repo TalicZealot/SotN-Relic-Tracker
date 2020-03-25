@@ -1,6 +1,6 @@
 # SotN Relic and Location check Autotracker
 Autotracker LUA script for the Castlevania:SotN Randomizer https://sotn.io/
-## Version 1.6.0
+## Version 1.6.1
 
 ## Bizhawk Instructions: 
 * Download repository from *Clone or download* > *Download ZIP*
@@ -34,6 +34,10 @@ Autotracker LUA script for the Castlevania:SotN Randomizer https://sotn.io/
 
 <details><summary>changelog</summary>
 
+#### 1.6.1
+* Performance improvements.
+* Added Silver Ring, Gold Ring, Spike Breaker and Holy Glasses as locations.
+* PSXJin now has location availability indication and progression item tracking.
 #### 1.6.0
 * Complete vlad relic set indication.
 * Better cloak randomization.
