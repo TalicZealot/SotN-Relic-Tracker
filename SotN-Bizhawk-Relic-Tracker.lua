@@ -649,7 +649,7 @@ local function resetAllValues()
     for i = 1, #progressionItems, 1 do
         progressionItems[i].status = false
     end
-    for i = 1, #locations, 1 do
+    for i = 1, 27, 1 do
         if i ~= 4 and i ~= 9 and i ~= 10 and i ~= 14 and i ~= 15 then
             locations[i].reachable = false
         end
@@ -1176,8 +1176,9 @@ while true do
         return
     end
 
-    updateSettings(settings, guiForm.cloakColorCheckbox, guiForm.onlyTrackProgressionRelicsCheckbox, guiForm.pixelProModeCheckbox, guiForm.extendedLocationsCheckbox)
-
+    if emu.framecount() % 120 == 0 then
+        updateSettings(settings, guiForm.cloakColorCheckbox, guiForm.onlyTrackProgressionRelicsCheckbox, guiForm.pixelProModeCheckbox, guiForm.extendedLocationsCheckbox)
+    end
 
     if imagesCached == false then
         cacheImages()
