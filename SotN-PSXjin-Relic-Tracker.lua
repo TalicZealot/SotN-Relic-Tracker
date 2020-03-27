@@ -792,17 +792,17 @@ local function drawRelics()
             end
         end
     end
-    for i = 1, #divekickStateItems, 1 do
-        if divekickStateItems[i].status then
-            gui.gdoverlay(13 * (relicsPerRow - 1) + (rows * 130), rows * 20,
-            divekickStateItems[1].image, 1.0)
-            relicsPerRow = relicsPerRow + 1
-            if relicsPerRow > 19 then
-                relicsPerRow = 1
-                rows = 1
-            end
+
+    if commonVariables.hasThrustWeapon then
+        gui.gdoverlay(13 * (relicsPerRow - 1) + (rows * 130), rows * 20,
+        divekickStateItems[1].image, 1.0)
+        relicsPerRow = relicsPerRow + 1
+        if relicsPerRow > 19 then
+            relicsPerRow = 1
+            rows = 1
         end
     end
+
     for i = 1, #progressionItems, 1 do
         if progressionItems[i].status then
             gui.gdoverlay(13 * (relicsPerRow - 1) + (rows * 130), rows * 20,
@@ -860,7 +860,6 @@ local function detectItems()
             if divekickStateItems[i].status == false then
                 if memory.readbyte(divekickStateItems[i].address) ~= 0x00 or memory.readbyte(constants.rightHandSlotAddress) == divekickStateItems[i].equippedValue then
                     divekickStateItems[i].status = true
-                    commonVariables.hasDivekick = true
                     commonVariables.hasThrustWeapon = true
                     changes = changes + 1
                     if commonVariables.hasGravityBoots then
