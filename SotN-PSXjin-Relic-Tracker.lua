@@ -972,7 +972,7 @@ local function drawLocations()
             end
         end
 
-        for i = firstCastleLocations, secondCastleLocations, 1 do
+        for i = firstCastleLocations + 1, secondCastleLocations, 1 do
             if locations[i].status == false then
                 secondCastleChecksRemaining = secondCastleChecksRemaining + 1
             end
@@ -982,7 +982,7 @@ local function drawLocations()
         gui.text(settings.drawingOffsetX, settings.drawingOffsetY + 12, "Second Castle checks: "..secondCastleChecksRemaining)
     elseif mapCheck == 1 then
         locationColor = constants.locationMapColorReachable
-        for i = firstCastleLocations, secondCastleLocations, 1 do
+        for i = firstCastleLocations + 1, secondCastleLocations, 1 do
             if locations[i].status == false then
                 secondCastleChecksRemaining = secondCastleChecksRemaining + 1
 
