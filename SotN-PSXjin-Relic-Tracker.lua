@@ -393,7 +393,7 @@ local locations = {
     }, {
         name = "Gravity Boots",--11
         status = false,
-        mapTiles = {{address = 0x06BCEC, values = {4, 5, 84}}},--note
+        mapTiles = {{address = 0x06BCEC, values = {4, 5, 84}}},
         mapX = 274,
         mapY = 148,
         locks = {{1}, {13, 5}, {13, 8}, {13, 14}, {13, 29}, {8, 9}}
@@ -402,7 +402,7 @@ local locations = {
         status = false,
         mapTiles = {
             {address = 0x06BC3B, values = {1, 85, 131}},
-            {address = 0x06BC2B, values = {1, 171}} ---doesnt trigger, but works on reload
+            {address = 0x06BC2B, values = {1, 171}}
         },
         mapX = 250,
         mapY = 52,
@@ -506,7 +506,7 @@ local locations = {
         mapTiles = {{address = 0x06BC66, values = {21, 85}}},
         mapX = 68,
         mapY = 84,
-        locks = {{30, 8}}
+        locks = {{17, 30, 8}}
     },
     {
         name = "Holy Glasses",--27
@@ -542,7 +542,7 @@ local locations = {
     }, {
         name = "Ring of Vlad",--31
         status = false,
-        mapTiles = {{address = 0x06C2C9, values = {1, 5, 85}}}, -- 5 doesnt trigger, but works on reload
+        mapTiles = {{address = 0x06C2C9, values = {1, 5, 85}}},
         mapX = 184,
         mapY = 354,
         reachable = true

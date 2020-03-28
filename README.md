@@ -5,9 +5,10 @@ Autotracker LUA script for the Castlevania:SotN Randomizer https://sotn.io/
 ## Bizhawk Instructions: 
 * Download repository from *Clone or download* > *Download ZIP*
 * Set Config > Customize > Advanced > Lua Core > Lua+LuaInterface > Restart
-* Launch the script after running the game through Tools > Lua Console > Script > Open Script
+* Launch the script through Tools > Lua Console > Script > Open Script
 * Tools > Lua Console > Settings > Autoload
 * Tools > Lua Console > File > Recent Scripts > Autoload
+* Update by running update.bat
 
 ## Bizhawk Optimal Settings:
 * Config > Display > Scaling Filter: None
@@ -22,6 +23,7 @@ Autotracker LUA script for the Castlevania:SotN Randomizer https://sotn.io/
 * Install https://github.com/rjpcomputing/luaforwindows/releases
 * If needed copy GD.dll from the installation folder to the script folder
 * Launch the script after running the game through File > Lua Scripting > New Lua Script Window (Ctrl + L) > Browse
+* Update by running updateJin.bat
 
 ## PSXjin Setup:
 * Configuration > Graphics > Color Depth > 32
