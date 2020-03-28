@@ -495,10 +495,10 @@ local locations = {
     {
         name = "Spikebreaker",--25
         status = false,
-        mapTiles = {{address = 0x06BEAE, values = {21}}},
+        mapTiles = {{address = 0x06BEAE, values = {21, 85}}},
         mapX = 330,
         mapY = 372,
-        locks = {{17, 1}, {17, 7, 8}}
+        locks = {{17, 1}, {17, 8, 9}}
     },
     {
         name = "Silver Ring",--26
