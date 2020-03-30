@@ -593,7 +593,7 @@ local locations = {
     }, {
         name = "Ring of Arcana",--35
         status = false,
-        mapTiles = {{address = 0x06C1C0, values = {5, 21}}},
+        mapTiles = {{address = 0x06C1C0, values = {5, 21, 85}}},
         mapX = 400,
         mapY = 218,
         reachable = true
@@ -1047,7 +1047,8 @@ end
 local function detectLocations()
     local changes = 0
     local debugLocations = "\n\n".. commonVariables.alucardRooms
-    for i = 1, 32, 1 do
+
+    for i = 1, #locations, 1 do
         if locations[i].status == false then
             for j = 1, #locations[i].mapTiles do
                 if settings.debugMode then
