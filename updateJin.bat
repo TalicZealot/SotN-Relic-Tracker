@@ -1,1 +1,0 @@
-bitsadmin.exe /transfer "Update" https://raw.githubusercontent.com/TalicZealot/SotN-Relic-Tracker/master/SotN-PSXjin-Relic-Tracker.lua.lua "%cd%\SotN-PSXjin-Relic-Tracker.lua.lua"

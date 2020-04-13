@@ -4,100 +4,44 @@
 -- By TalicZealot
 -----------------
 require "Utilities/Serialization"
-require "Utilities/UserInterface"
+require "UserInterface"
+local constants = require "constants"
 
 local settings = {
-    lightweightMode = false,
-    randomCloakColor = true,
-    customCloakColor = false,
-    onlyTrackProgressionRelics = true,
-    pixelProMode = true,
-    extendedLocations = true,
-    debugMode = false,
-    drawingOffsetX = 147,
-    drawingOffsetY = 38,
-    cloakExteriorR = 0,
-    cloakExteriorG = 0,
-    cloakExteriorB = 0,
-    cloakLiningR = 0,
-    cloakLiningG = 0,
-    cloakLiningB = 0
+    trackAllRelics = false
 }
 deserializeToObject(settings, "config.ini")
 
 ---UI---
 local guiForm = {
+    version = "1.7.0",
     mainForm = nil,
-    cloakColorCheckbox = nil,
-    onlyTrackProgressionRelicsCheckbox = nil,
-    pixelProModeCheckbox = nil,
-    extendedLocationsCheckbox = nil,
-    relicBox = nil
+    allRelics = nil,
+    relicBox = nil,
+    toggle = nil,
+    toggleOnPath = "images/toggleOn.png",
+    toggleOffPath = "images/toggleOff.png",
+    toggleWidth = 20,
+    toggleHeight = 11
 }
 initForm(settings, guiForm)
 forms.drawBox(guiForm.relicBox, 0, 0, 320, 374, 0xFF110011, 0xFF110011)
 --------
 
-local constants = {
-    alucardCurrentXpAddress = 0x097BEC,
-    gameStatus = 0x03C734,
-    mapOpenAddress = 0x0974A4,
-    alucardRoomsCountAddress = 0x03C760,
-    secondCastleAddress = 0x1E5458,
-    rightHandSlotAddress = 0x097C00,
-    headSlotAddress = 0x097C08,
-    armorSlotAddress = 0x097C0C,
-    accessorySlot1Address = 0x097C14,
-    accessorySlot2Address = 0x097C18,
-    locationMapColorReachable = 0xFF6FD400,
-    locationMapColor = 0xFF696969,
-    mapBorderColor = 0xFFC0C0C0,
-    cloakExteriorRaddress = 0x03CAA8,
-    cloakExteriorGaddress = 0x03CAAC,
-    cloakExteriorBaddress = 0x03CAB0,
-    cloakLiningRaddress = 0x03CAB4,
-    cloakLiningGaddress = 0x03CAB8,
-    cloakLiningBaddress = 0x03CABC,
-    settingsSubmenuOpenAddress = 0x03D04E,
-    seedNameStartAddress = 0x1A7840,
-    thrustWeaponImagePath = "images/large/ObsidianSword.png"
-}
-
-local characterMap = {
-    [0x43] = ',',
-    [0x44] = '.',
-    [0x46] = ':',
-    [0x47] = ';',
-    [0x48] = '?',
-    [0x49] = '!',
-    [0x4d] = '`',
-    [0x4e] = '"',
-    [0x4f] = '^',
-    [0x51] = '_',
-    [0x60] = '~',
-    [0x66] = '\'',
-    [0x69] = '(',
-    [0x6a] = ')',
-    [0x6d] = '[',
-    [0x6e] = ']',
-    [0x6f] = '{',
-    [0x70] = '}',
-    [0x7b] = '+',
-    [0x7c] = '-'
-}
-
-local commonVariables = {
+local common = {
+    drawingOffsetX = 147,
+    drawingOffsetY = 38,
+    displayMode = tostring(client.getconfig().CoreSettings['BizHawk.Emulation.Cores.Sony.PSX.Octoshock'].ResolutionMode),
     alucardModeStarted = false,
     gameInMainMenu = false,
     gameReset = false,
     alucardRooms = 0,
     allDracRelics = false,
-    hasThrustWeapon = false
+    hasThrustWeapon = false,
+    imagesCached = false,
+    seedName = "",
+    preset = ""
 }
-
-local imagesCached = false
-
-local seedName = ""
 
 local relics = {
     {   --1
@@ -134,7 +78,7 @@ local relics = {
         name = "Power of Wolf",
         path = "images/large/PowerOfWolf.png",
         status = false,
-        progression = true,
+        progression = false,
         address = 0x97969
     }, {--7
         name = "Skill of Wolf",
@@ -239,36 +183,53 @@ local relics = {
         progression = false,
         address = 0x9797A
     }, {--24
+        name = "Sprite",
+        path = "images/large/SwordCard.png",
+        status = false,
+        progression = false,
+        address = 0x9797B
+    }, {--25
+        name = "Nose Devil",
+        path = "images/large/DemonCard.png",
+        status = false,
+        progression = false,
+        address = 0x9797C
+    }, {--26
         name = "Heart of Vlad",
         path = "images/large/HeartOfVlad.png",
         status = false,
         progression = true,
         address = 0x9797D
-    }, {--25
+    }, {--27
         name = "Tooth of Vlad",
         path = "images/large/ToothOfVlad.png",
         status = false,
         progression = true,
         address = 0x9797E
-    }, {--26
+    }, {--28
         name = "Rib of Vlad",
         path = "images/large/RibOfVlad.png",
         status = false,
         progression = true,
         address = 0x9797F
-    }, {--27
+    }, {--29
         name = "Ring of Vlad",
         path = "images/large/RingOfVlad.png",
         status = false,
         progression = true,
         address = 0x97980
-    }, {--28
+    }, {--30
         name = "Eye of Vlad",
         path = "images/large/EyeOfVlad.png",
         status = false,
         progression = true,
         address = 0x97981
     }
+    --31 Gold Ring
+    --32 Silver Ring
+    --33 Spike Breaker
+    --34 Holy Glasses
+    --35 Thrust Sword
 }
 
 local progressionItems = {
@@ -302,31 +263,27 @@ local progressionItems = {
 local divekickStateItems = {
     {
         name = "Estoc",
-        path = "images/large/GoldRing.png",
+        path = "images/large/Claymore.png",
         status = false,
         address = 0x0979E9,
         equippedValue = 95
     }, {
         name = "Claymore",
-        path = "images/large/SilverRing.png",
         status = false,
         address = 0x0979EC,
         equippedValue = 98
     }, {
         name = "Flamberge",
-        path = "images/large/SpikeBreaker.png",
         status = false,
         address = 0x0979EF,
         equippedValue = 101
     }, {
         name = "Zweihander",
-        path = "images/large/HolyGlasses.png",
         status = false,
         address = 0x0979F1,
         equippedValue = 103
     }, {
         name = "Obsidian Sword",
-        path = "images/large/HolyGlasses.png",
         status = false,
         address = 0x0979F5,
         equippedValue = 107
@@ -340,21 +297,24 @@ local locations = {
         mapTiles = {{address = 0x06BCCF, values = {85}}},
         mapX = 386,
         mapY = 132,
-        locks = {{8}}
+        locks = {{"FORM_OF_MIST", "LEAP_STONE"}, {"FORM_OF_MIST", "GRAVITY_BOOTS"}, {"FORM_OF_MIST", "SOUL_OF_BAT"}, {"FORM_OF_MIST", "POWER_OF_MIST"}},
+        allowed = {{"FORM_OF_MIST"}}
     }, {
         name = "Fire of Bat",--2
         status = false,
         mapTiles = {{address = 0x06BC32, values = {5, 85, 21, 189}}},
         mapX = 474,
         mapY = 52,
-        locks = {{1}, {13, 5}, {13, 8}, {13, 14}, {13, 29}, {8, 9}}
+        locks = {{"SOUL_OF_BAT"}, {"GRAVITY_BOOTS", "LEAP_STONE"}, {"FORM_OF_MIST", "POWER_OF_MIST"}},
+        allowed = {{"GRAVITY_BOOTS", "THRUST_SWORD"}, {"GRAVITY_BOOTS", "SOUL_OF_WOLF"}, {"GRAVITY_BOOTS", "FORM_OF_MIST"}}
     }, {
         name = "Echo of Bat",--3
         status = false,
         mapTiles = {{address = 0x06BC78, values = {85}}},
         mapX = 130,
         mapY = 92,
-        locks = {{1}, {13, 5}, {13, 8}, {8, 9}}
+        locks = {{"SOUL_OF_BAT"}, {"LEAP_STONE", "GRAVITY_BOOTS", "SOUL_OF_WOLF"}, {"LEAP_STONE", "GRAVITY_BOOTS", "FORM_OF_MIST"}, {"FORM_OF_MIST", "POWER_OF_MIST"}},
+        allowed = {{"GRAVITY_BOOTS", "THRUST_SWORD"}, {"GRAVITY_BOOTS", "SOUL_OF_WOLF"}, {"GRAVITY_BOOTS", "FORM_OF_MIST"}}
     }, {
         name = "Soul of Wolf",--4
         status = false,
@@ -364,6 +324,7 @@ local locations = {
         },
         mapX = 490,
         mapY = 108,
+        locks = {},
         reachable = true
     }, {
         name = "Power of Wolf",--5
@@ -371,21 +332,23 @@ local locations = {
         mapTiles = {{address = 0x06BDE4, values = {1, 5}}},
         mapX = 18,
         mapY = 268,
-        locks = {{1}, {13, 5}, {13, 8}, {13, 14}, {13, 29}, {8, 9}}
+        locks = {{"SOUL_OF_BAT"}, {"GRAVITY_BOOTS", "LEAP_STONE"}, {"FORM_OF_MIST", "POWER_OF_MIST"}},
+        allowed = {{"GRAVITY_BOOTS", "THRUST_SWORD"}, {"GRAVITY_BOOTS", "SOUL_OF_WOLF"}, {"GRAVITY_BOOTS", "FORM_OF_MIST"}}
     }, {
         name = "Skill of Wolf",--6
         status = false,
         mapTiles = {{address = 0x06BD87, values = {85, 213}}},
         mapX = 122,
         mapY = 228,
-        locks = {{1}, {13}, {8, 9}}
+        locks = {{"SOUL_OF_BAT"}, {"GRAVITY_BOOTS"}, {"FORM_OF_MIST", "POWER_OF_MIST"}}
     }, {
         name = "Form of Mist",--7
         status = false,
         mapTiles = {{address = 0x06BCD9, values = {5, 85}}},
         mapX = 170,
         mapY = 140,
-        locks = {{1}, {5}, {8}, {13}, {14}, {29}}
+        locks = {{"SOUL_OF_BAT"}, {"SOUL_OF_WOLF"}, {"FORM_OF_MIST", "POWER_OF_MIST"}, {"GRAVITY_BOOTS"}, {"LEAP_STONE"}},
+        allowed = {{"THRUST_SWORD"}, {"FORM_OF_MIST"}}
     }, {
         name = "Power of Mist",--8
         status = false,
@@ -395,13 +358,15 @@ local locations = {
         },
         mapX = 250,
         mapY = 36,
-        locks = {{1}, {13, 5}, {13, 8}, {13, 14}, {13, 29}, {8, 9}}
+        locks = {{"SOUL_OF_BAT"}, {"GRAVITY_BOOTS", "LEAP_STONE"}, {"FORM_OF_MIST", "POWER_OF_MIST"}},
+        allowed = {{"GRAVITY_BOOTS", "THRUST_SWORD"}, {"GRAVITY_BOOTS", "SOUL_OF_WOLF"}, {"GRAVITY_BOOTS", "FORM_OF_MIST"}}
     }, {
         name = "Cube of Zoe",--9
         status = false,
         mapTiles = {{address = 0x06BDB8, values = {1, 4, 5, 85, 84, 255}}},
         mapX = 154,
         mapY = 252,
+        locks = {},
         reachable = true
     }, {
         name = "Spirit Orb",--10
@@ -412,6 +377,7 @@ local locations = {
         },
         mapX = 202,
         mapY = 214,
+        locks = {},
         reachable = true
     }, {
         name = "Gravity Boots",--11
@@ -419,7 +385,8 @@ local locations = {
         mapTiles = {{address = 0x06BCEC, values = {4, 5, 84}}},
         mapX = 274,
         mapY = 148,
-        locks = {{1}, {13, 5}, {13, 8}, {13, 14}, {13, 29}, {8, 9}}
+        locks = {{"SOUL_OF_BAT"}, {"GRAVITY_BOOTS", "LEAP_STONE"}, {"FORM_OF_MIST", "POWER_OF_MIST"}},
+        allowed = {{"GRAVITY_BOOTS", "THRUST_SWORD"}, {"GRAVITY_BOOTS", "SOUL_OF_WOLF"}, {"GRAVITY_BOOTS", "FORM_OF_MIST"}}
     }, {
         name = "Leap Stone",--12
         status = false,
@@ -429,20 +396,22 @@ local locations = {
         },
         mapX = 250,
         mapY = 52,
-        locks = {{17}, {1}, {5}, {8}, {13}, {14}, {29}}
+        locks = {{"JEWEL_OF_OPEN"}, {"SOUL_OF_BAT"}, {"FORM_OF_MIST", "POWER_OF_MIST"}, {"GRAVITY_BOOTS"}, {"LEAP_STONE"}},
+        allowedReachable = true
     }, {
         name = "Holy Symbol",--13
         status = false,
         mapTiles = {{address = 0x06BE11, values = {85}}},
         mapX = 442,
         mapY = 292,
-        locks = {{17, 18}}
+        locks = {{"JEWEL_OF_OPEN", "MERMAN_STATUE"}}
     }, {
         name = "Faerie Scroll",--14
         status = false,
         mapTiles = {{address = 0x06BCA2, values = {21, 85, 191}}},
         mapX = 474,
         mapY = 108,
+        locks = {},
         reachable = true
     }, {
         name = "Jewel of Open",--15
@@ -450,6 +419,7 @@ local locations = {
         mapTiles = {{address = 0x06BCC0, values = {21, 85, 127}}},
         mapX = 394,
         mapY = 124,
+        locks = {},
         reachable = true
     }, {
         name = "Merman Statue",--16
@@ -457,63 +427,70 @@ local locations = {
         mapTiles = {{address = 0x06BE16, values = {85, 255}}},
         mapX = 66,
         mapY = 300,
-        locks = {{17}}
+        locks = {{"JEWEL_OF_OPEN"}}
     }, {
         name = "Bat Card",--17
         status = false,
         mapTiles = {{address = 0x06BD27, values = {80, 84, 85, 222}}},
         mapX = 106,
         mapY = 180,
-        locks = {{1}, {13}, {8, 9}}
+        locks = {{"SOUL_OF_BAT"}, {"GRAVITY_BOOTS"}, {"FORM_OF_MIST", "POWER_OF_MIST"}}
     }, {
         name = "Ghost Card",--18
         status = false,
         mapTiles = {{address = 0x06BBED, values = {20, 21, 69, 81, 181, 85, 17}}},
         mapX = 314,
         mapY = 20,
-        locks = {{1}, {13, 5}, {13, 8}, {13, 14}, {13, 29}, {8, 9}}
+        locks = {{"SOUL_OF_BAT"}, {"GRAVITY_BOOTS", "LEAP_STONE"}, {"FORM_OF_MIST", "POWER_OF_MIST"}},
+        allowed = {{"GRAVITY_BOOTS", "THRUST_SWORD"}, {"GRAVITY_BOOTS", "SOUL_OF_WOLF"}, {"GRAVITY_BOOTS", "FORM_OF_MIST"}}
     }, {
         name = "Faerie Card",--19
         status = false,
         mapTiles = {{address = 0x06BCA1, values = {84, 126, 85}}},
         mapX = 418,
         mapY = 108,
-        locks = {{1}, {5}, {8}, {13}, {14}, {29}}
+        locks = {{"SOUL_OF_BAT"}, {"FORM_OF_MIST", "POWER_OF_MIST"}, {"GRAVITY_BOOTS"}},
+        allowed = {{"THRUST_SWORD"}, {"SOUL_OF_WOLF"}, {"FORM_OF_MIST"}, {"LEAP_STONE"}}
     }, {
         name = "Demon Card",--20
         status = false,
         mapTiles = {{address = 0x06BE3B, values = {21}}},
         mapX = 234,
         mapY = 316,
-        locks = {{17, 1}, {17, 14},  {17, 13, 5},  {17, 13, 8},  {17, 13, 29}, {17, 8, 9}, {17, 5, 6}}
+        locks = {{"JEWEL_OF_OPEN", "SOUL_OF_BAT"}, {"JEWEL_OF_OPEN", "LEAP_STONE"}, {"JEWEL_OF_OPEN", "FORM_OF_MIST", "POWER_OF_MIST"}},
+        allowed = {{"JEWEL_OF_OPEN", "GRAVITY_BOOTS", "THRUST_SWORD"}, {"JEWEL_OF_OPEN", "GRAVITY_BOOTS", "SOUL_OF_WOLF"}, {"JEWEL_OF_OPEN", "GRAVITY_BOOTS", "FORM_OF_MIST"}, {"JEWEL_OF_OPEN", "SOUL_OF_WOLF", "POWER_OF_WOLF"}}
     }, {
         name = "Sword Card",--21
         status = false,
         mapTiles = {{address = 0x06BC99, values = {64}}},
         mapX = 162,
         mapY = 108,
-        locks = {{1}, {13, 5}, {13, 8}, {13, 14}, {13, 29}, {8, 9}}
+        locks = {{"SOUL_OF_BAT"}, {"GRAVITY_BOOTS", "LEAP_STONE"}, {"FORM_OF_MIST", "POWER_OF_MIST"}},
+        allowed = {{"GRAVITY_BOOTS", "THRUST_SWORD"}, {"GRAVITY_BOOTS", "SOUL_OF_WOLF"}, {"GRAVITY_BOOTS", "FORM_OF_MIST"}}
     }, {
         name = "Crystal Cloak",--22
         status = false,
         mapTiles = {{address = 0x06BDDE, values = {85}}},
         mapX = 322,
         mapY = 268,
-        locks = {{17}}
+        locks = {{"JEWEL_OF_OPEN"}}
     }, {
         name = "Mormegil",--23
         status = false,
         mapTiles = {{address = 0x06BE98, values = {81, 85}}},
         mapX = 138,
         mapY = 364,
-        locks = {{17, 1}, {17, 14},  {17, 13, 5},  {17, 13, 8},  {17, 13, 29}, {17, 8, 9}, {17, 5, 6}}
+        locks = {{"JEWEL_OF_OPEN", "SOUL_OF_BAT"}, {"JEWEL_OF_OPEN", "LEAP_STONE"},  {"JEWEL_OF_OPEN", "GRAVITY_BOOTS", "SOUL_OF_WOLF"},
+          {"JEWEL_OF_OPEN", "GRAVITY_BOOTS", "FORM_OF_MIST"}, {"JEWEL_OF_OPEN", "FORM_OF_MIST", "POWER_OF_MIST"}, {"JEWEL_OF_OPEN", "SOUL_OF_WOLF", "POWER_OF_WOLF"}},
+        allowed = {{"JEWEL_OF_OPEN", "GRAVITY_BOOTS", "THRUST_SWORD"}}
     }, {
         name = "Gold Ring",--24
         status = false,
         mapTiles = {{address = 0x06BD8F, values = {80}}},
         mapX = 362,
         mapY = 228,
-        locks = {{17, 1}, {17, 14},  {17, 13, 5},  {17, 13, 8},  {17, 13, 29}, {17, 8, 9}, {17, 5, 6}, {17, 4, 7}, {17, 7, 8}, {17, 4, 12}}
+        locks = {{"JEWEL_OF_OPEN", "SOUL_OF_BAT"}, {"JEWEL_OF_OPEN", "FORM_OF_MIST", "POWER_OF_MIST"}, {"JEWEL_OF_OPEN", "GRAVITY_BOOTS", "LEAP_STONE"}},
+        allowed = {{"JEWEL_OF_OPEN", "GRAVITY_BOOTS", "THRUST_SWORD"}, {"JEWEL_OF_OPEN", "GRAVITY_BOOTS", "SOUL_OF_WOLF"}, {"JEWEL_OF_OPEN", "GRAVITY_BOOTS", "FORM_OF_MIST"}, {"JEWEL_OF_OPEN", "LEAP_STONE", "FORM_OF_MIST"}}
     },
     {
         name = "Spikebreaker",--25
@@ -521,7 +498,8 @@ local locations = {
         mapTiles = {{address = 0x06BEAE, values = {21, 85}}},
         mapX = 330,
         mapY = 372,
-        locks = {{17, 1}, {17, 8, 9}}
+        locks = {{"JEWEL_OF_OPEN", "SOUL_OF_BAT", "ECHO_OF_BAT"}},
+        allowed = {{"JEWEL_OF_OPEN", "SOUL_OF_BAT"}, {"JEWEL_OF_OPEN", "FORM_OF_MIST", "POWER_OF_MIST"}}
     },
     {
         name = "Silver Ring",--26
@@ -529,7 +507,7 @@ local locations = {
         mapTiles = {{address = 0x06BC66, values = {21, 85}}},
         mapX = 68,
         mapY = 84,
-        locks = {{17, 30, 8}}
+        locks = {{"JEWEL_OF_OPEN", "SPIKE_BREAKER", "FORM_OF_MIST"}}
     },
     {
         name = "Holy Glasses",--27
@@ -537,7 +515,7 @@ local locations = {
         mapTiles = {{address = 0x06BD6C, values = {64, 80}}},
         mapX = 258,
         mapY = 212,
-        locks = {{31}}
+        locks = {{"GOLD_RING", "SILVER_RING"}}
     }, {
         name = "Heart of Vlad",--28
         status = false,
@@ -547,6 +525,7 @@ local locations = {
         },
         mapX = 320,
         mapY = 330,
+        locks = {},
         reachable = true
     }, {
         name = "Tooth of Vlad",--29
@@ -554,6 +533,7 @@ local locations = {
         mapTiles = {{address = 0x06C1F5, values = {80, 84, 85, 5, 21}}},
         mapX = 48,
         mapY = 250,
+        locks = {},
         reachable = true
     }, {
         name = "Rib of Vlad",--30
@@ -561,13 +541,15 @@ local locations = {
         mapTiles = {{address = 0x06C26E, values = {85}}},
         mapX = 352,
         mapY = 306,
-        reachable = true
+        reachable = false,
+        locks = {{"SOUL_OF_BAT"}, {"SOUL_OF_WOLF"}, {"FORM_OF_MIST"}}
     }, {
         name = "Ring of Vlad",--31
         status = false,
         mapTiles = {{address = 0x06C2C9, values = {1, 5, 85}}},
         mapX = 184,
         mapY = 354,
+        locks = {},
         reachable = true
     }, {
         name = "Eye of Vlad",--32
@@ -575,6 +557,7 @@ local locations = {
         mapTiles = {{address = 0x06C0EC, values = {21, 85}}},
         mapX = 264,
         mapY = 114,
+        locks = {},
         reachable = true
     }, {
         name = "Force of Echo",--33
@@ -582,6 +565,7 @@ local locations = {
         mapTiles = {{address = 0x06C0D6, values = {85}}},
         mapX = 64,
         mapY = 106,
+        locks = {},
         reachable = true
     }, {
         name = "Gas Cloud",--34
@@ -589,6 +573,7 @@ local locations = {
         mapTiles = {{address = 0x06C04F, values = {85}}},
         mapX = 368,
         mapY = 34,
+        locks = {},
         reachable = true
     }, {
         name = "Ring of Arcana",--35
@@ -596,6 +581,7 @@ local locations = {
         mapTiles = {{address = 0x06C1C0, values = {5, 21, 85}}},
         mapX = 400,
         mapY = 218,
+        locks = {},
         reachable = true
     }, {
         name = "Dark Blade",--36
@@ -603,39 +589,10 @@ local locations = {
         mapTiles = {{address = 0x06C109, values = {85}}},
         mapX = 184,
         mapY = 130,
+        locks = {},
         reachable = true
     }
 }
-
-gui.clearImageCache()
-
-local function setcloakColor()
-    -- Initialize the pseudo random number generator
-    math.randomseed( os.time() )
-    math.random(); math.random(); math.random()
-    --
-    if settings.randomCloakColor then
-        local rand1 = math.random(0, 220)
-        mainmemory.writebyte(constants.cloakExteriorRaddress, rand1)
-        local rand2 = math.random(0, 220)
-        mainmemory.writebyte(constants.cloakExteriorGaddress, rand2)
-        local rand3 = math.random(0, 220)
-        mainmemory.writebyte(constants.cloakExteriorBaddress, rand3)
-        local rand4 = math.random(0, 220)
-        mainmemory.writebyte(constants.cloakLiningRaddress, rand4)
-        local rand5 = math.random(0, 220)
-        mainmemory.writebyte(constants.cloakLiningGaddress, rand5)
-        local rand6 = math.random(0, 220)
-        mainmemory.writebyte(constants.cloakLiningBaddress, rand6)
-    elseif settings.customCloakColor then
-        mainmemory.writebyte(constants.cloakExteriorRaddress, tonumber(settings.cloakExteriorR))
-        mainmemory.writebyte(constants.cloakExteriorGaddress, tonumber(settings.cloakExteriorG))
-        mainmemory.writebyte(constants.cloakExteriorBaddress, tonumber(settings.cloakExteriorB))
-        mainmemory.writebyte(constants.cloakLiningRaddress, tonumber(settings.cloakLiningR))
-        mainmemory.writebyte(constants.cloakLiningGaddress, tonumber(settings.cloakLiningG))
-        mainmemory.writebyte(constants.cloakLiningBaddress, tonumber(settings.cloakLiningB))
-    end
-end
 
 local function contains(table, val)
     for i = 1, #table do if table[i] == val then return true end end
@@ -649,78 +606,24 @@ local function resetAllValues()
     for i = 1, #progressionItems, 1 do
         progressionItems[i].status = false
     end
-    for i = 1, 27, 1 do
-        if i ~= 4 and i ~= 9 and i ~= 10 and i ~= 14 and i ~= 15 then
+    for i = 1, #locations, 1 do
+        if table.getn(locations[i].locks) > 0 then
             locations[i].reachable = false
         end
     end
-    commonVariables.alucardModeStarted = false
-    commonVariables.gameInMainMenu = false
-    commonVariables.gameReset = false
-    commonVariables.alucardRooms = 0
-    commonVariables.allDracRelics = false
-    commonVariables.hasThrustWeapon = false
+    common.alucardModeStarted = false
+    common.gameInMainMenu = false
+    common.gameReset = false
+    common.alucardRooms = 0
+    common.allDracRelics = false
+    common.hasThrustWeapon = false
 end
 
 local function checkAlucardModeStart()
-    local alucardXp = mainmemory.read_u8(constants.alucardCurrentXpAddress)
+    local alucardXp = mainmemory.read_u8(constants.ramAddresses.alucardCurrentXpAddress)
     if alucardXp > 0 and alucardXp < 80000 then
-        commonVariables.alucardModeStarted = true
-        setcloakColor()
+        common.alucardModeStarted = true
     end
-end
-
-local function outputRelics()
-    local collectedRelics = "Collected Relics: \n\n "
-    for i = 1, 28, 1 do
-        if settings.onlyTrackProgressionRelics then
-            if relics[i].status and relics[i].progression then
-                if collectedRelics == "" then
-                    collectedRelics = collectedRelics .. relics[i].name
-                else
-                    collectedRelics = collectedRelics .. ", " .. relics[i].name
-                end
-            end
-        else
-            if relics[i].status then
-                if collectedRelics == "" then
-                    collectedRelics = collectedRelics .. relics[i].name
-                else
-                    collectedRelics = collectedRelics .. ", " .. relics[i].name
-                end
-            end
-        end
-    end
-    print(collectedRelics)
-end
-
-local function outputItems()
-    local collectedItems = "Collected Progression Items: \n\n "
-    for i = 1, 4, 1 do
-        if progressionItems[i].status then
-            if collectedItems == "" then
-                collectedItems = collectedItems .. progressionItems[i].name
-            else
-                collectedItems = collectedItems .. ", " .. progressionItems[i].name
-            end
-        end
-    end
-    print(collectedItems)
-end
-
-local function outputLocations()
-    local unvisitedLocations = "Unchecked Locations: \n\n "
-    for i = 1, 28, 1 do
-        if locations[i].status == false then
-            if unvisitedLocations == "" then
-                unvisitedLocations = unvisitedLocations .. locations[i].name
-            else
-                unvisitedLocations = unvisitedLocations .. ", " ..
-                                         locations[i].name
-            end
-        end
-    end
-    print(unvisitedLocations)
 end
 
 local function cacheImages()
@@ -728,7 +631,7 @@ local function cacheImages()
     local columns = 0
     forms.clear(guiForm.relicBox, 0xFF110011)
 
-    for i = 1, 23, 1 do
+    for i = 1, 25, 1 do
         if columns > 5 then
             rows =  rows + 1
             columns = 0
@@ -741,12 +644,12 @@ local function cacheImages()
         rows =  rows + 1
         columns = 0
     end
-    forms.drawImage(guiForm.relicBox, constants.thrustWeaponImagePath, columns * 46, rows * 46 + 34, 60, 60, true)
+    forms.drawImage(guiForm.relicBox, divekickStateItems[1].path, columns * 46, rows * 46 + 34, 60, 60, true)
 
     rows =  rows + 1
     columns = 0
 
-    for i = 24, 28, 1 do
+    for i = 26, 30, 1 do
         forms.drawImage(guiForm.relicBox, relics[i].path, columns * 46, rows * 46 + 34, 60, 60, true)
         columns = columns + 1
         if columns > 5 then
@@ -758,7 +661,7 @@ local function cacheImages()
     rows =  rows + 1
     columns = 0
 
-    for i = 24, 28, 1 do
+    for i = 26, 30, 1 do
         local prefix = string.sub(relics[i].path, 1, 13)
         local suffix = string.sub(relics[i].path, 14)
         forms.drawImage(guiForm.relicBox, prefix .. "Unfinished" .. suffix, (columns * 46), (rows * 46) + 34, 60, 60, true)
@@ -791,16 +694,17 @@ local function drawRelics()
     local columns = 0
     forms.clear(guiForm.relicBox, 0xFF110011)
 
-    forms.drawString(guiForm.relicBox, 4, 4, seedName, 0xFFFFFFFF, 0xFF110011, 25, "arial", "bold")
+    forms.drawString(guiForm.relicBox, 0, 29, common.seedName .. "(" .. common.preset ..")", 0xFFFFFFFF, 0xFF110011, 15, "arial", "bold")
+    drawControls(guiForm, settings)
 
     for i = 1, 23, 1 do
-        if settings.onlyTrackProgressionRelics then
+        if settings.trackAllRelics == false then
             if relics[i].status and relics[i].progression then
                 if columns > 5 then
                     rows =  rows + 1
                     columns = 0
                 end
-                forms.drawImage(guiForm.relicBox, relics[i].path, columns * 46, rows * 46 + 34, 60, 60, true)
+                forms.drawImage(guiForm.relicBox, relics[i].path, (columns * 46) - 5, rows * 46 + 34 + 15, 60, 60, true)
                 columns = columns + 1
             end
         else
@@ -809,18 +713,18 @@ local function drawRelics()
                     rows =  rows + 1
                     columns = 0
                 end
-                forms.drawImage(guiForm.relicBox, relics[i].path, columns * 46, rows * 46 + 34, 60, 60, true)
+                forms.drawImage(guiForm.relicBox, relics[i].path, (columns * 46) - 5, rows * 46 + 34 + 15, 60, 60, true)
                 columns = columns + 1
             end
         end
     end
 
-    if commonVariables.hasThrustWeapon then
+    if common.hasThrustWeapon then
         if columns > 5 then
             rows =  rows + 1
             columns = 0
         end
-        forms.drawImage(guiForm.relicBox, constants.thrustWeaponImagePath, columns * 46, rows * 46 + 34, 60, 60, true)
+        forms.drawImage(guiForm.relicBox, constants.ramAddresses.thrustWeaponImagePath, (columns * 46) - 5, rows * 46 + 34 + 15, 60, 60, true)
     end
 
     rows =  rows + 1
@@ -828,12 +732,12 @@ local function drawRelics()
 
     for i = 24, 28, 1 do
         if relics[i].status then
-            if commonVariables.allDracRelics then
-                forms.drawImage(guiForm.relicBox, relics[i].path, (columns * 46), (rows * 46) + 34, 60, 60, true)
+            if common.allDracRelics then
+                forms.drawImage(guiForm.relicBox, relics[i].path, (columns * 46) - 5, (rows * 46) + 34 + 15, 60, 60, true)
             else
                 local prefix = string.sub(relics[i].path, 1, 13)
                 local suffix = string.sub(relics[i].path, 14)
-                forms.drawImage(guiForm.relicBox, prefix .. "Unfinished" .. suffix, (columns * 46), (rows * 46) + 34, 60, 60, true)
+                forms.drawImage(guiForm.relicBox, prefix .. "Unfinished" .. suffix, (columns * 46) - 5, (rows * 46) + 34 + 15, 60, 60, true)
             end
             columns = columns + 1
             if columns > 5 then
@@ -848,7 +752,7 @@ local function drawRelics()
 
     for i = 1, 4, 1 do
         if progressionItems[i].status then
-            forms.drawImage(guiForm.relicBox, progressionItems[i].path, columns * 46, rows * 46 + 34, 60, 60, true)
+            forms.drawImage(guiForm.relicBox, progressionItems[i].path, (columns * 46) - 5, rows * 46 + 34 + 15, 60, 60, true)
             columns = columns + 1
             if columns > 5 then
                 rows =  rows + 1
@@ -862,14 +766,135 @@ end
 
 local function drawSeedName()
     forms.clear(guiForm.relicBox, 0xFF110011)
-    forms.drawString(guiForm.relicBox, 4, 4, seedName, 0xFFFFFFFF, 0xFF110011, 25, "arial", "bold")
+    forms.drawString(guiForm.relicBox, 0, 29, common.seedName .. "(" .. common.preset ..")", 0xFFFFFFFF, 0xFF110011, 15, "arial", "bold")
+    drawControls(guiForm, settings)
     forms.refresh(guiForm.relicBox)
+end
+
+local function unlockLocations(changes)
+    if changes > 0 then
+        drawRelics()
+        for i = 1, #locations, 1 do
+            if locations[i].reachable ~= true then
+                for j = 1, #locations[i].locks, 1 do
+                    local requirements = 0
+                    for k = 1, #locations[i].locks[j], 1 do
+                        local lock = locations[i].locks[j][k]
+
+                        if lock == "THRUST_SWORD" then
+                            if common.hasThrustWeapon then
+                                requirements = requirements + 1
+                            else
+                                requirements = 0
+                                break
+                            end
+                        elseif lock == "SPIKE_BREAKER" then
+                            if progressionItems[3].status then
+                                requirements = requirements + 1
+                            else
+                                requirements = 0
+                                break
+                            end
+                        elseif lock == "GOLD_RING" then
+                            if progressionItems[1].status then
+                                requirements = requirements + 1
+                            else
+                                requirements = 0
+                                break
+                            end
+                        elseif lock == "SILVER_RING" then
+                            if progressionItems[2].status then
+                                requirements = requirements + 1
+                            else
+                                requirements = 0
+                                break
+                            end
+                        elseif lock == "HOLY_GLASSES" then
+                            if progressionItems[4].status then
+                                requirements = requirements + 1
+                            else
+                                requirements = 0
+                                break
+                            end
+                        elseif constants.RELIC[lock] < 31 and relics[constants.RELIC[lock]].status == false then
+                            requirements = 0
+                            break
+                        elseif constants.RELIC[lock] < 31 and relics[constants.RELIC[lock]].status == true then
+                            requirements = requirements + 1
+                        end
+                    end
+                    if requirements == #locations[i].locks[j] then
+                        locations[i].reachable = true
+                        break
+                    end
+                end
+            end
+        end
+        for i = 1, #locations, 1 do
+            if locations[i].reachable ~= true then
+                if locations[i].allowed then
+                    for j = 1, #locations[i].allowed, 1 do
+                        local requirements = 0
+                        for k = 1, #locations[i].allowed[j], 1 do
+                            local lock = locations[i].allowed[j][k]
+
+                            if lock == "THRUST_SWORD" then
+                                if common.hasThrustWeapon then
+                                    requirements = requirements + 1
+                                else
+                                    requirements = 0
+                                    break
+                                end
+                            elseif lock == "SPIKE_BREAKER" then
+                                if progressionItems[3].status then
+                                    requirements = requirements + 1
+                                else
+                                    requirements = 0
+                                    break
+                                end
+                            elseif lock == "GOLD_RING" then
+                                if progressionItems[1].status then
+                                    requirements = requirements + 1
+                                else
+                                    requirements = 0
+                                    break
+                                end
+                            elseif lock == "SILVER_RING" then
+                                if progressionItems[2].status then
+                                    requirements = requirements + 1
+                                else
+                                    requirements = 0
+                                    break
+                                end
+                            elseif lock == "HOLY_GLASSES" then
+                                if progressionItems[4].status then
+                                    requirements = requirements + 1
+                                else
+                                    requirements = 0
+                                    break
+                                end
+                            elseif constants.RELIC[lock] < 31 and relics[constants.RELIC[lock]].status == false then
+                                requirements = 0
+                                break
+                            elseif constants.RELIC[lock] < 31 and relics[constants.RELIC[lock]].status == true then
+                                requirements = requirements + 1
+                            end
+                        end
+                        if requirements == #locations[i].allowed[j] then
+                            locations[i].allowedReachable = true
+                            break
+                        end
+                    end
+                end
+            end
+        end
+    end
 end
 
 local function detectRelics()
     local changes = 0
-    for i = 1, 23, 1 do
-        if settings.onlyTrackProgressionRelics then
+    for i = 1, 25, 1 do
+        if settings.trackAllRelics == false then
             if relics[i].status == false and relics[i].progression then
                 if mainmemory.readbyte(relics[i].address) ~= 0x00 then
                     relics[i].status = true
@@ -887,71 +912,23 @@ local function detectRelics()
     end
 
     local dracRelics = 0
-    for i = 24, 28, 1 do
+    for i = 26, 30, 1 do
         if relics[i].status == false then
             if mainmemory.readbyte(relics[i].address) ~= 0x00 then
                 relics[i].status = true
                 changes = changes + 1
             end
-        elseif commonVariables.allDracRelics == false then
+        elseif common.allDracRelics == false then
             dracRelics = dracRelics + 1
         end
     end
 
     if dracRelics == 5 then
-        commonVariables.allDracRelics = true
+        common.allDracRelics = true
         changes = changes + 1
     end
 
-    if settings.lightweightMode == false and changes > 0 then
-        drawRelics()
-        for i = 1, #locations, 1 do
-            if locations[i].reachable ~= true then
-                for j = 1, #locations[i].locks, 1 do
-                    local requirements = 0
-                    for k = 1, #locations[i].locks[j], 1 do
-                        if locations[i].locks[j][k] == 29 then
-                            if commonVariables.hasThrustWeapon then
-                                requirements = requirements + 1
-                            else
-                                requirements = 0
-                                break
-                            end
-                        elseif locations[i].locks[j][k] == 30 then
-                            if progressionItems[3].status then
-                                requirements = requirements + 1
-                            else
-                                requirements = 0
-                                break
-                            end
-                        elseif locations[i].locks[j][k] == 31 then
-                            if progressionItems[1].status and progressionItems[2].status then
-                                requirements = requirements + 1
-                            else
-                                requirements = 0
-                                break
-                            end
-                        elseif relics[locations[i].locks[j][k]].status == false then
-                            requirements = 0
-                            break
-                        elseif relics[locations[i].locks[j][k]].status == true then
-                            requirements = requirements + 1
-                        end
-                    end
-                    if requirements == #locations[i].locks[j] then
-                        locations[i].reachable = true
-                        break
-                    end
-                end
-            end
-        end
-    end
-
-    if settings.lightweightMode == true and changes > 0 then
-        console.clear()
-        outputRelics()
-        outputLocations()
-    end
+    unlockLocations(changes)
 end
 
 local function detectItems()
@@ -961,92 +938,46 @@ local function detectItems()
             if mainmemory.readbyte(progressionItems[i].address) ~= 0x00 then
                 progressionItems[i].status = true
                 changes = changes + 1
-            elseif i == 1 and (mainmemory.readbyte(constants.accessorySlot1Address) == progressionItems[i].equippedValue or mainmemory.readbyte(constants.accessorySlot2Address) == progressionItems[i].equippedValue) then
+            elseif i == 1 and (mainmemory.readbyte(constants.ramAddresses.accessorySlot1Address) == progressionItems[i].equippedValue or mainmemory.readbyte(constants.ramAddresses.accessorySlot2Address) == progressionItems[i].equippedValue) then
                 progressionItems[i].status = true
                 changes = changes + 1
-            elseif i == 2 and (mainmemory.readbyte(constants.accessorySlot1Address) == progressionItems[i].equippedValue or mainmemory.readbyte(constants.accessorySlot2Address) == progressionItems[i].equippedValue) then
+            elseif i == 2 and (mainmemory.readbyte(constants.ramAddresses.accessorySlot1Address) == progressionItems[i].equippedValue or mainmemory.readbyte(constants.ramAddresses.accessorySlot2Address) == progressionItems[i].equippedValue) then
                 progressionItems[i].status = true
                 changes = changes + 1
-            elseif i == 3 and mainmemory.readbyte(constants.armorSlotAddress) == progressionItems[i].equippedValue then
+            elseif i == 3 and mainmemory.readbyte(constants.ramAddresses.armorSlotAddress) == progressionItems[i].equippedValue then
                 progressionItems[i].status = true
                 changes = changes + 1
-            elseif i == 4 and mainmemory.readbyte(constants.headSlotAddress) == progressionItems[i].equippedValue then
+            elseif i == 4 and mainmemory.readbyte(constants.ramAddresses.headSlotAddress) == progressionItems[i].equippedValue then
                 progressionItems[i].status = true
                 changes = changes + 1
             end
         end
     end
 
-    if commonVariables.hasThrustWeapon == false then
+    if common.hasThrustWeapon == false then
         for i = 1, 5, 1 do
             if divekickStateItems[i].status == false then
-                if mainmemory.readbyte(divekickStateItems[i].address) ~= 0x00 or mainmemory.readbyte(constants.rightHandSlotAddress) == divekickStateItems[i].equippedValue then
+                if mainmemory.readbyte(divekickStateItems[i].address) ~= 0x00 or mainmemory.readbyte(constants.ramAddresses.rightHandSlotAddress) == divekickStateItems[i].equippedValue then
                     divekickStateItems[i].status = true
-                    commonVariables.hasDivekick = true
-                    commonVariables.hasThrustWeapon = true
+                    common.hasDivekick = true
+                    common.hasThrustWeapon = true
                     changes = changes + 1
-                    if commonVariables.hasGravityBoots then
-                        commonVariables.hasFlight = true
+                    if common.hasGravityBoots then
+                        common.hasFlight = true
                     end
                 end
             end
         end
     end
 
-    if settings.lightweightMode == false and changes > 0 then
-        drawRelics()
-        for i = 1, #locations, 1 do
-            if locations[i].reachable ~= true then
-                for j = 1, #locations[i].locks, 1 do
-                    local requirements = 0
-                    for k = 1, #locations[i].locks[j], 1 do
-                        if locations[i].locks[j][k] == 29 then
-                            if commonVariables.hasThrustWeapon then
-                                requirements = requirements + 1
-                            else
-                                requirements = 0
-                                break
-                            end
-                        elseif locations[i].locks[j][k] == 30 then
-                            if progressionItems[3].status then
-                                requirements = requirements + 1
-                            else
-                                requirements = 0
-                                break
-                            end
-                        elseif locations[i].locks[j][k] == 31 then
-                            if progressionItems[1].status and progressionItems[2].status then
-                                requirements = requirements + 1
-                            else
-                                requirements = 0
-                                break
-                            end
-                        elseif relics[locations[i].locks[j][k]].status == false then
-                            requirements = 0
-                            break
-                        elseif relics[locations[i].locks[j][k]].status == true then
-                            requirements = requirements + 1
-                        end
-                    end
-                    if requirements == #locations[i].locks[j] then
-                        locations[i].reachable = true
-                        break
-                    end
-                end
-            end
-        end
-    end
-
-    if settings.lightweightMode == true and changes > 0 then
-        outputItems()
-    end
+    unlockLocations(changes)
 
     return changes
 end
 
 local function detectLocations()
     local changes = 0
-    local debugLocations = "\n\n".. commonVariables.alucardRooms
+    local debugLocations = "\n\n".. common.alucardRooms
 
     for i = 1, #locations, 1 do
         if locations[i].status == false then
@@ -1062,51 +993,44 @@ local function detectLocations()
             end
         end
     end
-
-    if settings.debugMode == true then
-        print(debugLocations)
-    end
-
-    if settings.lightweightMode == true and changes > 0 then
-        console.clear()
-        outputRelics()
-        outputLocations()
-    end
 end
 
 local function drawLocations()
     local scaling = 1
     local boxSize = 5
-    local adjustedOffsetX = tonumber(settings.drawingOffsetX)
-    local adjustedOffsetY = tonumber(settings.drawingOffsetY)
+    local adjustedOffsetX = common.drawingOffsetX
+    local adjustedOffsetY = common.drawingOffsetY
     local firstCastleLocations = 21
     local secondCastleLocations = 34
     local firstCastleChecksRemaining = 0
     local secondCastleChecksRemaining = 0
 
-    if settings.extendedLocations == true then
+    if common.preset ~= 'Casual' then
         firstCastleLocations = 27
         secondCastleLocations = 36
     end
 
-    if settings.pixelProMode == false then
-        scaling = 0.5
-        boxSize = 4
-    elseif settings.pixelProMode == true then
+    if common.displayMode == "PixelPro: 0" then
         scaling = 1
         boxSize = 9
+    else
+        scaling = 0.5
+        boxSize = 4
     end
 
-    local locationColor = constants.locationMapColorReachable
+    local locationColor
 
-    local mapCheck = memory.readbyte(constants.mapOpenAddress)
-    if mapCheck == 1 and mainmemory.read_u8(constants.secondCastleAddress) == 0 then
+    if mainmemory.read_u8(constants.ramAddresses.secondCastleAddress) == 0 then
         for i = 1, firstCastleLocations, 1 do
-            locationColor = constants.locationMapColorReachable
-            if locations[i].status == false then
+            locationColor = constants.colors.locationMapColorReachable
+            if locations[i].status == false and not locations[i].skip  then
 
-                if locations[i].reachable ~= true then
-                    locationColor = constants.locationMapColor
+                if locations[i].reachable == true then
+                    locationColor = constants.colors.locationMapColorReachable
+                elseif locations[i].allowedReachable == true then
+                    locationColor = constants.colors.locationMapColorAllowed
+                else
+                    locationColor = constants.colors.locationMapColor
                 end
 
                 firstCastleChecksRemaining = firstCastleChecksRemaining + 1
@@ -1115,7 +1039,7 @@ local function drawLocations()
                             (locations[i].mapY * scaling) + adjustedOffsetY,
                             (locations[i].mapX * scaling) + adjustedOffsetX + boxSize,
                             (locations[i].mapY * scaling) + adjustedOffsetY + boxSize,
-                            constants.mapBorderColor, locationColor)
+                            constants.colors.mapBorderColor, locationColor)
             end
         end
 
@@ -1127,10 +1051,17 @@ local function drawLocations()
 
         gui.drawText(0, 0, "First Castle checks: " .. firstCastleChecksRemaining, 0xFFFFFFFF, 0xFF000000, (16 * scaling))
         gui.drawText(0, (17 * scaling), "Second Castle checks: " .. secondCastleChecksRemaining, 0xFFFFFFFF, 0xFF000000, (16 * scaling))
-    elseif mapCheck == 1 then
-        locationColor = constants.locationMapColorReachable
+    else
         for i = firstCastleLocations + 1, secondCastleLocations, 1 do
-            if locations[i].status == false then
+            if locations[i].status == false and not locations[i].skip then
+
+                if locations[i].reachable == true then
+                    locationColor = constants.colors.locationMapColorReachable
+                elseif locations[i].allowedReachable == true then
+                    locationColor = constants.colors.locationMapColorAllowed
+                else
+                    locationColor = constants.colors.locationMapColor
+                end
 
                 secondCastleChecksRemaining = secondCastleChecksRemaining + 1
 
@@ -1138,7 +1069,7 @@ local function drawLocations()
                             (locations[i].mapY * scaling) + adjustedOffsetY,
                             (locations[i].mapX * scaling) + adjustedOffsetX + boxSize,
                             (locations[i].mapY * scaling) + adjustedOffsetY + boxSize,
-                            constants.mapBorderColor, locationColor)
+                            constants.colors.mapBorderColor, locationColor)
             end
         end
 
@@ -1150,15 +1081,6 @@ local function drawLocations()
 
         gui.drawText(0, 0, "First Castle checks: " .. firstCastleChecksRemaining, 0xFFFFFFFF, 0xFF000000, (16 * scaling))
         gui.drawText(0, (17 * scaling), "Second Castle checks: " .. secondCastleChecksRemaining, 0xFFFFFFFF, 0xFF000000, (16 * scaling))
-    end
-end
-
-local function outputDebugInfo()
-    local inputs = input.get()
-
-    if inputs["Comma"] == true and inputs["Period"] == true then
-        local locationsData = "commonVariables: \n\n "
-        print(commonVariables)
     end
 end
 
@@ -1177,21 +1099,28 @@ while true do
         return
     end
 
-    if emu.framecount() % 120 == 0 then
-        updateSettings(settings, guiForm.cloakColorCheckbox, guiForm.onlyTrackProgressionRelicsCheckbox, guiForm.pixelProModeCheckbox, guiForm.extendedLocationsCheckbox)
-    end
-
-    if imagesCached == false then
+    --initialize
+    if common.imagesCached == false then
+        gui.clearImageCache()
+        if common.displayMode == "PixelPro: 0" then
+            common.drawingOffsetX = 148
+            common.drawingOffsetY = 38
+        else
+            common.drawingOffsetX = 13
+            common.drawingOffsetY = 19
+        end
         cacheImages()
-        imagesCached = true
+        common.imagesCached = true
+        drawControls(guiForm, settings)
+        forms.refresh(guiForm.relicBox)
     end
 
     --get seed name from ram
-    if seedName == "" and gameinfo.getromhash() ~= "" and mainmemory.readbyte(constants.gameStatus) == 8 then
+    if common.seedName == "" and gameinfo.getromhash() ~= "" and mainmemory.readbyte(constants.ramAddresses.gameStatus) == 8 then
         local digit = false
         local symbol = false
-        for i = 0, 28, 1 do
-            local currentByte = mainmemory.readbyte(constants.seedNameStartAddress + i)
+        for i = 0, 27, 1 do
+            local currentByte = mainmemory.readbyte(constants.ramAddresses.seedNameStartAddress + i)
             if currentByte == 130 then
                 digit = true
             elseif currentByte == 129 or currentByte == 130 then
@@ -1199,50 +1128,107 @@ while true do
             else
                 if digit then
                     digit = false
-                    seedName = seedName .. (currentByte - 79);
+                    common.seedName = common.seedName .. (currentByte - 79);
                 elseif symbol then
                     symbol = false
-                    seedName = seedName .. characterMap[currentByte]
+                    common.seedName = common.seedName .. constants.characterMap[currentByte]
                 else
-                    seedName = seedName .. string.char(currentByte);
+                    common.seedName = common.seedName .. string.char(currentByte);
                 end
             end
         end
         drawSeedName()
     end
 
-    if commonVariables.gameInMainMenu == false and gameinfo.getromhash() ~= "" and mainmemory.readbyte(constants.gameStatus) ~= 2 then
-        commonVariables.gameInMainMenu = true
-        commonVariables.gameReset = false
-    end
+    --get preset from ram
+    if common.preset == "" and gameinfo.getromhash() ~= "" and mainmemory.readbyte(constants.ramAddresses.gameStatus) == 8 then
+        local digit = false
+        local symbol = false
+        for i = 0, 20, 1 do
+            local currentByte = mainmemory.readbyte(constants.ramAddresses.presetStartAddress + i)
+            if currentByte == 130 then
+                digit = true
+            elseif currentByte == 129 or currentByte == 130 then
+                symbol = true
+            else
+                if digit then
+                    digit = false
+                    common.preset = common.preset .. (currentByte - 79);
+                elseif symbol then
+                    symbol = false
+                    common.preset = common.preset .. constants.characterMap[currentByte]
+                elseif currentByte > 0 then
+                    common.preset = common.preset .. string.char(currentByte);
+                end
+            end
+        end
 
-    if commonVariables.gameReset == true then
-        commonVariables.gameReset = false
-        resetAllValues()
-        setcloakColor()
+        local successful 
+        local presetFile
+        successful, presetFile = pcall(function()
+        return dofile("Presets\\" .. common.preset .. ".lua")
+        end)
+
+        if not successful then
+            print("Preset file: " .. common.preset .. ".lua could not be loaded.")
+        end
+
+        if presetFile and presetFile.locations then
+            for i = 1, #presetFile.locations, 1 do
+                if presetFile.locations[i].reachable then
+                    locations[presetFile.locations[i].index].reachable = true
+                end
+                if presetFile.locations[i].skip then
+                    locations[presetFile.locations[i].index].skip = true
+                end
+                if presetFile.locations[i].allowed then
+                        locations[presetFile.locations[i].index].allowed = presetFile.locations[i].allowed
+                end
+                if presetFile.locations[i].locks then
+                    locations[presetFile.locations[i].index].locks = presetFile.locations[i].locks
+                end
+            end
+        end
+
+        if presetFile and presetFile.relics then
+            for i = 1, #presetFile.relics, 1 do
+                relics[presetFile.relics[i].index].progression = true
+            end
+        end
+
         drawSeedName()
     end
 
-    if commonVariables.gameInMainMenu == true and mainmemory.readbyte(constants.gameStatus) == 2 then
-        commonVariables.gameReset = true
-        commonVariables.gameInMainMenu = false
+    if common.gameInMainMenu == false and gameinfo.getromhash() ~= "" and mainmemory.readbyte(constants.ramAddresses.gameStatus) ~= 2 then
+        common.gameInMainMenu = true
+        common.gameReset = false
     end
 
-    if commonVariables.alucardModeStarted then
-        if settings.lightweightMode == false then
+    if common.gameReset == true then
+        common.gameReset = false
+        resetAllValues()
+        drawSeedName()
+    end
+
+    if common.gameInMainMenu == true and mainmemory.readbyte(constants.ramAddresses.gameStatus) == 2 then
+        common.gameReset = true
+        common.gameInMainMenu = false
+    end
+
+    if common.alucardModeStarted then
+        if memory.readbyte(constants.ramAddresses.mapOpenAddress) == 1 then
             drawLocations()
         end
         if emu.framecount() % 120 == 0 then
-            if mainmemory.read_u16_le(constants.alucardRoomsCountAddress) > commonVariables.alucardRooms then
-                commonVariables.alucardRooms = mainmemory.read_u16_le(constants.alucardRoomsCountAddress)
+            if mainmemory.read_u16_le(constants.ramAddresses.alucardRoomsCountAddress) > common.alucardRooms then
+                common.alucardRooms = mainmemory.read_u16_le(constants.ramAddresses.alucardRoomsCountAddress)
                 detectLocations()
             end
             detectItems()
             detectRelics()
         end
-        if settings.debugMode then outputDebugInfo() end
     else
-        if emu.framecount() > 4200 and emu.framecount() % 120 == 0 then
+        if emu.framecount() > 4200 and emu.framecount() % 120 == 0 and common.gameInMainMenu == false then
             checkAlucardModeStart()
         end
     end

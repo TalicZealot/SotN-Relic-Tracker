@@ -1,14 +1,14 @@
 # SotN Relic and Location check Autotracker
 Autotracker LUA script for the Castlevania:SotN Randomizer https://sotn.io/
-## Version 1.6.1
+## Version 1.7.0
 
 ## Bizhawk Instructions: 
 * Download repository from *Clone or download* > *Download ZIP*
 * Set Config > Customize > Advanced > Lua Core > Lua+LuaInterface > Restart
-* Launch the script through Tools > Lua Console > Script > Open Script
+* Launch the script through Tools > Lua Console > Script > Open Script > SotN-Bizhawk-Relic-Tracker.lua
 * Tools > Lua Console > Settings > Autoload
 * Tools > Lua Console > File > Recent Scripts > Autoload
-* Update by running update.bat
+* Update by running update.ps1
 
 ## Bizhawk Optimal Settings:
 * Config > Display > Scaling Filter: None
@@ -36,6 +36,14 @@ Autotracker LUA script for the Castlevania:SotN Randomizer https://sotn.io/
 
 <details><summary>changelog</summary>
 
+#### 1.7.0
+* Automatic preset detection.
+* Automatic graphics mode detection.
+* New UI.
+* Major refactoring to allow for multiple preset logic sets.
+* Separated in and out of logic allowed available checks.
+* New Card sprites by fatihG.
+* New updater.
 #### 1.6.1
 * Performance improvements.
 * Added Silver Ring, Gold Ring, Spike Breaker and Holy Glasses as locations.
@@ -45,6 +53,9 @@ Autotracker LUA script for the Castlevania:SotN Randomizer https://sotn.io/
 * Better cloak randomization.
 * Redone location availability in preparation for new logic.
 * Psxjin update bat file.
+
+<details><summary>show more:</summary>
+
 #### 1.5.4
 * Location availability fix.
 #### 1.5.3
