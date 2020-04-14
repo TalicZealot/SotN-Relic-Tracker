@@ -724,7 +724,7 @@ local function drawRelics()
             rows =  rows + 1
             columns = 0
         end
-        forms.drawImage(guiForm.relicBox, constants.ramAddresses.thrustWeaponImagePath, (columns * 46) - 5, rows * 46 + 34 + 15, 60, 60, true)
+        forms.drawImage(guiForm.relicBox, divekickStateItems[1].path, (columns * 46) - 5, rows * 46 + 34 + 15, 60, 60, true)
     end
 
     rows =  rows + 1
@@ -1131,7 +1131,9 @@ while true do
                     common.seedName = common.seedName .. (currentByte - 79);
                 elseif symbol then
                     symbol = false
-                    common.seedName = common.seedName .. constants.characterMap[currentByte]
+                    if constants.characterMap[currentByte] then
+                        common.seedName = common.seedName .. constants.characterMap[currentByte]
+                    end
                 else
                     common.seedName = common.seedName .. string.char(currentByte);
                 end
