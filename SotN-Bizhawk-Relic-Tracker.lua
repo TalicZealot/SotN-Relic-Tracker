@@ -913,7 +913,6 @@ local function detectRelics()
 
     local dracRelics = 0
     for i = 26, 30, 1 do
-        print(i)
         if relics[i].status == false then
             if mainmemory.readbyte(relics[i].address) ~= 0x00 then
                 relics[i].status = true
