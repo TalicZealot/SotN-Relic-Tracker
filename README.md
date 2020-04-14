@@ -34,8 +34,6 @@ Autotracker LUA script for the Castlevania:SotN Randomizer https://sotn.io/
 * Configuration > Graphics > Use Frame Skipping
 * Configuration > Graphics > Auto-detect FPS/Frame skipping
 
-<details><summary>changelog</summary>
-
 #### 1.7.0
 * Automatic preset detection.
 * Automatic graphics mode detection.

@@ -697,7 +697,7 @@ local function drawRelics()
     forms.drawString(guiForm.relicBox, 0, 29, common.seedName .. "(" .. common.preset ..")", 0xFFFFFFFF, 0xFF110011, 15, "arial", "bold")
     drawControls(guiForm, settings)
 
-    for i = 1, 23, 1 do
+    for i = 1, 25, 1 do
         if settings.trackAllRelics == false then
             if relics[i].status and relics[i].progression then
                 if columns > 5 then
@@ -730,7 +730,7 @@ local function drawRelics()
     rows =  rows + 1
     columns = 0
 
-    for i = 24, 28, 1 do
+    for i = 26, 30, 1 do
         if relics[i].status then
             if common.allDracRelics then
                 forms.drawImage(guiForm.relicBox, relics[i].path, (columns * 46) - 5, (rows * 46) + 34 + 15, 60, 60, true)
@@ -913,6 +913,7 @@ local function detectRelics()
 
     local dracRelics = 0
     for i = 26, 30, 1 do
+        print(i)
         if relics[i].status == false then
             if mainmemory.readbyte(relics[i].address) ~= 0x00 then
                 relics[i].status = true
