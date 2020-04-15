@@ -14,7 +14,7 @@ deserializeToObject(settings, "config.ini")
 
 ---UI---
 local guiForm = {
-    version = "1.7.0",
+    version = "1.7.1",
     mainForm = nil,
     allRelics = nil,
     relicBox = nil,
@@ -40,7 +40,9 @@ local common = {
     hasThrustWeapon = false,
     imagesCached = false,
     seedName = "",
-    preset = ""
+    preset = "",
+    secondCastleStart = 28,
+    squareLocations = true
 }
 
 local relics = {
@@ -694,7 +696,11 @@ local function drawRelics()
     local columns = 0
     forms.clear(guiForm.relicBox, 0xFF110011)
 
-    forms.drawString(guiForm.relicBox, 0, 29, common.seedName .. "(" .. common.preset ..")", 0xFFFFFFFF, 0xFF110011, 15, "arial", "bold")
+    local fontSize = 18
+    if #common.seedName > 16 then
+        fontSize = 15
+    end
+    forms.drawString(guiForm.relicBox, 0, 29, common.seedName .. "(" .. common.preset ..")", 0xFFFFFFFF, 0xFF110011, fontSize, "arial", "bold")
     drawControls(guiForm, settings)
 
     for i = 1, 25, 1 do
@@ -766,7 +772,11 @@ end
 
 local function drawSeedName()
     forms.clear(guiForm.relicBox, 0xFF110011)
-    forms.drawString(guiForm.relicBox, 0, 29, common.seedName .. "(" .. common.preset ..")", 0xFFFFFFFF, 0xFF110011, 15, "arial", "bold")
+    local fontSize = 18
+    if #common.seedName > 16 then
+        fontSize = 15
+    end
+    forms.drawString(guiForm.relicBox, 0, 29, common.seedName .. "(" .. common.preset ..")", 0xFFFFFFFF, 0xFF110011, fontSize, "arial", "bold")
     drawControls(guiForm, settings)
     forms.refresh(guiForm.relicBox)
 end
@@ -996,6 +1006,102 @@ local function detectLocations()
 end
 
 local function drawLocations()
+    local scaling = 0
+    local boxSize = 0
+    local circleSize = 0
+    local adjustedOffsetX = common.drawingOffsetX
+    local adjustedOffsetY = common.drawingOffsetY
+    local firstCastleChecksRemaining = 0
+    local secondCastleChecksRemaining = 0
+
+    if common.displayMode == "PixelPro: 0" then
+        scaling = 1
+        boxSize = 9
+        circleSize = 6
+    else
+        scaling = 0.5
+        boxSize = 4
+        circleSize = 3
+    end
+
+    local locationColor
+
+    if mainmemory.read_u8(constants.ramAddresses.secondCastleAddress) == 0 then
+        for i = 1, common.secondCastleStart - 1, 1 do
+            if locations[i].status == false and not locations[i].skip  then
+
+                if locations[i].reachable == true then
+                    locationColor = constants.colors.locationMapColorReachable
+                elseif locations[i].allowedReachable == true then
+                    locationColor = constants.colors.locationMapColorAllowed
+                else
+                    locationColor = constants.colors.locationMapColor
+                end
+
+                firstCastleChecksRemaining = firstCastleChecksRemaining + 1
+
+                if common.squareLocations then
+                    gui.drawBox((locations[i].mapX * scaling) + adjustedOffsetX,
+                            (locations[i].mapY * scaling) + adjustedOffsetY,
+                            (locations[i].mapX * scaling) + adjustedOffsetX + boxSize,
+                            (locations[i].mapY * scaling) + adjustedOffsetY + boxSize,
+                            constants.colors.mapBorderColor, locationColor)
+                else
+                    gui.drawEllipse(((locations[i].mapX + 2) * scaling) + adjustedOffsetX,
+                            ((locations[i].mapY + 2) * scaling) + adjustedOffsetY,
+                            circleSize, circleSize, constants.colors.mapBorderColor, locationColor)
+                end
+            end
+        end
+
+        for i = common.secondCastleStart, #locations, 1 do
+            if locations[i].status == false and not locations[i].skip then
+                secondCastleChecksRemaining = secondCastleChecksRemaining + 1
+            end
+        end
+
+        gui.drawText(0, 0, "First Castle checks: " .. firstCastleChecksRemaining, 0xFFFFFFFF, 0xFF000000, (16 * scaling))
+        gui.drawText(0, (17 * scaling), "Second Castle checks: " .. secondCastleChecksRemaining, 0xFFFFFFFF, 0xFF000000, (16 * scaling))
+    else
+        for i = common.secondCastleStart, #locations, 1 do
+            if locations[i].status == false and not locations[i].skip then
+
+                if locations[i].reachable == true then
+                    locationColor = constants.colors.locationMapColorReachable
+                elseif locations[i].allowedReachable == true then
+                    locationColor = constants.colors.locationMapColorAllowed
+                else
+                    locationColor = constants.colors.locationMapColor
+                end
+
+                secondCastleChecksRemaining = secondCastleChecksRemaining + 1
+
+                if common.squareLocations then
+                    gui.drawBox((locations[i].mapX * scaling) + adjustedOffsetX,
+                            (locations[i].mapY * scaling) + adjustedOffsetY,
+                            (locations[i].mapX * scaling) + adjustedOffsetX + boxSize,
+                            (locations[i].mapY * scaling) + adjustedOffsetY + boxSize,
+                            constants.colors.mapBorderColor, locationColor)
+                else
+                    gui.drawEllipse(((locations[i].mapX + 2) * scaling) + adjustedOffsetX,
+                            ((locations[i].mapY + 2) * scaling) + adjustedOffsetY,
+                            circleSize, circleSize, constants.colors.mapBorderColor, locationColor)
+                end
+            end
+        end
+
+        for i = 1, common.secondCastleStart - 1, 1 do
+            if locations[i].status == false and not locations[i].skip then
+                firstCastleChecksRemaining = firstCastleChecksRemaining + 1
+            end
+        end
+
+        gui.drawText(0, 0, "First Castle checks: " .. firstCastleChecksRemaining, 0xFFFFFFFF, 0xFF000000, (16 * scaling))
+        gui.drawText(0, (17 * scaling), "Second Castle checks: " .. secondCastleChecksRemaining, 0xFFFFFFFF, 0xFF000000, (16 * scaling))
+    end
+end
+
+local function drawAdventureLocations()
     local scaling = 1
     local boxSize = 5
     local adjustedOffsetX = common.drawingOffsetX
@@ -1195,6 +1301,23 @@ while true do
         if presetFile and presetFile.relics then
             for i = 1, #presetFile.relics, 1 do
                 relics[presetFile.relics[i].index].progression = true
+            end
+        end
+
+        if presetFile and presetFile.squareLocations ~= nil then
+            common.squareLocations = presetFile.squareLocations
+        end
+
+        if presetFile and presetFile.newLocationsFirstCastle then
+            for i = 1, #presetFile.newLocationsFirstCastle, 1 do
+                table.insert(locations, 2, presetFile.newLocationsFirstCastle[i])
+            end
+            common.secondCastleStart = common.secondCastleStart + #presetFile.newLocationsFirstCastle
+        end
+
+        if presetFile and presetFile.newLocationsSecondCastle then
+            for i = 1, #presetFile.newLocationsSecondCastle, 1 do
+                table.insert(locations, presetFile.newLocationsSecondCastle[i])
             end
         end
 

@@ -17,8 +17,8 @@ function toggle(settings, box, guiForm)
 end
 
 function initForm(settings, guiForm)
-    guiForm.mainForm = forms.newform(296, 390, "SOTN Autotracker")
-    guiForm.relicBox = forms.pictureBox(guiForm.mainForm, 0, 0, 296, 390)
+    guiForm.mainForm = forms.newform(296, 450, "SOTN Autotracker")
+    guiForm.relicBox = forms.pictureBox(guiForm.mainForm, 0, 0, 296, 450)
 
     guiForm.allRelicsCheckbox = forms.checkbox(guiForm.mainForm, "", 400, 400)
 
