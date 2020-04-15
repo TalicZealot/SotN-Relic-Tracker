@@ -5,6 +5,9 @@ local differences = {
         },
         {
             index = 25
+        },
+        {
+            index = 11
         }
     },
     newLocationsFirstCastle = {
@@ -120,7 +123,7 @@ local differences = {
         }, {
             name = "Secret Boots",
             status = false,
-            mapTiles = {{address = 0x06BDE9, values = {17}}},
+            mapTiles = {{address = 0x06BDE9, values = {17, 81, 85}}},
             mapX = 194,
             mapY = 276,
             locks = {{"JEWEL_OF_OPEN", "SOUL_OF_BAT"}, {"JEWEL_OF_OPEN", "LEAP_STONE", "GRAVITY_BOOTS"}, {"JEWEL_OF_OPEN", "FORM_OF_MIST", "POWER_OF_MIST"}},
@@ -328,7 +331,7 @@ local differences = {
         }, {
             name = "Estoc",
             status = false,
-            mapTiles = {{address = 0x06BC9C, values = {1, 5}}},
+            mapTiles = {{address = 0x06BC9C, values = {1, 5, 81}}},
             mapX = 242,
             mapY = 84,
             locks = {{"SOUL_OF_BAT"}, {"GRAVITY_BOOTS", "LEAP_STONE"}, {"FORM_OF_MIST", "POWER_OF_MIST"}},
@@ -352,7 +355,7 @@ local differences = {
         }, {
             name = "Knight Shield",
             status = false,
-            mapTiles = {{address = 0x06BCD7, values = {5, 21, 85}}},
+            mapTiles = {{address = 0x06BCD7, values = {5, 21, 69, 85}}},
             mapX = 114,
             mapY = 140,
             locks = {{"SOUL_OF_BAT"}, {"GRAVITY_BOOTS"}, {"FORM_OF_MIST", "POWER_OF_MIST"}},

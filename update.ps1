@@ -16,7 +16,7 @@ $destination.Copyhere($zip_file.items())
 Remove-Item $filename
 
 #Update files
-Remove-Item .\Utilities  -Recurse
+Remove-Item .\Presets  -Recurse
 Remove-Item .\images  -Recurse
 Remove-Item .\*.lua  -Recurse
 Remove-Item .\*.md  -Recurse

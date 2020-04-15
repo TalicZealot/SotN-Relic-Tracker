@@ -42,7 +42,8 @@ local common = {
     seedName = "",
     preset = "",
     secondCastleStart = 28,
-    squareLocations = true
+    squareLocations = true,
+    fontSize = 20
 }
 
 local relics = {
@@ -107,7 +108,7 @@ local relics = {
         progression = false,
         address = 0x9796D
     }, {--11
-        name = " Cube of Zoe",
+        name = "Cube of Zoe",
         path = "images/large/CubeOfZoe.png",
         status = false,
         progression = false,
@@ -696,11 +697,7 @@ local function drawRelics()
     local columns = 0
     forms.clear(guiForm.relicBox, 0xFF110011)
 
-    local fontSize = 18
-    if #common.seedName > 16 then
-        fontSize = 15
-    end
-    forms.drawString(guiForm.relicBox, 0, 29, common.seedName .. "(" .. common.preset ..")", 0xFFFFFFFF, 0xFF110011, fontSize, "arial", "bold")
+    forms.drawString(guiForm.relicBox, 0, 29, common.seedName .. "(" .. common.preset ..")", 0xFFFFFFFF, 0xFF110011, common.fontSize, "arial", "bold")
     drawControls(guiForm, settings)
 
     for i = 1, 25, 1 do
@@ -772,11 +769,7 @@ end
 
 local function drawSeedName()
     forms.clear(guiForm.relicBox, 0xFF110011)
-    local fontSize = 18
-    if #common.seedName > 16 then
-        fontSize = 15
-    end
-    forms.drawString(guiForm.relicBox, 0, 29, common.seedName .. "(" .. common.preset ..")", 0xFFFFFFFF, 0xFF110011, fontSize, "arial", "bold")
+    forms.drawString(guiForm.relicBox, 0, 29, common.seedName .. "(" .. common.preset ..")", 0xFFFFFFFF, 0xFF110011, common.fontSize, "arial", "bold")
     drawControls(guiForm, settings)
     forms.refresh(guiForm.relicBox)
 end
@@ -1225,7 +1218,7 @@ while true do
     if common.seedName == "" and gameinfo.getromhash() ~= "" and mainmemory.readbyte(constants.ramAddresses.gameStatus) == 8 then
         local digit = false
         local symbol = false
-        for i = 0, 27, 1 do
+        for i = 0, 31, 1 do
             local currentByte = mainmemory.readbyte(constants.ramAddresses.seedNameStartAddress + i)
             if currentByte == 130 then
                 digit = true
@@ -1240,11 +1233,20 @@ while true do
                     if constants.characterMap[currentByte] then
                         common.seedName = common.seedName .. constants.characterMap[currentByte]
                     end
-                else
+                elseif currentByte > 0 then
                     common.seedName = common.seedName .. string.char(currentByte);
                 end
             end
         end
+
+        if #common.seedName > 13 then
+            common.fontSize = 18
+        elseif #common.seedName > 16 then
+            common.fontSize = 16
+        elseif #common.seedName > 18 then
+            common.fontSize = 14
+        end
+
         drawSeedName()
     end
 
