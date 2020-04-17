@@ -131,7 +131,7 @@ local differences = {
         }, {
             name = "Herald Shield",
             status = false,
-            mapTiles = {{address = 0x06BDC9, values = {5,}}},
+            mapTiles = {{address = 0x06BDC9, values = {5, 69}}},
             mapX = 178,
             mapY = 260,
             locks = {{"JEWEL_OF_OPEN", "SOUL_OF_BAT"}, {"JEWEL_OF_OPEN", "LEAP_STONE"}, {"JEWEL_OF_OPEN", "FORM_OF_MIST", "POWER_OF_MIST"}},
@@ -210,7 +210,7 @@ local differences = {
         }, {
             name = "Morningstar",
             status = false,
-            mapTiles = {{address = 0x06BCC6, values = {21, 85}}},
+            mapTiles = {{address = 0x06BCC6, values = {21, 85,  84}}},
             mapX = 66,
             mapY = 132,
             locks = {{"SOUL_OF_BAT"}, {"LEAP_STONE"},  {"GRAVITY_BOOTS"}, {"FORM_OF_MIST", "POWER_OF_MIST"}},
@@ -218,7 +218,7 @@ local differences = {
         }, {
             name = "Goggles",
             status = false,
-            mapTiles = {{address = 0x06BCC6, values = {5, 4, 21}}},
+            mapTiles = {{address = 0x06BCC6, values = {5, 4, 21, 84, 85}}},
             mapX = 82,
             mapY = 132,
             locks = {{"JEWEL_OF_OPEN"}, {"SOUL_OF_BAT"}, {"LEAP_STONE"}, {"GRAVITY_BOOTS"}, {"FORM_OF_MIST", "POWER_OF_MIST"}},
@@ -250,7 +250,7 @@ local differences = {
         }, {
             name = "Falchion",
             status = false,
-            mapTiles = {{address = 0x06BBFD, values = {5}}},
+            mapTiles = {{address = 0x06BBFD, values = {5, 85}}},
             mapX = 314,
             mapY = 28,
             locks = {{"SOUL_OF_BAT"}, {"LEAP_STONE"}, {"GRAVITY_BOOTS"}, {"FORM_OF_MIST", "POWER_OF_MIST"}},
@@ -406,7 +406,7 @@ local differences = {
         }, {
             name = "Sword of Dawn",
             status = false,
-            mapTiles = {{address = 0x06C2BC, values = {64, 65}}},
+            mapTiles = {{address = 0x06C2BC, values = {64, 65}}, {address = 0x06C2BB, values = {21}},},
             mapX = 256,
             mapY = 346,
             locks = {},

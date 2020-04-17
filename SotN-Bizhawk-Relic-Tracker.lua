@@ -14,7 +14,7 @@ deserializeToObject(settings, "config.ini")
 
 ---UI---
 local guiForm = {
-    version = "1.7.1",
+    version = "1.7.3",
     mainForm = nil,
     allRelics = nil,
     relicBox = nil,
@@ -81,7 +81,7 @@ local relics = {
         name = "Power of Wolf",
         path = "images/large/PowerOfWolf.png",
         status = false,
-        progression = false,
+        progression = true,
         address = 0x97969
     }, {--7
         name = "Skill of Wolf",
@@ -460,7 +460,7 @@ local locations = {
         mapTiles = {{address = 0x06BE3B, values = {21}}},
         mapX = 234,
         mapY = 316,
-        locks = {{"JEWEL_OF_OPEN", "SOUL_OF_BAT"}, {"JEWEL_OF_OPEN", "LEAP_STONE"}, {"JEWEL_OF_OPEN", "FORM_OF_MIST", "POWER_OF_MIST"}},
+        locks = {{"JEWEL_OF_OPEN", "SOUL_OF_BAT"}, {"JEWEL_OF_OPEN", "LEAP_STONE"}, {"JEWEL_OF_OPEN", "FORM_OF_MIST", "POWER_OF_MIST"}, {"JEWEL_OF_OPEN", "SOUL_OF_WOLF", "POWER_OF_WOLF"}},
         allowed = {{"JEWEL_OF_OPEN", "GRAVITY_BOOTS", "THRUST_SWORD"}, {"JEWEL_OF_OPEN", "GRAVITY_BOOTS", "SOUL_OF_WOLF"}, {"JEWEL_OF_OPEN", "GRAVITY_BOOTS", "FORM_OF_MIST"}, {"JEWEL_OF_OPEN", "SOUL_OF_WOLF", "POWER_OF_WOLF"}}
     }, {
         name = "Sword Card",--21
@@ -501,7 +501,7 @@ local locations = {
         mapTiles = {{address = 0x06BEAE, values = {21, 85}}},
         mapX = 330,
         mapY = 372,
-        locks = {{"JEWEL_OF_OPEN", "SOUL_OF_BAT", "ECHO_OF_BAT"}},
+        locks = {{"JEWEL_OF_OPEN", "SOUL_OF_BAT", "ECHO_OF_BAT"}, {"SPIKE_BREAKER", "LEAP_STONE"}},
         allowed = {{"JEWEL_OF_OPEN", "SOUL_OF_BAT"}, {"JEWEL_OF_OPEN", "FORM_OF_MIST", "POWER_OF_MIST"}}
     },
     {
@@ -1240,11 +1240,11 @@ while true do
         end
 
         if #common.seedName > 13 then
-            common.fontSize = 18
+            common.fontSize = 17
         elseif #common.seedName > 16 then
-            common.fontSize = 16
+            common.fontSize = 15
         elseif #common.seedName > 18 then
-            common.fontSize = 14
+            common.fontSize = 12
         end
 
         drawSeedName()

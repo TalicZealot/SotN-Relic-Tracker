@@ -1,6 +1,6 @@
 # SotN Relic and Location check Autotracker
 Autotracker LUA script for the Castlevania:SotN Randomizer https://sotn.io/
-## Version 1.7.2
+## Version 1.7.3
 
 ## Bizhawk Instructions: 
 * Download repository from *Clone or download* > *Download ZIP*
@@ -34,7 +34,10 @@ Autotracker LUA script for the Castlevania:SotN Randomizer https://sotn.io/
 * Configuration > Graphics > Use Frame Skipping
 * Configuration > Graphics > Auto-detect FPS/Frame skipping
 
-#### 1.7.1
+#### 1.7.3
+* Updated Caverns locks.
+* Adventure location fixes.
+#### 1.7.2
 * Fix updater not removing Presets folder.
 * Larger font size.
 * Cube of Zoe as progression for adventure.
@@ -49,6 +52,9 @@ Autotracker LUA script for the Castlevania:SotN Randomizer https://sotn.io/
 * Separated in and out of logic allowed available checks.
 * New Card sprites by fatihG.
 * New updater.
+
+<details><summary>show more:</summary>
+
 #### 1.6.1
 * Performance improvements.
 * Added Silver Ring, Gold Ring, Spike Breaker and Holy Glasses as locations.
@@ -58,9 +64,6 @@ Autotracker LUA script for the Castlevania:SotN Randomizer https://sotn.io/
 * Better cloak randomization.
 * Redone location availability in preparation for new logic.
 * Psxjin update bat file.
-
-<details><summary>show more:</summary>
-
 #### 1.5.4
 * Location availability fix.
 #### 1.5.3
