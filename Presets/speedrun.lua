@@ -71,7 +71,7 @@ local differences = {
             locks = {{"JEWEL_OF_OPEN", "SOUL_OF_BAT"}, {"JEWEL_OF_OPEN", "FORM_OF_MIST", "POWER_OF_MIST"}}
         }, {
             index = 26,
-            locks = {{"JEWEL_OF_OPEN", "FORM_OF_MIST"}}
+            locks = {{"JEWEL_OF_OPEN", "FORM_OF_MIST", "POWER_OF_MIST"}, {"JEWEL_OF_OPEN", "FORM_OF_MIST", "SOUL_OF_BAT"}}
         }
     },
     --set relics as progression

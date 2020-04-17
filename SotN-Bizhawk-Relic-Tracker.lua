@@ -14,7 +14,7 @@ deserializeToObject(settings, "config.ini")
 
 ---UI---
 local guiForm = {
-    version = "1.7.3",
+    version = "1.7.4",
     mainForm = nil,
     allRelics = nil,
     relicBox = nil,

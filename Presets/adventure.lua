@@ -210,7 +210,7 @@ local differences = {
         }, {
             name = "Morningstar",
             status = false,
-            mapTiles = {{address = 0x06BCC6, values = {21, 85,  84}}},
+            mapTiles = {{address = 0x06BCC6, values = {21, 85,  84}}, {address = 0x06BCD6, values = {21, 85,  84}}},
             mapX = 66,
             mapY = 132,
             locks = {{"SOUL_OF_BAT"}, {"LEAP_STONE"},  {"GRAVITY_BOOTS"}, {"FORM_OF_MIST", "POWER_OF_MIST"}},
