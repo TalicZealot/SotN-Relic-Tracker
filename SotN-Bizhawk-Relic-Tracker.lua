@@ -1,8 +1,3 @@
------------------------------------------------------------------
--- Castlevania: Symphony of the Night Relic Tracker for Bizhawk--
------------------------------------------------------------------
--- By TalicZealot
------------------
 require "Utilities/Serialization"
 require "UserInterface"
 local constants = require "constants"
@@ -14,7 +9,7 @@ deserializeToObject(settings, "config.ini")
 
 ---UI---
 local guiForm = {
-    version = "1.7.4",
+    version = "1.7.5",
     mainForm = nil,
     allRelics = nil,
     relicBox = nil,
@@ -317,7 +312,7 @@ local locations = {
         mapX = 130,
         mapY = 92,
         locks = {{"SOUL_OF_BAT"}, {"LEAP_STONE", "GRAVITY_BOOTS", "SOUL_OF_WOLF"}, {"LEAP_STONE", "GRAVITY_BOOTS", "FORM_OF_MIST"}, {"FORM_OF_MIST", "POWER_OF_MIST"}},
-        allowed = {{"GRAVITY_BOOTS", "THRUST_SWORD"}, {"GRAVITY_BOOTS", "SOUL_OF_WOLF"}, {"GRAVITY_BOOTS", "FORM_OF_MIST"}}
+        allowed = {{"GRAVITY_BOOTS", "SOUL_OF_WOLF"}, {"GRAVITY_BOOTS", "FORM_OF_MIST"}}
     }, {
         name = "Soul of Wolf",--4
         status = false,
@@ -501,8 +496,8 @@ local locations = {
         mapTiles = {{address = 0x06BEAE, values = {21, 85}}},
         mapX = 330,
         mapY = 372,
-        locks = {{"JEWEL_OF_OPEN", "SOUL_OF_BAT", "ECHO_OF_BAT"}, {"SPIKE_BREAKER", "LEAP_STONE"}},
-        allowed = {{"JEWEL_OF_OPEN", "SOUL_OF_BAT"}, {"JEWEL_OF_OPEN", "FORM_OF_MIST", "POWER_OF_MIST"}}
+        locks = {{"JEWEL_OF_OPEN", "SOUL_OF_BAT", "ECHO_OF_BAT"}, {"JEWEL_OF_OPEN", "SPIKE_BREAKER", "LEAP_STONE"}},
+        allowed = {{"JEWEL_OF_OPEN", "SOUL_OF_BAT"}, {"JEWEL_OF_OPEN", "FORM_OF_MIST", "POWER_OF_MIST"}, {"JEWEL_OF_OPEN", "SPIKE_BREAKER"}}
     },
     {
         name = "Silver Ring",--26
@@ -1002,8 +997,6 @@ local function drawLocations()
     local scaling = 0
     local boxSize = 0
     local circleSize = 0
-    local adjustedOffsetX = common.drawingOffsetX
-    local adjustedOffsetY = common.drawingOffsetY
     local firstCastleChecksRemaining = 0
     local secondCastleChecksRemaining = 0
 
@@ -1034,14 +1027,14 @@ local function drawLocations()
                 firstCastleChecksRemaining = firstCastleChecksRemaining + 1
 
                 if common.squareLocations then
-                    gui.drawBox((locations[i].mapX * scaling) + adjustedOffsetX,
-                            (locations[i].mapY * scaling) + adjustedOffsetY,
-                            (locations[i].mapX * scaling) + adjustedOffsetX + boxSize,
-                            (locations[i].mapY * scaling) + adjustedOffsetY + boxSize,
+                    gui.drawBox((locations[i].mapX * scaling) + common.drawingOffsetX,
+                            (locations[i].mapY * scaling) + common.drawingOffsetY,
+                            (locations[i].mapX * scaling) + common.drawingOffsetX + boxSize,
+                            (locations[i].mapY * scaling) + common.drawingOffsetY + boxSize,
                             constants.colors.mapBorderColor, locationColor)
                 else
-                    gui.drawEllipse(((locations[i].mapX + 2) * scaling) + adjustedOffsetX,
-                            ((locations[i].mapY + 2) * scaling) + adjustedOffsetY,
+                    gui.drawEllipse(((locations[i].mapX + 2) * scaling) + common.drawingOffsetX,
+                            ((locations[i].mapY + 2) * scaling) + common.drawingOffsetY,
                             circleSize, circleSize, constants.colors.mapBorderColor, locationColor)
                 end
             end
@@ -1070,14 +1063,14 @@ local function drawLocations()
                 secondCastleChecksRemaining = secondCastleChecksRemaining + 1
 
                 if common.squareLocations then
-                    gui.drawBox((locations[i].mapX * scaling) + adjustedOffsetX,
-                            (locations[i].mapY * scaling) + adjustedOffsetY,
-                            (locations[i].mapX * scaling) + adjustedOffsetX + boxSize,
-                            (locations[i].mapY * scaling) + adjustedOffsetY + boxSize,
+                    gui.drawBox((locations[i].mapX * scaling) + common.drawingOffsetX,
+                            (locations[i].mapY * scaling) + common.drawingOffsetY,
+                            (locations[i].mapX * scaling) + common.drawingOffsetX + boxSize,
+                            (locations[i].mapY * scaling) + common.drawingOffsetY + boxSize,
                             constants.colors.mapBorderColor, locationColor)
                 else
-                    gui.drawEllipse(((locations[i].mapX + 2) * scaling) + adjustedOffsetX,
-                            ((locations[i].mapY + 2) * scaling) + adjustedOffsetY,
+                    gui.drawEllipse(((locations[i].mapX + 2) * scaling) + common.drawingOffsetX,
+                            ((locations[i].mapY + 2) * scaling) + common.drawingOffsetY,
                             circleSize, circleSize, constants.colors.mapBorderColor, locationColor)
                 end
             end
@@ -1097,8 +1090,6 @@ end
 local function drawAdventureLocations()
     local scaling = 1
     local boxSize = 5
-    local adjustedOffsetX = common.drawingOffsetX
-    local adjustedOffsetY = common.drawingOffsetY
     local firstCastleLocations = 21
     local secondCastleLocations = 34
     local firstCastleChecksRemaining = 0
@@ -1134,10 +1125,10 @@ local function drawAdventureLocations()
 
                 firstCastleChecksRemaining = firstCastleChecksRemaining + 1
 
-                gui.drawBox((locations[i].mapX * scaling) + adjustedOffsetX,
-                            (locations[i].mapY * scaling) + adjustedOffsetY,
-                            (locations[i].mapX * scaling) + adjustedOffsetX + boxSize,
-                            (locations[i].mapY * scaling) + adjustedOffsetY + boxSize,
+                gui.drawBox((locations[i].mapX * scaling) + common.drawingOffsetX,
+                            (locations[i].mapY * scaling) + common.drawingOffsetY,
+                            (locations[i].mapX * scaling) + common.drawingOffsetX + boxSize,
+                            (locations[i].mapY * scaling) + common.drawingOffsetY + boxSize,
                             constants.colors.mapBorderColor, locationColor)
             end
         end
@@ -1164,10 +1155,10 @@ local function drawAdventureLocations()
 
                 secondCastleChecksRemaining = secondCastleChecksRemaining + 1
 
-                gui.drawBox((locations[i].mapX * scaling) + adjustedOffsetX,
-                            (locations[i].mapY * scaling) + adjustedOffsetY,
-                            (locations[i].mapX * scaling) + adjustedOffsetX + boxSize,
-                            (locations[i].mapY * scaling) + adjustedOffsetY + boxSize,
+                gui.drawBox((locations[i].mapX * scaling) + common.drawingOffsetX,
+                            (locations[i].mapY * scaling) + common.drawingOffsetY,
+                            (locations[i].mapX * scaling) + common.drawingOffsetX + boxSize,
+                            (locations[i].mapY * scaling) + common.drawingOffsetY + boxSize,
                             constants.colors.mapBorderColor, locationColor)
             end
         end

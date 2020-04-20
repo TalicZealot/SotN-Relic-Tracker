@@ -11,8 +11,7 @@ local differences = {
         }, {
             index = 3,
             locks = {{"SOUL_OF_BAT"}, {"GRAVITY_BOOTS", "SOUL_OF_WOLF"}, 
-            {"GRAVITY_BOOTS", "FORM_OF_MIST"}, {"FORM_OF_MIST", "POWER_OF_MIST"}},
-            allowed = {{"GRAVITY_BOOTS", "THRUST_SWORD"}}
+            {"GRAVITY_BOOTS", "FORM_OF_MIST"}, {"FORM_OF_MIST", "POWER_OF_MIST"}}
         }, {
             index = 5,
             locks = {{"SOUL_OF_BAT"}, {"GRAVITY_BOOTS", "SOUL_OF_WOLF"}, {"GRAVITY_BOOTS", "FORM_OF_MIST"},
@@ -63,15 +62,16 @@ local differences = {
             allowed = {{"JEWEL_OF_OPEN", "GRAVITY_BOOTS", "THRUST_SWORD"}}
         }, {
             index = 24,
-            locks = {{"JEWEL_OF_OPEN", "SOUL_OF_BAT"}, {"JEWEL_OF_OPEN", "GRAVITY_BOOTS", "SOUL_OF_WOLF"},  {"JEWEL_OF_OPEN", "GRAVITY_BOOTS", "FORM_OF_MIST"}, 
+            locks = {{"JEWEL_OF_OPEN", "SOUL_OF_BAT"}, {"JEWEL_OF_OPEN", "GRAVITY_BOOTS", "SOUL_OF_WOLF"}, {"JEWEL_OF_OPEN", "GRAVITY_BOOTS", "LEAP_STONE"},  {"JEWEL_OF_OPEN", "GRAVITY_BOOTS", "FORM_OF_MIST"}, 
              {"JEWEL_OF_OPEN", "FORM_OF_MIST", "POWER_OF_MIST"}, {"JEWEL_OF_OPEN", "LEAP_STONE", "FORM_OF_MIST"}},
              allowed = {{"JEWEL_OF_OPEN", "GRAVITY_BOOTS", "THRUST_SWORD"}}
         }, {
             index = 25,
-            locks = {{"JEWEL_OF_OPEN", "SOUL_OF_BAT"}, {"JEWEL_OF_OPEN", "FORM_OF_MIST", "POWER_OF_MIST"}}
+            locks = {{"JEWEL_OF_OPEN", "SOUL_OF_BAT"}, {"JEWEL_OF_OPEN", "FORM_OF_MIST", "POWER_OF_MIST"}, {"JEWEL_OF_OPEN", "SPIKE_BREAKER", "LEAP_STONE"}},
+            locks = {{"JEWEL_OF_OPEN", "SPIKE_BREAKER"}}
         }, {
             index = 26,
-            locks = {{"JEWEL_OF_OPEN", "FORM_OF_MIST", "POWER_OF_MIST"}, {"JEWEL_OF_OPEN", "FORM_OF_MIST", "SOUL_OF_BAT"}}
+            locks = {{"JEWEL_OF_OPEN", "FORM_OF_MIST", "POWER_OF_MIST"}, {"JEWEL_OF_OPEN", "FORM_OF_MIST", "SOUL_OF_BAT"}, {"JEWEL_OF_OPEN", "SPIKE_BREAKER", "FORM_OF_MIST"}}
         }
     },
     --set relics as progression
