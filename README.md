@@ -1,8 +1,9 @@
 # SotN Relic and Location check Autotracker
 Autotracker LUA script for the Castlevania:SotN Randomizer https://sotn.io/
-## Version 1.7.5
+## Version 1.7.6
 
 ## Bizhawk Instructions: 
+* Get the latest BizHawk release https://github.com/TASVideos/BizHawk/releases
 * Download repository from *Clone or download* > *Download ZIP*
 * Set Config > Customize > Advanced > Lua Core > Lua+LuaInterface > Restart
 * Launch the script through Tools > Lua Console > Script > Open Script > SotN-Bizhawk-Relic-Tracker.lua
@@ -34,6 +35,8 @@ Autotracker LUA script for the Castlevania:SotN Randomizer https://sotn.io/
 * Configuration > Graphics > Use Frame Skipping
 * Configuration > Graphics > Auto-detect FPS/Frame skipping
 
+#### 1.7.6
+* Speedrun logic fupdate.
 #### 1.7.5
 * Adventure location fixes.
 * Speedrun logic fixes.

@@ -9,7 +9,7 @@ deserializeToObject(settings, "config.ini")
 
 ---UI---
 local guiForm = {
-    version = "1.7.5",
+    version = "1.7.6",
     mainForm = nil,
     allRelics = nil,
     relicBox = nil,
@@ -34,8 +34,8 @@ local common = {
     allDracRelics = false,
     hasThrustWeapon = false,
     imagesCached = false,
-    seedName = "",
-    preset = "",
+    seedName = "none",
+    preset = "none",
     secondCastleStart = 28,
     squareLocations = true,
     fontSize = 20
@@ -488,7 +488,7 @@ local locations = {
         mapX = 362,
         mapY = 228,
         locks = {{"JEWEL_OF_OPEN", "SOUL_OF_BAT"}, {"JEWEL_OF_OPEN", "FORM_OF_MIST", "POWER_OF_MIST"}, {"JEWEL_OF_OPEN", "GRAVITY_BOOTS", "LEAP_STONE"}},
-        allowed = {{"JEWEL_OF_OPEN", "GRAVITY_BOOTS", "THRUST_SWORD"}, {"JEWEL_OF_OPEN", "GRAVITY_BOOTS", "SOUL_OF_WOLF"}, {"JEWEL_OF_OPEN", "GRAVITY_BOOTS", "FORM_OF_MIST"}, {"JEWEL_OF_OPEN", "LEAP_STONE", "FORM_OF_MIST"}}
+        allowed = {{"JEWEL_OF_OPEN", "GRAVITY_BOOTS", "THRUST_SWORD"}, {"JEWEL_OF_OPEN", "GRAVITY_BOOTS", "SOUL_OF_WOLF"}, {"JEWEL_OF_OPEN", "GRAVITY_BOOTS", "FORM_OF_MIST"}, {"JEWEL_OF_OPEN", "LEAP_STONE", "FORM_OF_MIST"}, {"JEWEL_OF_OPEN", "SOUL_OF_WOLF", "POWER_OF_WOLF"}}
     },
     {
         name = "Spikebreaker",--25
@@ -1206,9 +1206,10 @@ while true do
     end
 
     --get seed name from ram
-    if common.seedName == "" and gameinfo.getromhash() ~= "" and mainmemory.readbyte(constants.ramAddresses.gameStatus) == 8 then
+    if common.seedName == "none" and gameinfo.getromhash() ~= "" and mainmemory.readbyte(constants.ramAddresses.gameStatus) == 8 then
         local digit = false
         local symbol = false
+        common.seedName = ""
         for i = 0, 31, 1 do
             local currentByte = mainmemory.readbyte(constants.ramAddresses.seedNameStartAddress + i)
             if currentByte == 130 then
@@ -1242,9 +1243,10 @@ while true do
     end
 
     --get preset from ram
-    if common.preset == "" and gameinfo.getromhash() ~= "" and mainmemory.readbyte(constants.ramAddresses.gameStatus) == 8 then
+    if common.preset == "none" and gameinfo.getromhash() ~= "" and mainmemory.readbyte(constants.ramAddresses.gameStatus) == 8 then
         local digit = false
         local symbol = false
+        common.preset = ""
         for i = 0, 20, 1 do
             local currentByte = mainmemory.readbyte(constants.ramAddresses.presetStartAddress + i)
             if currentByte == 130 then
