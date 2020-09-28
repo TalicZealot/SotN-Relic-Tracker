@@ -3,17 +3,18 @@ require "UserInterface"
 local constants = require "constants"
 
 local settings = {
-    trackAllRelics = false
+    trackAllRelics = false,
+    pixelPro = true
 }
 deserializeToObject(settings, "config.ini")
 
 ---UI---
 local guiForm = {
-    version = "1.7.6",
+    version = "1.7.7",
     mainForm = nil,
-    allRelics = nil,
     relicBox = nil,
     toggle = nil,
+    toggleDisplay = nil,
     toggleOnPath = "images/toggleOn.png",
     toggleOffPath = "images/toggleOff.png",
     toggleWidth = 20,
@@ -26,7 +27,7 @@ forms.drawBox(guiForm.relicBox, 0, 0, 320, 374, 0xFF110011, 0xFF110011)
 local common = {
     drawingOffsetX = 147,
     drawingOffsetY = 38,
-    displayMode = tostring(client.getconfig().CoreSettings['BizHawk.Emulation.Cores.Sony.PSX.Octoshock'].ResolutionMode),
+    --displayMode = tostring(client.getconfig().CoreSettings['BizHawk.Emulation.Cores.Sony.PSX.Octoshock'].ResolutionMode),
     alucardModeStarted = false,
     gameInMainMenu = false,
     gameReset = false,
@@ -1000,7 +1001,7 @@ local function drawLocations()
     local firstCastleChecksRemaining = 0
     local secondCastleChecksRemaining = 0
 
-    if common.displayMode == "PixelPro: 0" then
+    if settings.pixelPro == true then
         scaling = 1
         boxSize = 9
         circleSize = 6
@@ -1100,7 +1101,7 @@ local function drawAdventureLocations()
         secondCastleLocations = 36
     end
 
-    if common.displayMode == "PixelPro: 0" then
+    if settings.pixelPro == true then
         scaling = 1
         boxSize = 9
     else
@@ -1192,7 +1193,7 @@ while true do
     --initialize
     if common.imagesCached == false then
         gui.clearImageCache()
-        if common.displayMode == "PixelPro: 0" then
+        if settings.pixelPro == true then
             common.drawingOffsetX = 148
             common.drawingOffsetY = 38
         else

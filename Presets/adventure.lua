@@ -2,13 +2,13 @@ local differences = {
     relics = {
         {
             index = 22
-        },
-        {
+        }, {
             index = 25
-        },
-        {
+        }, {
             index = 11
-        }
+        }, {
+            index = 7
+        },
     },
     newLocationsFirstCastle = {
         {
@@ -464,8 +464,7 @@ local differences = {
             mapTiles = {{address = 0x06C218, values = {85}}},
             mapX = 118,
             mapY = 264,
-            locks = {},
-            reachable = true
+            locks = {{"FORM_OF_MIST"}}
         },{
             name = "Diamond Rev Caverns",
             status = false,
