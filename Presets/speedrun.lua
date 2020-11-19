@@ -67,8 +67,7 @@ local differences = {
              allowed = {{"JEWEL_OF_OPEN", "GRAVITY_BOOTS", "THRUST_SWORD"}}
         }, {
             index = 25,
-            locks = {{"JEWEL_OF_OPEN", "SOUL_OF_BAT"}, {"JEWEL_OF_OPEN", "FORM_OF_MIST", "POWER_OF_MIST"}, {"JEWEL_OF_OPEN", "SPIKE_BREAKER", "LEAP_STONE"}},
-            locks = {{"JEWEL_OF_OPEN", "SPIKE_BREAKER"}}
+            locks = {{"JEWEL_OF_OPEN", "SOUL_OF_BAT"}, {"JEWEL_OF_OPEN", "FORM_OF_MIST", "POWER_OF_MIST"}, {"JEWEL_OF_OPEN", "SPIKE_BREAKER", "LEAP_STONE"}, {"JEWEL_OF_OPEN", "SPIKE_BREAKER"}},
         }, {
             index = 26,
             locks = {{"JEWEL_OF_OPEN", "FORM_OF_MIST", "POWER_OF_MIST"}, {"JEWEL_OF_OPEN", "FORM_OF_MIST", "SOUL_OF_BAT"}, {"JEWEL_OF_OPEN", "SPIKE_BREAKER", "FORM_OF_MIST"}}
