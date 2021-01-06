@@ -1,6 +1,6 @@
 # SotN Relic and Location check Autotracker
 Autotracker LUA script for the Castlevania:SotN Randomizer https://sotn.io/
-## Version 1.7.8
+## Version 1.7.9
 
 ## Bizhawk Instructions: 
 * Get the latest BizHawk release https://github.com/TASVideos/BizHawk/releases
