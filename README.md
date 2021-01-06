@@ -35,6 +35,9 @@ Autotracker LUA script for the Castlevania:SotN Randomizer https://sotn.io/
 * Configuration > Graphics > Use Frame Skipping
 * Configuration > Graphics > Auto-detect FPS/Frame skipping
 
+#### 1.7.9
+* Preset name and file change for tournament mode.
+* Silver ring allowed lock update.
 #### 1.7.8
 * Lock fixes.
 #### 1.7.7
