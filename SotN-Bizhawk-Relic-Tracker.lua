@@ -506,7 +506,8 @@ local locations = {
         mapTiles = {{address = 0x06BC66, values = {21, 85}}},
         mapX = 68,
         mapY = 84,
-        locks = {{"JEWEL_OF_OPEN", "SPIKE_BREAKER", "FORM_OF_MIST"}}
+        locks = {{"JEWEL_OF_OPEN", "SPIKE_BREAKER", "FORM_OF_MIST"}},
+        allowed = {{"JEWEL_OF_OPEN", "FORM_OF_MIST"}},
     },
     {
         name = "Holy Glasses",--27
@@ -1267,14 +1268,20 @@ while true do
             end
         end
 
+        common.preset = common.preset:gsub(" tournament", "")
+        common.preset = common.preset:gsub(" tourname", "")
+
         local successful 
         local presetFile
-        successful, presetFile = pcall(function()
-        return dofile("Presets\\" .. common.preset .. ".lua")
-        end)
 
-        if not successful then
-            print("Preset file: " .. common.preset .. ".lua could not be loaded.")
+        if common.preset ~= "safe" and common.preset ~= "scavenger" and common.preset ~= "glitch" and common.preset ~= "empty-hand" then
+            successful, presetFile = pcall(function()
+                return dofile("Presets\\" .. common.preset .. ".lua")
+            end)
+        
+            if not successful then
+                print("Preset file: " .. common.preset .. ".lua could not be loaded.")
+            end
         end
 
         if presetFile and presetFile.locations then
