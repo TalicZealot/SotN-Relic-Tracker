@@ -25,7 +25,7 @@ forms.drawBox(guiForm.relicBox, 0, 0, 320, 374, 0xFF110011, 0xFF110011)
 --------
 
 local common = {
-    drawingOffsetX = 147,
+    drawingOffsetX = 148,
     drawingOffsetY = 38,
     --displayMode = tostring(client.getconfig().CoreSettings['BizHawk.Emulation.Cores.Sony.PSX.Octoshock'].ResolutionMode),
     alucardModeStarted = false,
@@ -1006,10 +1006,14 @@ local function drawLocations()
         scaling = 1
         boxSize = 9
         circleSize = 6
+        common.drawingOffsetX = 148
+        common.drawingOffsetY = 38
     else
         scaling = 0.5
         boxSize = 4
         circleSize = 3
+        common.drawingOffsetX = 13
+        common.drawingOffsetY = 19
     end
 
     local locationColor
@@ -1105,9 +1109,13 @@ local function drawAdventureLocations()
     if settings.pixelPro == true then
         scaling = 1
         boxSize = 9
+        common.drawingOffsetX = 148
+        common.drawingOffsetY = 38
     else
         scaling = 0.5
         boxSize = 4
+        common.drawingOffsetX = 13
+        common.drawingOffsetY = 19
     end
 
     local locationColor
