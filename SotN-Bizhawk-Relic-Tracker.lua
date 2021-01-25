@@ -10,7 +10,7 @@ deserializeToObject(settings, "config.ini")
 
 ---UI---
 local guiForm = {
-    version = "1.7.9",
+    version = "1.8.0",
     mainForm = nil,
     relicBox = nil,
     toggle = nil,
@@ -39,7 +39,8 @@ local common = {
     preset = "none",
     secondCastleStart = 28,
     squareLocations = true,
-    fontSize = 20
+    fontSize = 20,
+    font
 }
 
 local relics = {
@@ -497,8 +498,8 @@ local locations = {
         mapTiles = {{address = 0x06BEAE, values = {21, 85}}},
         mapX = 330,
         mapY = 372,
-        locks = {{"JEWEL_OF_OPEN", "SOUL_OF_BAT", "ECHO_OF_BAT"}, {"JEWEL_OF_OPEN", "SPIKE_BREAKER", "LEAP_STONE"}},
-        allowed = {{"JEWEL_OF_OPEN", "SOUL_OF_BAT"}, {"JEWEL_OF_OPEN", "FORM_OF_MIST", "POWER_OF_MIST"}, {"JEWEL_OF_OPEN", "SPIKE_BREAKER"}}
+        locks = {{"JEWEL_OF_OPEN", "SOUL_OF_BAT", "ECHO_OF_BAT"}},
+        allowed = {{"JEWEL_OF_OPEN", "SOUL_OF_BAT"}, {"JEWEL_OF_OPEN", "FORM_OF_MIST", "POWER_OF_MIST"}, {"JEWEL_OF_OPEN", "SPIKE_BREAKER", "LEAP_STONE"}}
     },
     {
         name = "Silver Ring",--26
@@ -1240,16 +1241,6 @@ while true do
                 end
             end
         end
-
-        if #common.seedName > 13 then
-            common.fontSize = 17
-        elseif #common.seedName > 16 then
-            common.fontSize = 15
-        elseif #common.seedName > 18 then
-            common.fontSize = 12
-        end
-
-        drawSeedName()
     end
 
     --get preset from ram
@@ -1330,6 +1321,16 @@ while true do
             for i = 1, #presetFile.newLocationsSecondCastle, 1 do
                 table.insert(locations, presetFile.newLocationsSecondCastle[i])
             end
+        end
+
+        if #common.seedName + #common.preset > 24 and #common.seedName + #common.preset < 28 then
+            common.fontSize = 18
+        elseif #common.seedName + #common.preset > 27 and #common.seedName + #common.preset < 32 then
+            common.fontSize = 16
+        elseif #common.seedName + #common.preset > 31 and #common.seedName + #common.preset < 36 then
+            common.fontSize = 14
+        elseif #common.seedName + #common.preset > 35 then
+            common.fontSize = 12
         end
 
         drawSeedName()
