@@ -543,7 +543,7 @@ local differences = {
             mapTiles = {{address = 0x06C281, values = {84, 85}}},
             mapX = 440,
             mapY = 314,
-            locks = {{"FORM_OF_MIST", "SOUL_OF_BAT"}, {"FORM_OF_MIST", "POWER_OF_MIST"}}
+            locks = {{"FORM_OF_MIST", "SOUL_OF_BAT"}, {"FORM_OF_MIST", "POWER_OF_MIST"}, {"FORM_OF_MIST", "SPIKE_BREAKER"}}
         }, {
             name = "Alucard Mail",
             status = false,

@@ -1,6 +1,6 @@
 # SotN Relic and Location check Autotracker
 Autotracker LUA script for the Castlevania:SotN Randomizer https://sotn.io/
-## Version 1.8.0
+## Version 1.8.1
 
 ## Bizhawk Instructions: 
 * Get the latest BizHawk release https://github.com/TASVideos/BizHawk/releases
@@ -35,7 +35,10 @@ Autotracker LUA script for the Castlevania:SotN Randomizer https://sotn.io/
 * Configuration > Graphics > Use Frame Skipping
 * Configuration > Graphics > Auto-detect FPS/Frame skipping
 
-#### 1.8.-
+#### 1.8.1
+* Skill of Wolf added as a progression relic for speedrun preset.
+* Location availability changes.
+#### 1.8.0
 * Adjusted font scaling.
 * Availability change for Spike Breaker location.
 #### 1.7.9
