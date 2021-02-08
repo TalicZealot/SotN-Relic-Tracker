@@ -10,7 +10,7 @@ deserializeToObject(settings, "config.ini")
 
 ---UI---
 local guiForm = {
-    version = "1.8.1",
+    version = "1.8.2",
     mainForm = nil,
     relicBox = nil,
     toggle = nil,
@@ -182,8 +182,8 @@ local relics = {
         progression = false,
         address = 0x9797A
     }, {--24
-        name = "Sprite",
-        path = "images/large/SwordCard.png",
+        name = "Sprite Card",
+        path = "images/large/FaerieCard.png",
         status = false,
         progression = false,
         address = 0x9797B
@@ -328,7 +328,7 @@ local locations = {
     }, {
         name = "Power of Wolf",--5
         status = false,
-        mapTiles = {{address = 0x06BDE4, values = {1, 5}}},
+        mapTiles = {{address = 0x06BDE4, values = {1, 5, 11}}},
         mapX = 18,
         mapY = 268,
         locks = {{"SOUL_OF_BAT"}, {"GRAVITY_BOOTS", "LEAP_STONE"}, {"FORM_OF_MIST", "POWER_OF_MIST"}},
@@ -437,7 +437,7 @@ local locations = {
     }, {
         name = "Ghost Card",--18
         status = false,
-        mapTiles = {{address = 0x06BBED, values = {20, 21, 69, 81, 181, 85, 17}}},
+        mapTiles = {{address = 0x06BBED, values = {20, 21, 69, 81, 181, 85, 17, 245}}},
         mapX = 314,
         mapY = 20,
         locks = {{"SOUL_OF_BAT"}, {"GRAVITY_BOOTS", "LEAP_STONE"}, {"FORM_OF_MIST", "POWER_OF_MIST"}},
@@ -445,7 +445,7 @@ local locations = {
     }, {
         name = "Faerie Card",--19
         status = false,
-        mapTiles = {{address = 0x06BCA1, values = {84, 126, 85}}},
+        mapTiles = {{address = 0x06BCA1, values = {84, 85, 126, 127}}},
         mapX = 418,
         mapY = 108,
         locks = {{"SOUL_OF_BAT"}, {"FORM_OF_MIST", "POWER_OF_MIST"}, {"GRAVITY_BOOTS"}},
@@ -589,6 +589,14 @@ local locations = {
         mapTiles = {{address = 0x06C109, values = {85}}},
         mapX = 184,
         mapY = 130,
+        locks = {},
+        reachable = true
+    }, {
+        name = "Trio",--37
+        status = false,
+        mapTiles = {{address = 0x06C20F, values = {85}}},
+        mapX = 344,
+        mapY = 258,
         locks = {},
         reachable = true
     }
