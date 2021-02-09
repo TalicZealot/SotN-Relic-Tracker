@@ -10,7 +10,7 @@ deserializeToObject(settings, "config.ini")
 
 ---UI---
 local guiForm = {
-    version = "1.8.2",
+    version = "1.8.3",
     mainForm = nil,
     relicBox = nil,
     toggle = nil,
@@ -594,7 +594,10 @@ local locations = {
     }, {
         name = "Trio",--37
         status = false,
-        mapTiles = {{address = 0x06C20F, values = {85}}},
+        mapTiles = {
+            {address = 0x06C20F, values = {64, 80, 84, 85}},
+            {address = 0x06C20E, values = {5}}
+        },
         mapX = 344,
         mapY = 258,
         locks = {},
