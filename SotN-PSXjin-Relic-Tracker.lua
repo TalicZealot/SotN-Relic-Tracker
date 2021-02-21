@@ -581,6 +581,16 @@ local locations = {
         mapX = 184,
         mapY = 130,
         reachable = true
+    }, {
+        name = "Trio",--37
+        status = false,
+        mapTiles = {
+            {address = 0x06C20F, values = {64, 80, 84, 85}},
+            {address = 0x06C20E, values = {5}}
+        },
+        mapX = 344,
+        mapY = 258,
+        reachable = true
     }
 }
 
@@ -950,7 +960,7 @@ local function drawLocations()
 
     if settings.extendedLocations == true then
         firstCastleLocations = 27
-        secondCastleLocations = 36
+        secondCastleLocations = 37
     end
 
     local mapCheck = memory.readbyte(constants.mapOpenAddress)

@@ -301,7 +301,7 @@ local locations = {
     }, {
         name = "Fire of Bat",--2
         status = false,
-        mapTiles = {{address = 0x06BC32, values = {5, 85, 21, 189}}},
+        mapTiles = {{address = 0x06BC32, values = {5, 85, 21, 189, 253}}},
         mapX = 474,
         mapY = 52,
         locks = {{"SOUL_OF_BAT"}, {"GRAVITY_BOOTS", "LEAP_STONE"}, {"FORM_OF_MIST", "POWER_OF_MIST"}},
@@ -336,7 +336,7 @@ local locations = {
     }, {
         name = "Skill of Wolf",--6
         status = false,
-        mapTiles = {{address = 0x06BD87, values = {85, 213}}},
+        mapTiles = {{address = 0x06BD87, values = {85, 213, 21}}},
         mapX = 122,
         mapY = 228,
         locks = {{"SOUL_OF_BAT"}, {"GRAVITY_BOOTS"}, {"FORM_OF_MIST", "POWER_OF_MIST"}}
@@ -353,7 +353,7 @@ local locations = {
         status = false,
         mapTiles = {
             {address = 0x06BC0B, values = {1, 3}},
-            {address = 0x06BC1B, values = {1}}
+            {address = 0x06BC1B, values = {1, 131}}
         },
         mapX = 250,
         mapY = 36,
@@ -372,7 +372,7 @@ local locations = {
         status = false,
         mapTiles = {
             {address = 0x06BD7A, values = {20, 21, 62}},
-            {address = 0x06BD6A, values = {20, 16}}
+            {address = 0x06BD6A, values = {20, 16, 56, 60}}
         },
         mapX = 202,
         mapY = 214,
@@ -390,8 +390,8 @@ local locations = {
         name = "Leap Stone",--12
         status = false,
         mapTiles = {
-            {address = 0x06BC3B, values = {1, 85, 131}},
-            {address = 0x06BC2B, values = {1, 171}}
+            {address = 0x06BC3B, values = {1, 85, 131, 255}},
+            {address = 0x06BC2B, values = {1, 171, 131}}
         },
         mapX = 250,
         mapY = 52,
@@ -469,7 +469,7 @@ local locations = {
     }, {
         name = "Crystal Cloak",--22
         status = false,
-        mapTiles = {{address = 0x06BDDE, values = {85}}},
+        mapTiles = {{address = 0x06BDDE, values = {85, 255}}},
         mapX = 322,
         mapY = 268,
         locks = {{"JEWEL_OF_OPEN"}}
@@ -530,7 +530,7 @@ local locations = {
     }, {
         name = "Tooth of Vlad",--29
         status = false,
-        mapTiles = {{address = 0x06C1F5, values = {80, 84, 85, 5, 21}}},
+        mapTiles = {{address = 0x06C1F5, values = {80, 84, 85, 5, 21, 69}}},
         mapX = 48,
         mapY = 250,
         locks = {},
