@@ -1233,7 +1233,9 @@ while true do
         common.seedName = ""
         for i = 0, 31, 1 do
             local currentByte = mainmemory.readbyte(constants.ramAddresses.seedNameStartAddress + i)
-            if currentByte == 130 then
+            if currentByte == 255 then
+                break
+            elseif currentByte == 130 then
                 digit = true
             elseif currentByte == 129 or currentByte == 130 then
                 symbol = true
@@ -1260,7 +1262,9 @@ while true do
         common.preset = ""
         for i = 0, 20, 1 do
             local currentByte = mainmemory.readbyte(constants.ramAddresses.presetStartAddress + i)
-            if currentByte == 130 then
+            if currentByte == 255 then
+                break
+            elseif currentByte == 130 then
                 digit = true
             elseif currentByte == 129 or currentByte == 130 then
                 symbol = true
