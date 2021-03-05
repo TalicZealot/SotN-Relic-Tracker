@@ -1369,6 +1369,8 @@ while true do
     if common.alucardModeStarted then
         if memory.readbyte(constants.ramAddresses.mapOpenAddress) == 1 then
             drawLocations()
+        else
+            gui.clearGraphics();
         end
         if emu.framecount() % 120 == 0 then
             if mainmemory.read_u16_le(constants.ramAddresses.alucardRoomsCountAddress) > common.alucardRooms then
