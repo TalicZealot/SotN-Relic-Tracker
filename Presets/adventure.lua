@@ -463,7 +463,16 @@ local differences = {
             mapY = 290,
             locks = {},
             reachable = true
-        }, {
+        },{
+            name = "Forbidden Library Opal",
+            status = false,
+            mapTiles = {{address = 0x06C227, values = {0x04}}},
+            mapX = 110,
+            mapY = 274,
+            locks = {},
+            reachable = true
+        },
+         {
             name = "Staroulite",
             status = false,
             mapTiles = {{address = 0x06C218, values = {0x40}}},
