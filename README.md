@@ -1,6 +1,8 @@
-# SotN Relic and Location check Autotracker
+# This tracker will soon be deprecated.
+
+## SotN Relic and Location check Autotracker (LEGACY)
 Autotracker LUA script for the Castlevania:SotN Randomizer https://sotn.io/
-## Version 1.8.4
+## Version 1.8.5
 
 ## Bizhawk Instructions: 
 * Get the latest BizHawk release https://github.com/TASVideos/BizHawk/releases
@@ -35,6 +37,8 @@ Autotracker LUA script for the Castlevania:SotN Randomizer https://sotn.io/
 * Configuration > Graphics > Use Frame Skipping
 * Configuration > Graphics > Auto-detect FPS/Frame skipping
 
+#### 1.8.5
+* New location check logic. Renaming values for consistency.
 #### 1.8.4
 * Add O.G. preset to tracker. 
 #### 1.8.3

@@ -14,7 +14,7 @@ local differences = {
         {
             name = "Walk Armor",
             status = false,
-            mapTiles = {{address = 0x06BE99, values = {21, 85}}},
+            mapTiles = {{address = 0x06BE99, values = {0x01}}},
             mapX = 186,
             mapY = 364,
             locks = {{"JEWEL_OF_OPEN", "SOUL_OF_BAT"}, {"JEWEL_OF_OPEN", "LEAP_STONE"},  {"JEWEL_OF_OPEN", "GRAVITY_BOOTS", "SOUL_OF_WOLF"},
@@ -23,7 +23,7 @@ local differences = {
         }, {
             name = "Icebrand",
             status = false,
-            mapTiles = {{address = 0x06BE9A, values = {80, 84, 85}}},
+            mapTiles = {{address = 0x06BE9A, values = {0x40}}},
             mapX = 194,
             mapY = 364,
             locks = {{"JEWEL_OF_OPEN", "SOUL_OF_BAT"}, {"JEWEL_OF_OPEN", "LEAP_STONE"},  {"JEWEL_OF_OPEN", "GRAVITY_BOOTS", "SOUL_OF_WOLF"},
@@ -32,7 +32,7 @@ local differences = {
         }, {
             name = "Balroom Mask",
             status = false,
-            mapTiles = {{address = 0x06BE9A, values = {4, 20, 84}}},
+            mapTiles = {{address = 0x06BE9A, values = {0x04}}},
             mapX = 210,
             mapY = 364,
             locks = {{"JEWEL_OF_OPEN", "SOUL_OF_BAT"}, {"JEWEL_OF_OPEN", "LEAP_STONE"},  {"JEWEL_OF_OPEN", "GRAVITY_BOOTS", "SOUL_OF_WOLF"},
@@ -41,7 +41,7 @@ local differences = {
         }, {
             name = "Bloodstone",
             status = false,
-            mapTiles = {{address = 0x06BE9B, values = {85}}},
+            mapTiles = {{address = 0x06BE9B, values = {0x40}}},
             mapX = 226,
             mapY = 364,
             locks = {{"JEWEL_OF_OPEN", "SOUL_OF_BAT"}, {"JEWEL_OF_OPEN", "LEAP_STONE"},  {"JEWEL_OF_OPEN", "GRAVITY_BOOTS", "SOUL_OF_WOLF"},
@@ -50,7 +50,7 @@ local differences = {
         }, {
             name = "Combat Knife",
             status = false,
-            mapTiles = {{address = 0x06BE7B, values = {1}}},
+            mapTiles = {{address = 0x06BE7B, values = {0x01}}},
             mapX = 250,
             mapY = 348,
             locks = {{"JEWEL_OF_OPEN", "SOUL_OF_BAT"}, {"JEWEL_OF_OPEN", "LEAP_STONE"},  {"JEWEL_OF_OPEN", "GRAVITY_BOOTS", "SOUL_OF_WOLF"},
@@ -59,7 +59,7 @@ local differences = {
         }, {
             name = "Ring of Ares",
             status = false,
-            mapTiles = {{address = 0x06BE0D, values = {16, 17, 80}}},
+            mapTiles = {{address = 0x06BE0D, values = {0x10}}},
             mapX = 298,
             mapY = 292,
             locks = {{"DEMON_CARD", "JEWEL_OF_OPEN", "SOUL_OF_BAT"}, {"DEMON_CARD", "JEWEL_OF_OPEN", "LEAP_STONE"},  {"DEMON_CARD", "JEWEL_OF_OPEN", "GRAVITY_BOOTS", "SOUL_OF_WOLF"},
@@ -70,14 +70,14 @@ local differences = {
         }, {
             name = "Knuckle Duster",
             status = false,
-            mapTiles = {{address = 0x06BE0E, values = {64, 85}}},
+            mapTiles = {{address = 0x06BE0E, values = {0x40}}},
             mapX = 322,
             mapY = 300,
             locks = {{"JEWEL_OF_OPEN"}}
         }, {
-            name = "Onyx Caverns",
+            name = "Caverns Onyx",
             status = false,
-            mapTiles = {{address = 0x06BE0F, values = {64, 80, 84, 85}}},
+            mapTiles = {{address = 0x06BE0F, values = {0x10}}},
             mapX = 370,
             mapY = 292,
             locks = {{"JEWEL_OF_OPEN", "SOUL_OF_BAT"}, {"JEWEL_OF_OPEN", "LEAP_STONE"},  {"JEWEL_OF_OPEN", "GRAVITY_BOOTS"},{"JEWEL_OF_OPEN", "FORM_OF_MIST", "POWER_OF_MIST"}},
@@ -85,14 +85,14 @@ local differences = {
         }, {
             name = "Scimitar",
             status = false,
-            mapTiles = {{address = 0x06BDEF, values = {80}}},
+            mapTiles = {{address = 0x06BDEF, values = {0x10}}},
             mapX = 362,
             mapY = 276,
             locks = {{"JEWEL_OF_OPEN"}}
         }, {
             name = "Moonstone",
             status = false,
-            mapTiles = {{address = 0x06BD8F, values = {64, 80}}},
+            mapTiles = {{address = 0x06BD8F, values = {0x40}}},
             mapX = 354,
             mapY = 228,
             locks = {{"JEWEL_OF_OPEN", "SOUL_OF_BAT"}, {"JEWEL_OF_OPEN", "FORM_OF_MIST", "POWER_OF_MIST"}, {"JEWEL_OF_OPEN", "GRAVITY_BOOTS", "LEAP_STONE"}},
@@ -100,7 +100,7 @@ local differences = {
         }, {
             name = "Claymore",
             status = false,
-            mapTiles = {{address = 0x06BD4E, values = {85}}},
+            mapTiles = {{address = 0x06BD4E, values = {0x01}}},
             mapX = 346,
             mapY = 196,
             locks = {{"JEWEL_OF_OPEN", "SOUL_OF_BAT"}, {"JEWEL_OF_OPEN", "FORM_OF_MIST", "POWER_OF_MIST"}, {"JEWEL_OF_OPEN", "GRAVITY_BOOTS", "LEAP_STONE"}},
@@ -108,14 +108,14 @@ local differences = {
         }, {
             name = "Bandana",
             status = false,
-            mapTiles = {{address = 0x06BD2C, values = {1}}},
+            mapTiles = {{address = 0x06BD2C, values = {0x01}}},
             mapX = 282,
             mapY = 180,
             locks = {{"JEWEL_OF_OPEN"}}
         }, {
             name = "Nunchaku",
             status = false,
-            mapTiles = {{address = 0x06BDCD, values = {21, 85, 5}}},
+            mapTiles = {{address = 0x06BDCD, values = {0x04, 0x10}}},
             mapX = 306,
             mapY = 268,
             locks = {{"JEWEL_OF_OPEN", "HOLY_SYMBOL"}},
@@ -123,7 +123,8 @@ local differences = {
         }, {
             name = "Secret Boots",
             status = false,
-            mapTiles = {{address = 0x06BDE9, values = {17, 81, 85}}},
+            mapTiles = {{address = 0x06BDE9, values = {0x01}},
+            {address = 0x06BDD9, values = {0x01}}},
             mapX = 194,
             mapY = 276,
             locks = {{"JEWEL_OF_OPEN", "SOUL_OF_BAT"}, {"JEWEL_OF_OPEN", "LEAP_STONE", "GRAVITY_BOOTS"}, {"JEWEL_OF_OPEN", "FORM_OF_MIST", "POWER_OF_MIST"}},
@@ -131,7 +132,7 @@ local differences = {
         }, {
             name = "Herald Shield",
             status = false,
-            mapTiles = {{address = 0x06BDC9, values = {5, 69}}},
+            mapTiles = {{address = 0x06BDC9, values = {0x04}}},
             mapX = 178,
             mapY = 260,
             locks = {{"JEWEL_OF_OPEN", "SOUL_OF_BAT"}, {"JEWEL_OF_OPEN", "LEAP_STONE"}, {"JEWEL_OF_OPEN", "FORM_OF_MIST", "POWER_OF_MIST"}},
@@ -139,7 +140,7 @@ local differences = {
         }, {
             name = "Holy Mail",
             status = false,
-            mapTiles = {{address = 0x06BDD5, values = {20}}},
+            mapTiles = {{address = 0x06BDD5, values = {0x10}}},
             mapX = 42,
             mapY = 268,
             locks = {{"SOUL_OF_BAT"}, {"GRAVITY_BOOTS", "LEAP_STONE"}, {"FORM_OF_MIST", "POWER_OF_MIST"}},
@@ -147,14 +148,14 @@ local differences = {
         }, {
             name = "Jewel Sword",
             status = false,
-            mapTiles = {{address = 0x06BE06, values = {5}}},
+            mapTiles = {{address = 0x06BE06, values = {0x04}}},
             mapX = 82,
             mapY = 292,
             locks = {{"SOUL_OF_BAT", "SOUL_OF_WOLF"}}
         }, {
             name = "Hide Cuirass",
             status = false,
-            mapTiles = {{address = 0x06BDB7, values = {5}}},
+            mapTiles = {{address = 0x06BDB7, values = {0x04}}},
             mapX = 114,
             mapY = 252,
             locks = {},
@@ -162,7 +163,7 @@ local differences = {
         }, {
             name = "Leather Shield",
             status = false,
-            mapTiles = {{address = 0x06BDB7, values = {5}}},
+            mapTiles = {{address = 0x06BDA7, values = {0x10}}},
             mapX = 106,
             mapY = 244,
             locks = {},
@@ -170,7 +171,7 @@ local differences = {
         }, {
             name = "Sunglasses",
             status = false,
-            mapTiles = {{address = 0x06BD68, values = {80}}},
+            mapTiles = {{address = 0x06BD68, values = {0x40}}},
             mapX = 130,
             mapY = 212,
             locks = {},
@@ -178,7 +179,7 @@ local differences = {
         }, {
             name = "Basilard",
             status = false,
-            mapTiles = {{address = 0x06BD98, values = {63, 64, 80}}},
+            mapTiles = {{address = 0x06BD98, values = {0x40}}},
             mapX = 130,
             mapY = 236,
             locks = {},
@@ -186,7 +187,7 @@ local differences = {
         }, {
             name = "Cloth Cape",
             status = false,
-            mapTiles = {{address = 0x06BD46, values = {5, 69}}},
+            mapTiles = {{address = 0x06BD46, values = {0x04}}},
             mapX = 82,
             mapY = 196,
             locks = {},
@@ -194,7 +195,8 @@ local differences = {
         }, {
             name = "Mystic Pendant",
             status = false,
-            mapTiles = {{address = 0x06BD15, values = {80}}},
+            mapTiles = {{address = 0x06BD15, values = {0x40}},
+                        {address = 0x06BD25, values = {0x40}}},
             mapX = 34,
             mapY = 172,
             locks = {{"SOUL_OF_BAT"}, {"LEAP_STONE"},  {"GRAVITY_BOOTS"}, {"FORM_OF_MIST", "POWER_OF_MIST"}},
@@ -202,7 +204,7 @@ local differences = {
         }, {
             name = "Ankh of Life",
             status = false,
-            mapTiles = {{address = 0x06BCF5, values = {5, 21}}},
+            mapTiles = {{address = 0x06BCF5, values = {0x04, 0x01}}},
             mapX = 50,
             mapY = 156,
             locks = {{"SOUL_OF_BAT"}, {"LEAP_STONE"},  {"GRAVITY_BOOTS"}, {"FORM_OF_MIST", "POWER_OF_MIST"}},
@@ -210,7 +212,8 @@ local differences = {
         }, {
             name = "Morningstar",
             status = false,
-            mapTiles = {{address = 0x06BCC6, values = {21, 85,  84}}, {address = 0x06BCD6, values = {21, 85,  84}}},
+            mapTiles = {{address = 0x06BCC6, values = {0x10}}, 
+                        {address = 0x06BCD6, values = {0x10}}},
             mapX = 66,
             mapY = 132,
             locks = {{"SOUL_OF_BAT"}, {"LEAP_STONE"},  {"GRAVITY_BOOTS"}, {"FORM_OF_MIST", "POWER_OF_MIST"}},
@@ -218,7 +221,7 @@ local differences = {
         }, {
             name = "Goggles",
             status = false,
-            mapTiles = {{address = 0x06BCC6, values = {5, 4, 21, 84, 85}}},
+            mapTiles = {{address = 0x06BCC6, values = {0x04}}},
             mapX = 82,
             mapY = 132,
             locks = {{"JEWEL_OF_OPEN"}, {"SOUL_OF_BAT"}, {"LEAP_STONE"}, {"GRAVITY_BOOTS"}, {"FORM_OF_MIST", "POWER_OF_MIST"}},
@@ -226,7 +229,7 @@ local differences = {
         }, {
             name = "Silver Plate",
             status = false,
-            mapTiles = {{address = 0x06BC47, values = {4, 5}}},
+            mapTiles = {{address = 0x06BC47, values = {0x04, 0x01}}},
             mapX = 114,
             mapY = 60,
             locks = {{"JEWEL_OF_OPEN"}, {"SOUL_OF_BAT"}, {"LEAP_STONE"}, {"GRAVITY_BOOTS"}, {"FORM_OF_MIST", "POWER_OF_MIST"}},
@@ -234,7 +237,8 @@ local differences = {
         }, {
             name = "Cutlass",
             status = false,
-            mapTiles = {{address = 0x06BC2B, values = {64, 5}}, {address = 0x06BC2A, values = {1}}},
+            mapTiles = {{address = 0x06BC2B, values = {0x40}},
+                        {address = 0x06BC2A, values = {0x01}}},
             mapX = 218,
             mapY = 44,
             locks = {{"JEWEL_OF_OPEN"}, {"SOUL_OF_BAT"}, {"LEAP_STONE"}, {"GRAVITY_BOOTS"}, {"FORM_OF_MIST", "POWER_OF_MIST"}},
@@ -242,7 +246,7 @@ local differences = {
         }, {
             name = "Platinum Mail",
             status = false,
-            mapTiles = {{address = 0x06BBDC, values = {5, 21}}},
+            mapTiles = {{address = 0x06BBDC, values = {0x01}}},
             mapX = 282,
             mapY = 12,
             locks = {{"SOUL_OF_BAT"}, {"LEAP_STONE"}, {"GRAVITY_BOOTS"}, {"FORM_OF_MIST", "POWER_OF_MIST"}},
@@ -250,24 +254,24 @@ local differences = {
         }, {
             name = "Falchion",
             status = false,
-            mapTiles = {{address = 0x06BBFD, values = {5, 85}}},
+            mapTiles = {{address = 0x06BBFD, values = {0x01}}},
             mapX = 314,
             mapY = 28,
             locks = {{"SOUL_OF_BAT"}, {"LEAP_STONE"}, {"GRAVITY_BOOTS"}, {"FORM_OF_MIST", "POWER_OF_MIST"}},
             allowed = {{"FORM_OF_MIST", "SOUL_OF_WOLF"}}
         }, {
-            name = "Gear Puzzle",
+            name = "Gold Plate",
             status = false,
-            mapTiles = {{address = 0x06BC60, values = {21}}},
+            mapTiles = {{address = 0x06BC60, values = {0x10}}},
             mapX = 394,
             mapY = 76,
             locks = {{"SOUL_OF_BAT"}, {"LEAP_STONE"}, {"GRAVITY_BOOTS"}, {"FORM_OF_MIST", "POWER_OF_MIST"}},
             allowedReachable = true
         }, {
-            name = "Shaman Shield",
+            name = "Bekatowa",
             status = false,
-            mapTiles = {{address = 0x06BC61, values = {1, 84, 85, 4}}, {address = 0x06BC51, values = {21, 1, 4, 5, 85}},
-             {address = 0x06BC52, values = {64, 85}}},
+            mapTiles = {{address = 0x06BC61, values = {0x01, 0x04}},
+                        {address = 0x06BC51, values = {0x01, 0x04}}},
             mapX = 446,
             mapY = 76,
             locks = {{"SOUL_OF_BAT"}, {"GRAVITY_BOOTS"}, {"FORM_OF_MIST", "POWER_OF_MIST"}},
@@ -275,7 +279,7 @@ local differences = {
         }, {
             name = "Gladius",
             status = false,
-            mapTiles = {{address = 0x06BCF2, values = {1, 5, 21, 85}}},
+            mapTiles = {{address = 0x06BCF2, values = {0x01}}},
             mapX = 474,
             mapY = 184,
             locks = {},
@@ -283,7 +287,7 @@ local differences = {
         }, {
             name = "Jewel Knuckles",
             status = false,
-            mapTiles = {{address = 0x06BD32, values = {1, 85}}},
+            mapTiles = {{address = 0x06BD32, values = {0x01}}},
             mapX = 474,
             mapY = 180,
             locks = {},
@@ -291,7 +295,7 @@ local differences = {
         }, {
             name = "Bronze Cuirass",
             status = false,
-            mapTiles = {{address = 0x06BCD0, values = {21, 85}}},
+            mapTiles = {{address = 0x06BCD0, values = {0x10}}},
             mapX = 394,
             mapY = 132,
             locks = {},
@@ -299,23 +303,23 @@ local differences = {
         }, {
             name = "Holy Rod",
             status = false,
-            mapTiles = {{address = 0x06BCA0, values = {84, 85}}},
+            mapTiles = {{address = 0x06BCA0, values = {0x04}}},
             mapX = 402,
             mapY = 108,
             locks = {{"SOUL_OF_BAT"}, {"GRAVITY_BOOTS"}, {"FORM_OF_MIST", "POWER_OF_MIST"}},
             allowed = {{"FORM_OF_MIST", "SOUL_OF_WOLF"}}
         },  {
-            name = "Onyx Library",
+            name = "Library Onyx",
             status = false,
-            mapTiles = {{address = 0x06BCCF, values = {84, 85}}},
+            mapTiles = {{address = 0x06BCCF, values = {0x04}}},
             mapX = 378,
             mapY = 132,
             locks = {{"SOUL_OF_BAT"}, {"GRAVITY_BOOTS"}, {"FORM_OF_MIST", "POWER_OF_MIST"}},
             allowed = {{"SOUL_OF_WOLF"}, {"FORM_OF_MIST"}, {"THRUST_SWORD"}}
         }, {
-            name = "Alucart",
+            name = "Alucart Sword",
             status = false,
-            mapTiles = {{address = 0x06BD0C, values = {84}}},
+            mapTiles = {{address = 0x06BD0C, values = {0x04}}},
             mapX = 274,
             mapY = 164,
             locks = {{"CUBE_OF_ZOE", "SOUL_OF_BAT"}, {"CUBE_OF_ZOE", "GRAVITY_BOOTS"}, {"CUBE_OF_ZOE", "FORM_OF_MIST", "POWER_OF_MIST"}},
@@ -323,7 +327,7 @@ local differences = {
         }, {
             name = "Broadsword",
             status = false,
-            mapTiles = {{address = 0x06BCDC, values = {64}}},
+            mapTiles = {{address = 0x06BCDC, values = {0x40}}},
             mapX = 258,
             mapY = 140,
             locks = {{"SOUL_OF_BAT"}, {"GRAVITY_BOOTS"}, {"FORM_OF_MIST", "POWER_OF_MIST"}},
@@ -331,15 +335,15 @@ local differences = {
         }, {
             name = "Estoc",
             status = false,
-            mapTiles = {{address = 0x06BC9C, values = {1, 5, 81}}},
+            mapTiles = {{address = 0x06BC6B, values = {0x04}}},
             mapX = 242,
             mapY = 84,
             locks = {{"SOUL_OF_BAT"}, {"GRAVITY_BOOTS", "LEAP_STONE"}, {"FORM_OF_MIST", "POWER_OF_MIST"}},
             allowed = {{"GRAVITY_BOOTS", "THRUST_SWORD"}, {"GRAVITY_BOOTS", "SOUL_OF_WOLF"}, {"GRAVITY_BOOTS", "FORM_OF_MIST"}}
         }, {
-            name = "Garnet Olrox",
+            name = "Olrox Garnet",
             status = false,
-            mapTiles = {{address = 0x06BC9C, values = {80, 81}}},
+            mapTiles = {{address = 0x06BC9C, values = {0x10}}},
             mapX = 266,
             mapY = 108,
             locks = {{"SOUL_OF_BAT"}, {"GRAVITY_BOOTS", "LEAP_STONE"}, {"FORM_OF_MIST", "POWER_OF_MIST"}},
@@ -347,7 +351,7 @@ local differences = {
         }, {
             name = "Holy Sword",
             status = false,
-            mapTiles = {{address = 0x06BCB8, values = {1}}},
+            mapTiles = {{address = 0x06BCB8, values = {0x01}}},
             mapX = 154,
             mapY = 124,
             locks = {{"SOUL_OF_BAT"}, {"GRAVITY_BOOTS"}, {"FORM_OF_MIST", "POWER_OF_MIST"}},
@@ -355,7 +359,7 @@ local differences = {
         }, {
             name = "Knight Shield",
             status = false,
-            mapTiles = {{address = 0x06BCD7, values = {5, 21, 69, 85}}},
+            mapTiles = {{address = 0x06BCD7, values = {0x01, 0x04}}},
             mapX = 114,
             mapY = 140,
             locks = {{"SOUL_OF_BAT"}, {"GRAVITY_BOOTS"}, {"FORM_OF_MIST", "POWER_OF_MIST"}},
@@ -363,7 +367,7 @@ local differences = {
         }, {
             name = "Shield Rod",
             status = false,
-            mapTiles = {{address = 0x06BCF7, values = {21}}},
+            mapTiles = {{address = 0x06BCF7, values = {0x10}}},
             mapX = 106,
             mapY = 156,
             locks = {{"SOUL_OF_BAT"}, {"GRAVITY_BOOTS"}, {"FORM_OF_MIST", "POWER_OF_MIST"}},
@@ -371,7 +375,7 @@ local differences = {
         }, {
             name = "Blood Cloak",
             status = false,
-            mapTiles = {{address = 0x06BCF9, values = {80, 84, 85}}},
+            mapTiles = {{address = 0x06BCF9, values = {0x40}}},
             mapX = 162,
             mapY = 156,
             locks = {{"SOUL_OF_BAT"}, {"GRAVITY_BOOTS"}, {"FORM_OF_MIST", "POWER_OF_MIST"}},
@@ -382,7 +386,7 @@ local differences = {
         {
             name = "Bastard Sword",
             status = false,
-            mapTiles = {{address = 0x06C30B, values = {20, 84}}},
+            mapTiles = {{address = 0x06C30B, values = {0x04}}},
             mapX = 240,
             mapY = 386,
             locks = {},
@@ -390,7 +394,7 @@ local differences = {
         }, {
             name = "Royal Cloak",
             status = false,
-            mapTiles = {{address = 0x06C30B, values = {80, 84, 85}}},
+            mapTiles = {{address = 0x06C30B, values = {0x40}}},
             mapX = 224,
             mapY = 386,
             locks = {},
@@ -398,7 +402,7 @@ local differences = {
         }, {
             name = "Lightning Mail",
             status = false,
-            mapTiles = {{address = 0x06C2BA, values = {80, 84, 85}}},
+            mapTiles = {{address = 0x06C2BA, values = {0x40}}},
             mapX = 192,
             mapY = 346,
             locks = {},
@@ -406,7 +410,8 @@ local differences = {
         }, {
             name = "Sword of Dawn",
             status = false,
-            mapTiles = {{address = 0x06C2BC, values = {64, 65}}, {address = 0x06C2BB, values = {21, 85}},},
+            mapTiles = {{address = 0x06C2BC, values = {0x40}}, 
+                        {address = 0x06C2BB, values = {0x01}},},
             mapX = 256,
             mapY = 346,
             locks = {},
@@ -414,7 +419,7 @@ local differences = {
         }, {
             name = "Moon Rod",
             status = false,
-            mapTiles = {{address = 0x06C2B9, values = {80, 84, 85}}},
+            mapTiles = {{address = 0x06C2B9, values = {0x10}}},
             mapX = 256,
             mapY = 346,
             locks = {},
@@ -422,7 +427,7 @@ local differences = {
         }, {
             name = "Sunstone",
             status = false,
-            mapTiles = {{address = 0x06C287, values = {84, 4}}},
+            mapTiles = {{address = 0x06C287, values = {0x04}}},
             mapX = 112,
             mapY = 322,
             locks = {},
@@ -430,7 +435,7 @@ local differences = {
         }, {
             name = "Luminus",
             status = false,
-            mapTiles = {{address = 0x06C296, values = {64, 80, 84, 85}}},
+            mapTiles = {{address = 0x06C296, values = {0x10, 0x40}}},
             mapX = 64,
             mapY = 328,
             locks = {},
@@ -438,7 +443,7 @@ local differences = {
         }, {
             name = "Dragon Helm",
             status = false,
-            mapTiles = {{address = 0x06C2B5, values = {80, 84, 85}}},
+            mapTiles = {{address = 0x06C2B5, values = {0x40}}},
             mapX = 32,
             mapY = 346,
             locks = {},
@@ -446,14 +451,14 @@ local differences = {
         }, {
             name = "Shotel",
             status = false,
-            mapTiles = {{address = 0x06C1B5, values = {64}}},
+            mapTiles = {{address = 0x06C1B5, values = {0x40}}},
             mapX = 32,
             mapY = 218,
             locks = {{"FORM_OF_MIST"}}
         }, {
             name = "Badelaire",
             status = false,
-            mapTiles = {{address = 0x06C247, values = {21}}},
+            mapTiles = {{address = 0x06C247, values = {0x10}}},
             mapX = 104,
             mapY = 290,
             locks = {},
@@ -461,30 +466,30 @@ local differences = {
         }, {
             name = "Staroulite",
             status = false,
-            mapTiles = {{address = 0x06C218, values = {85}}},
+            mapTiles = {{address = 0x06C218, values = {0x40}}},
             mapX = 118,
             mapY = 264,
             locks = {{"FORM_OF_MIST"}}
         },{
-            name = "Diamond Rev Caverns",
+            name = "Reverse Caverns Diamond",
             status = false,
-            mapTiles = {{address = 0x06C1BB, values = {64, 65}}},
+            mapTiles = {{address = 0x06C1BB, values = {0x40}}},
             mapX = 224,
             mapY = 218,
             locks = {},
             reachable = true
         }, {
-            name = "Opal Rev Caverns",
+            name = "Reverse Caverns Opal",
             status = false,
-            mapTiles = {{address = 0x06C16A, values = {68, 84, 85, 20}}},
+            mapTiles = {{address = 0x06C16A, values = {0x04}}},
             mapX = 208,
             mapY = 178,
             locks = {},
             reachable = true
         }, {
-            name = "Garnet Rev Caverns",
+            name = "Reverse Caverns Garnet",
             status = false,
-            mapTiles = {{address = 0x06C11E, values = {80}}},
+            mapTiles = {{address = 0x06C11E, values = {0x10}}},
             mapX = 328,
             mapY = 138,
             locks = {},
@@ -492,7 +497,7 @@ local differences = {
         }, {
             name = "Osafune Katana",
             status = false,
-            mapTiles = {{address = 0x06C0CD, values = {5}}},
+            mapTiles = {{address = 0x06C0CD, values = {0x04}}},
             mapX = 304,
             mapY = 98,
             locks = {},
@@ -500,7 +505,7 @@ local differences = {
         }, {
             name = "Alucard Shield",
             status = false,
-            mapTiles = {{address = 0x06C0D1, values = {85}}},
+            mapTiles = {{address = 0x06C0D1, values = {0x01}}},
             mapX = 440,
             mapY = 98,
             locks = {},
@@ -508,7 +513,7 @@ local differences = {
         }, {
             name = "Alucard Sword",
             status = false,
-            mapTiles = {{address = 0x06C0AC, values = {84, 85}}},
+            mapTiles = {{address = 0x06C0AC, values = {0x04}}},
             mapX = 272,
             mapY = 82,
             locks = {},
@@ -516,15 +521,15 @@ local differences = {
         }, {
             name = "Necklace of J",
             status = false,
-            mapTiles = {{address = 0x06C04D, values = {21}}},
+            mapTiles = {{address = 0x06C04D, values = {0x01}}},
             mapX = 312,
             mapY = 34,
             locks = {},
             reachable = true
         }, {
-            name = "Diamond Rev Catacombs",
+            name = "Floating Catacombs Diamond",
             status = false,
-            mapTiles = {{address = 0x06C04E, values = {84, 85}}},
+            mapTiles = {{address = 0x06C04E, values = {0x40}}},
             mapX = 320,
             mapY = 34,
             locks = {},
@@ -532,7 +537,8 @@ local differences = {
         }, {
             name = "Talwar",
             status = false,
-            mapTiles = {{address = 0x06C2AE, values = {1}}},
+            mapTiles = {{address = 0x06C2AE, values = {0x01}},
+                        {address = 0x06C2AF, values = {0x40}}},
             mapX = 352,
             mapY = 346,
             locks = {},
@@ -540,14 +546,14 @@ local differences = {
         }, {
             name = "Twilight Cloak",
             status = false,
-            mapTiles = {{address = 0x06C281, values = {84, 85}}},
+            mapTiles = {{address = 0x06C281, values = {0x04}}},
             mapX = 440,
             mapY = 314,
             locks = {{"FORM_OF_MIST", "SOUL_OF_BAT"}, {"FORM_OF_MIST", "POWER_OF_MIST"}, {"FORM_OF_MIST", "SPIKE_BREAKER"}}
         }, {
             name = "Alucard Mail",
             status = false,
-            mapTiles = {{address = 0x06C24B, values = {5, 69, 85}}},
+            mapTiles = {{address = 0x06C24B, values = {0x04}}},
             mapX = 240,
             mapY = 290,
             locks = {},
@@ -555,7 +561,7 @@ local differences = {
         }, {
             name = "Sword of Hador",
             status = false,
-            mapTiles = {{address = 0x06C20B, values = {1}}},
+            mapTiles = {{address = 0x06C20B, values = {0x01}}},
             mapX = 248,
             mapY = 258,
             locks = {},
@@ -563,7 +569,7 @@ local differences = {
         }, {
             name = "Fury Plate",
             status = false,
-            mapTiles = {{address = 0x06C22F, values = {64, 85}}},
+            mapTiles = {{address = 0x06C22F, values = {0x40}}},
             mapX = 352,
             mapY = 274,
             locks = {},
@@ -571,7 +577,7 @@ local differences = {
         }, {
             name = "Gram",
             status = false,
-            mapTiles = {{address = 0x06C1EE, values = {5, 85, 21}}},
+            mapTiles = {{address = 0x06C1EE, values = {0x01}}},
             mapX = 344,
             mapY = 242,
             locks = {},
@@ -579,7 +585,7 @@ local differences = {
         }, {
             name = "Goddess Shield",
             status = false,
-            mapTiles = {{address = 0x06C17F, values = {5}}},
+            mapTiles = {{address = 0x06C17F, values = {0x01}}},
             mapX = 376,
             mapY = 186,
             locks = {},
@@ -587,7 +593,7 @@ local differences = {
         }, {
             name = "Katana",
             status = false,
-            mapTiles = {{address = 0x06C130, values = {1}}},
+            mapTiles = {{address = 0x06C130, values = {0x01}}},
             mapX = 408,
             mapY = 146,
             locks = {},
@@ -595,7 +601,7 @@ local differences = {
         }, {
             name = "Talisman",
             status = false,
-            mapTiles = {{address = 0x06C11E, values = {1, 81}}},
+            mapTiles = {{address = 0x06C11E, values = {0x01}}},
             mapX = 344,
             mapY = 138,
             locks = {},
@@ -603,7 +609,7 @@ local differences = {
         }, {
             name = "Beryl Circlet",
             status = false,
-            mapTiles = {{address = 0x06C0E1, values = {80}}},
+            mapTiles = {{address = 0x06C0E1, values = {0x10}}},
             mapX = 424,
             mapY = 106,
             locks = {{"SOUL_OF_BAT", "SOUL_OF_WOLF"}}

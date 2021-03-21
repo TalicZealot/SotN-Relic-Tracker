@@ -10,7 +10,7 @@ deserializeToObject(settings, "config.ini")
 
 ---UI---
 local guiForm = {
-    version = "1.8.4",
+    version = "1.8.5",
     mainForm = nil,
     relicBox = nil,
     toggle = nil,
@@ -293,7 +293,7 @@ local locations = {
     {
         name = "Soul of Bat",--1
         status = false,
-        mapTiles = {{address = 0x06BCCF, values = {85}}},
+        mapTiles = {{address = 0x06BCCF, values = {0x01}}},
         mapX = 386,
         mapY = 132,
         locks = {{"FORM_OF_MIST", "LEAP_STONE"}, {"FORM_OF_MIST", "GRAVITY_BOOTS"}, {"FORM_OF_MIST", "SOUL_OF_BAT"}, {"FORM_OF_MIST", "POWER_OF_MIST"}},
@@ -301,7 +301,7 @@ local locations = {
     }, {
         name = "Fire of Bat",--2
         status = false,
-        mapTiles = {{address = 0x06BC32, values = {5, 85, 21, 189, 253}}},
+        mapTiles = {{address = 0x06BC32, values = {0x01}}},
         mapX = 474,
         mapY = 52,
         locks = {{"SOUL_OF_BAT"}, {"GRAVITY_BOOTS", "LEAP_STONE"}, {"FORM_OF_MIST", "POWER_OF_MIST"}},
@@ -309,7 +309,7 @@ local locations = {
     }, {
         name = "Echo of Bat",--3
         status = false,
-        mapTiles = {{address = 0x06BC78, values = {85}}},
+        mapTiles = {{address = 0x06BC78, values = {0x04}}},
         mapX = 130,
         mapY = 92,
         locks = {{"SOUL_OF_BAT"}, {"LEAP_STONE", "GRAVITY_BOOTS", "SOUL_OF_WOLF"}, {"LEAP_STONE", "GRAVITY_BOOTS", "FORM_OF_MIST"}, {"FORM_OF_MIST", "POWER_OF_MIST"}},
@@ -318,8 +318,8 @@ local locations = {
         name = "Soul of Wolf",--4
         status = false,
         mapTiles = {
-            {address = 0x06BCA3, values = {80, 240}},
-            {address = 0x06BC93, values = {16, 240}}
+            {address = 0x06BCA3, values = {0x10}},
+            {address = 0x06BC93, values = {0x10}}
         },
         mapX = 490,
         mapY = 108,
@@ -328,7 +328,7 @@ local locations = {
     }, {
         name = "Power of Wolf",--5
         status = false,
-        mapTiles = {{address = 0x06BDE4, values = {1, 5, 11}}},
+        mapTiles = {{address = 0x06BDE4, values = {0x01, 0x04}}},
         mapX = 18,
         mapY = 268,
         locks = {{"SOUL_OF_BAT"}, {"GRAVITY_BOOTS", "LEAP_STONE"}, {"FORM_OF_MIST", "POWER_OF_MIST"}},
@@ -336,14 +336,14 @@ local locations = {
     }, {
         name = "Skill of Wolf",--6
         status = false,
-        mapTiles = {{address = 0x06BD87, values = {85, 213, 21}}},
+        mapTiles = {{address = 0x06BD87, values = {0x01}}},
         mapX = 122,
         mapY = 228,
         locks = {{"SOUL_OF_BAT"}, {"GRAVITY_BOOTS"}, {"FORM_OF_MIST", "POWER_OF_MIST"}}
     }, {
         name = "Form of Mist",--7
         status = false,
-        mapTiles = {{address = 0x06BCD9, values = {5, 85}}},
+        mapTiles = {{address = 0x06BCD9, values = {0x04, 0x10}}},
         mapX = 170,
         mapY = 140,
         locks = {{"SOUL_OF_BAT"}, {"SOUL_OF_WOLF"}, {"FORM_OF_MIST", "POWER_OF_MIST"}, {"GRAVITY_BOOTS"}, {"LEAP_STONE"}},
@@ -352,8 +352,8 @@ local locations = {
         name = "Power of Mist",--8
         status = false,
         mapTiles = {
-            {address = 0x06BC0B, values = {1, 3}},
-            {address = 0x06BC1B, values = {1, 131}}
+            {address = 0x06BC0B, values = {0x01}},
+            {address = 0x06BC1B, values = {0x01}}
         },
         mapX = 250,
         mapY = 36,
@@ -362,7 +362,7 @@ local locations = {
     }, {
         name = "Cube of Zoe",--9
         status = false,
-        mapTiles = {{address = 0x06BDB8, values = {1, 4, 5, 85, 84, 255}}},
+        mapTiles = {{address = 0x06BDB8, values = {0x01, 0x04}}},
         mapX = 154,
         mapY = 252,
         locks = {},
@@ -371,8 +371,8 @@ local locations = {
         name = "Spirit Orb",--10
         status = false,
         mapTiles = {
-            {address = 0x06BD7A, values = {20, 21, 62}},
-            {address = 0x06BD6A, values = {20, 16, 56, 60}}
+            {address = 0x06BD7A, values = {0x10}},
+            {address = 0x06BD6A, values = {0x04}}
         },
         mapX = 202,
         mapY = 214,
@@ -381,7 +381,7 @@ local locations = {
     }, {
         name = "Gravity Boots",--11
         status = false,
-        mapTiles = {{address = 0x06BCEC, values = {4, 5, 84}}},
+        mapTiles = {{address = 0x06BCEC, values = {0x04}}},
         mapX = 274,
         mapY = 148,
         locks = {{"SOUL_OF_BAT"}, {"GRAVITY_BOOTS", "LEAP_STONE"}, {"FORM_OF_MIST", "POWER_OF_MIST"}},
@@ -390,8 +390,8 @@ local locations = {
         name = "Leap Stone",--12
         status = false,
         mapTiles = {
-            {address = 0x06BC3B, values = {1, 85, 131, 255}},
-            {address = 0x06BC2B, values = {1, 171, 131}}
+            {address = 0x06BC3B, values = {0x01}},
+            {address = 0x06BC2B, values = {0x01}}
         },
         mapX = 250,
         mapY = 52,
@@ -400,14 +400,14 @@ local locations = {
     }, {
         name = "Holy Symbol",--13
         status = false,
-        mapTiles = {{address = 0x06BE11, values = {85}}},
+        mapTiles = {{address = 0x06BE11, values = {0x01}}},
         mapX = 442,
         mapY = 292,
         locks = {{"JEWEL_OF_OPEN", "MERMAN_STATUE"}}
     }, {
         name = "Faerie Scroll",--14
         status = false,
-        mapTiles = {{address = 0x06BCA2, values = {21, 85, 191}}},
+        mapTiles = {{address = 0x06BCA2, values = {0x01}}},
         mapX = 474,
         mapY = 108,
         locks = {},
@@ -415,7 +415,7 @@ local locations = {
     }, {
         name = "Jewel of Open",--15
         status = false,
-        mapTiles = {{address = 0x06BCC0, values = {21, 85, 127}}},
+        mapTiles = {{address = 0x06BCC0, values = {0x10}}},
         mapX = 394,
         mapY = 124,
         locks = {},
@@ -423,21 +423,21 @@ local locations = {
     }, {
         name = "Merman Statue",--16
         status = false,
-        mapTiles = {{address = 0x06BE16, values = {85, 255}}},
+        mapTiles = {{address = 0x06BE16, values = {0x40}}},
         mapX = 66,
         mapY = 300,
         locks = {{"JEWEL_OF_OPEN"}}
     }, {
         name = "Bat Card",--17
         status = false,
-        mapTiles = {{address = 0x06BD27, values = {80, 84, 85, 222}}},
+        mapTiles = {{address = 0x06BD27, values = {0x10}}},
         mapX = 106,
         mapY = 180,
         locks = {{"SOUL_OF_BAT"}, {"GRAVITY_BOOTS"}, {"FORM_OF_MIST", "POWER_OF_MIST"}}
     }, {
         name = "Ghost Card",--18
         status = false,
-        mapTiles = {{address = 0x06BBED, values = {20, 21, 69, 81, 181, 85, 17, 245}}},
+        mapTiles = {{address = 0x06BBED, values = {0x01, 0x04}}},
         mapX = 314,
         mapY = 20,
         locks = {{"SOUL_OF_BAT"}, {"GRAVITY_BOOTS", "LEAP_STONE"}, {"FORM_OF_MIST", "POWER_OF_MIST"}},
@@ -445,7 +445,7 @@ local locations = {
     }, {
         name = "Faerie Card",--19
         status = false,
-        mapTiles = {{address = 0x06BCA1, values = {84, 85, 126, 127}}},
+        mapTiles = {{address = 0x06BCA1, values = {0x40}}},
         mapX = 418,
         mapY = 108,
         locks = {{"SOUL_OF_BAT"}, {"FORM_OF_MIST", "POWER_OF_MIST"}, {"GRAVITY_BOOTS"}},
@@ -453,7 +453,7 @@ local locations = {
     }, {
         name = "Demon Card",--20
         status = false,
-        mapTiles = {{address = 0x06BE3B, values = {21}}},
+        mapTiles = {{address = 0x06BE3B, values = {0x10}}},
         mapX = 234,
         mapY = 316,
         locks = {{"JEWEL_OF_OPEN", "SOUL_OF_BAT"}, {"JEWEL_OF_OPEN", "LEAP_STONE"}, {"JEWEL_OF_OPEN", "FORM_OF_MIST", "POWER_OF_MIST"}, {"JEWEL_OF_OPEN", "SOUL_OF_WOLF", "POWER_OF_WOLF"}},
@@ -461,7 +461,7 @@ local locations = {
     }, {
         name = "Sword Card",--21
         status = false,
-        mapTiles = {{address = 0x06BC99, values = {64}}},
+        mapTiles = {{address = 0x06BC99, values = {0x40}}},
         mapX = 162,
         mapY = 108,
         locks = {{"SOUL_OF_BAT"}, {"GRAVITY_BOOTS", "LEAP_STONE"}, {"FORM_OF_MIST", "POWER_OF_MIST"}},
@@ -469,14 +469,14 @@ local locations = {
     }, {
         name = "Crystal Cloak",--22
         status = false,
-        mapTiles = {{address = 0x06BDDE, values = {85, 255}}},
+        mapTiles = {{address = 0x06BDDE, values = {0x40}}},
         mapX = 322,
         mapY = 268,
         locks = {{"JEWEL_OF_OPEN"}}
     }, {
         name = "Mormegil",--23
         status = false,
-        mapTiles = {{address = 0x06BE98, values = {81, 85}}},
+        mapTiles = {{address = 0x06BE98, values = {0x01}}},
         mapX = 138,
         mapY = 364,
         locks = {{"JEWEL_OF_OPEN", "SOUL_OF_BAT"}, {"JEWEL_OF_OPEN", "LEAP_STONE"},  {"JEWEL_OF_OPEN", "GRAVITY_BOOTS", "SOUL_OF_WOLF"},
@@ -485,7 +485,7 @@ local locations = {
     }, {
         name = "Gold Ring",--24
         status = false,
-        mapTiles = {{address = 0x06BD8F, values = {80}}},
+        mapTiles = {{address = 0x06BD8F, values = {0x10}}},
         mapX = 362,
         mapY = 228,
         locks = {{"JEWEL_OF_OPEN", "SOUL_OF_BAT"}, {"JEWEL_OF_OPEN", "FORM_OF_MIST", "POWER_OF_MIST"}, {"JEWEL_OF_OPEN", "GRAVITY_BOOTS", "LEAP_STONE"}},
@@ -494,7 +494,7 @@ local locations = {
     {
         name = "Spikebreaker",--25
         status = false,
-        mapTiles = {{address = 0x06BEAE, values = {21, 85}}},
+        mapTiles = {{address = 0x06BEAE, values = {0x10}}},
         mapX = 330,
         mapY = 372,
         locks = {{"JEWEL_OF_OPEN", "SOUL_OF_BAT", "ECHO_OF_BAT"}},
@@ -503,7 +503,7 @@ local locations = {
     {
         name = "Silver Ring",--26
         status = false,
-        mapTiles = {{address = 0x06BC66, values = {21, 85}}},
+        mapTiles = {{address = 0x06BC66, values = {0x10}}},
         mapX = 68,
         mapY = 84,
         locks = {{"JEWEL_OF_OPEN", "SPIKE_BREAKER", "FORM_OF_MIST"}},
@@ -512,7 +512,7 @@ local locations = {
     {
         name = "Holy Glasses",--27
         status = false,
-        mapTiles = {{address = 0x06BD6C, values = {64, 80}}},
+        mapTiles = {{address = 0x06BD7C, values = {0x40}}},
         mapX = 258,
         mapY = 212,
         locks = {{"GOLD_RING", "SILVER_RING"}}
@@ -520,8 +520,8 @@ local locations = {
         name = "Heart of Vlad",--28
         status = false,
         mapTiles = {
-            {address = 0x06C29D, values = {85}},
-            {address = 0x06C29E, values = {85, 64}}
+            {address = 0x06C29D, values = {0x01}},
+            {address = 0x06C29E, values = {0x40}}
         },
         mapX = 320,
         mapY = 330,
@@ -530,7 +530,7 @@ local locations = {
     }, {
         name = "Tooth of Vlad",--29
         status = false,
-        mapTiles = {{address = 0x06C1F5, values = {80, 84, 85, 5, 21, 69}}},
+        mapTiles = {{address = 0x06C1F5, values = {0x10, 0x04}}},
         mapX = 48,
         mapY = 250,
         locks = {},
@@ -538,7 +538,7 @@ local locations = {
     }, {
         name = "Rib of Vlad",--30
         status = false,
-        mapTiles = {{address = 0x06C26E, values = {85}}},
+        mapTiles = {{address = 0x06C26E, values = {0x01}}},
         mapX = 352,
         mapY = 306,
         reachable = false,
@@ -546,7 +546,7 @@ local locations = {
     }, {
         name = "Ring of Vlad",--31
         status = false,
-        mapTiles = {{address = 0x06C2C9, values = {1, 5, 85}}},
+        mapTiles = {{address = 0x06C2C9, values = {0x01}}},
         mapX = 184,
         mapY = 354,
         locks = {},
@@ -554,7 +554,7 @@ local locations = {
     }, {
         name = "Eye of Vlad",--32
         status = false,
-        mapTiles = {{address = 0x06C0EC, values = {21, 85}}},
+        mapTiles = {{address = 0x06C0EC, values = {0x10, 0x40}}},
         mapX = 264,
         mapY = 114,
         locks = {},
@@ -562,7 +562,7 @@ local locations = {
     }, {
         name = "Force of Echo",--33
         status = false,
-        mapTiles = {{address = 0x06C0D6, values = {85}}},
+        mapTiles = {{address = 0x06C0D6, values = {0x40}}},
         mapX = 64,
         mapY = 106,
         locks = {},
@@ -570,7 +570,7 @@ local locations = {
     }, {
         name = "Gas Cloud",--34
         status = false,
-        mapTiles = {{address = 0x06C04F, values = {85}}},
+        mapTiles = {{address = 0x06C04F, values = {0x04}}},
         mapX = 368,
         mapY = 34,
         locks = {},
@@ -578,7 +578,7 @@ local locations = {
     }, {
         name = "Ring of Arcana",--35
         status = false,
-        mapTiles = {{address = 0x06C1C0, values = {5, 21, 85}}},
+        mapTiles = {{address = 0x06C1C0, values = {0x04}}},
         mapX = 400,
         mapY = 218,
         locks = {},
@@ -586,7 +586,7 @@ local locations = {
     }, {
         name = "Dark Blade",--36
         status = false,
-        mapTiles = {{address = 0x06C109, values = {85}}},
+        mapTiles = {{address = 0x06C109, values = {0x01}}},
         mapX = 184,
         mapY = 130,
         locks = {},
@@ -595,8 +595,8 @@ local locations = {
         name = "Trio",--37
         status = false,
         mapTiles = {
-            {address = 0x06C20F, values = {64, 80, 84, 85}},
-            {address = 0x06C20E, values = {5}}
+            {address = 0x06C20F, values = {0x40}},
+            {address = 0x06C20E, values = {0x01}}
         },
         mapX = 344,
         mapY = 258,
@@ -607,6 +607,15 @@ local locations = {
 
 local function contains(table, val)
     for i = 1, #table do if table[i] == val then return true end end
+    return false
+end
+
+local function containsBits(table, val)
+    for i = 1, #table do
+        if bit.band(table[i], val) == table[i] then
+            return true
+        end
+    end
     return false
 end
 
@@ -996,7 +1005,7 @@ local function detectLocations()
                 if settings.debugMode then
                     debugLocations = debugLocations .. ("\n\n" .. locations[i].name .. " " .. locations[i].mapTiles[j].address .. " : " .. mainmemory.readbyte(locations[i].mapTiles[j].address))
                 end
-                if contains(locations[i].mapTiles[j].values,
+                if containsBits(locations[i].mapTiles[j].values,
                             mainmemory.readbyte(locations[i].mapTiles[j].address)) then
                     locations[i].status = true
                     changes = changes + 1
