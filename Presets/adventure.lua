@@ -30,15 +30,6 @@ local differences = {
             {"JEWEL_OF_OPEN", "GRAVITY_BOOTS", "FORM_OF_MIST"}, {"JEWEL_OF_OPEN", "FORM_OF_MIST", "POWER_OF_MIST"}, {"JEWEL_OF_OPEN", "SOUL_OF_WOLF", "POWER_OF_WOLF"}},
             allowed = {{"JEWEL_OF_OPEN", "GRAVITY_BOOTS", "THRUST_SWORD"}}
         }, {
-            name = "Balroom Mask",
-            status = false,
-            mapTiles = {{address = 0x06BE9A, values = {0x04}}},
-            mapX = 210,
-            mapY = 364,
-            locks = {{"JEWEL_OF_OPEN", "SOUL_OF_BAT"}, {"JEWEL_OF_OPEN", "LEAP_STONE"},  {"JEWEL_OF_OPEN", "GRAVITY_BOOTS", "SOUL_OF_WOLF"},
-            {"JEWEL_OF_OPEN", "GRAVITY_BOOTS", "FORM_OF_MIST"}, {"JEWEL_OF_OPEN", "FORM_OF_MIST", "POWER_OF_MIST"}, {"JEWEL_OF_OPEN", "SOUL_OF_WOLF", "POWER_OF_WOLF"}},
-            allowed = {{"JEWEL_OF_OPEN", "GRAVITY_BOOTS", "THRUST_SWORD"}}
-        }, {
             name = "Bloodstone",
             status = false,
             mapTiles = {{address = 0x06BE9B, values = {0x40}}},
@@ -83,30 +74,7 @@ local differences = {
             locks = {{"JEWEL_OF_OPEN", "SOUL_OF_BAT"}, {"JEWEL_OF_OPEN", "LEAP_STONE"},  {"JEWEL_OF_OPEN", "GRAVITY_BOOTS"},{"JEWEL_OF_OPEN", "FORM_OF_MIST", "POWER_OF_MIST"}},
             allowed = {{"JEWEL_OF_OPEN", "GRAVITY_BOOTS", "THRUST_SWORD"}, {"JEWEL_OF_OPEN", "GRAVITY_BOOTS", "FORM_OF_MIST"}, {"JEWEL_OF_OPEN", "GRAVITY_BOOTS", "SOUL_OF_WOLF"}}
         }, {
-            name = "Scimitar",
-            status = false,
-            mapTiles = {{address = 0x06BDEF, values = {0x10}}},
-            mapX = 362,
-            mapY = 276,
-            locks = {{"JEWEL_OF_OPEN"}}
-        }, {
-            name = "Moonstone",
-            status = false,
-            mapTiles = {{address = 0x06BD8F, values = {0x40}}},
-            mapX = 354,
-            mapY = 228,
-            locks = {{"JEWEL_OF_OPEN", "SOUL_OF_BAT"}, {"JEWEL_OF_OPEN", "FORM_OF_MIST", "POWER_OF_MIST"}, {"JEWEL_OF_OPEN", "GRAVITY_BOOTS", "LEAP_STONE"}},
-            allowed = {{"JEWEL_OF_OPEN", "GRAVITY_BOOTS", "THRUST_SWORD"}, {"JEWEL_OF_OPEN", "GRAVITY_BOOTS", "SOUL_OF_WOLF"}, {"JEWEL_OF_OPEN", "GRAVITY_BOOTS", "FORM_OF_MIST"}, {"JEWEL_OF_OPEN", "LEAP_STONE", "FORM_OF_MIST"}}
-        }, {
-            name = "Claymore",
-            status = false,
-            mapTiles = {{address = 0x06BD4E, values = {0x01}}},
-            mapX = 346,
-            mapY = 196,
-            locks = {{"JEWEL_OF_OPEN", "SOUL_OF_BAT"}, {"JEWEL_OF_OPEN", "FORM_OF_MIST", "POWER_OF_MIST"}, {"JEWEL_OF_OPEN", "GRAVITY_BOOTS", "LEAP_STONE"}},
-            allowed = {{"JEWEL_OF_OPEN", "GRAVITY_BOOTS", "THRUST_SWORD"}, {"JEWEL_OF_OPEN", "GRAVITY_BOOTS", "SOUL_OF_WOLF"}, {"JEWEL_OF_OPEN", "GRAVITY_BOOTS", "FORM_OF_MIST"}, {"JEWEL_OF_OPEN", "LEAP_STONE", "FORM_OF_MIST"}}
-        }, {
-            name = "Bandana",
+            name = "Bandanna",
             status = false,
             mapTiles = {{address = 0x06BD2C, values = {0x01}}},
             mapX = 282,
@@ -129,14 +97,6 @@ local differences = {
             mapY = 276,
             locks = {{"JEWEL_OF_OPEN", "SOUL_OF_BAT"}, {"JEWEL_OF_OPEN", "LEAP_STONE", "GRAVITY_BOOTS"}, {"JEWEL_OF_OPEN", "FORM_OF_MIST", "POWER_OF_MIST"}},
             allowed = {{"JEWEL_OF_OPEN", "GRAVITY_BOOTS", "THRUST_SWORD"}, {"JEWEL_OF_OPEN", "GRAVITY_BOOTS", "SOUL_OF_WOLF"}, {"JEWEL_OF_OPEN", "GRAVITY_BOOTS", "FORM_OF_MIST"}}
-        }, {
-            name = "Herald Shield",
-            status = false,
-            mapTiles = {{address = 0x06BDC9, values = {0x04}}},
-            mapX = 178,
-            mapY = 260,
-            locks = {{"JEWEL_OF_OPEN", "SOUL_OF_BAT"}, {"JEWEL_OF_OPEN", "LEAP_STONE"}, {"JEWEL_OF_OPEN", "FORM_OF_MIST", "POWER_OF_MIST"}},
-            allowed = {{"JEWEL_OF_OPEN", "GRAVITY_BOOTS", "THRUST_SWORD"}, {"JEWEL_OF_OPEN", "GRAVITY_BOOTS", "SOUL_OF_WOLF"}, {"JEWEL_OF_OPEN", "GRAVITY_BOOTS", "FORM_OF_MIST"}, {"JEWEL_OF_OPEN", "SOUL_OF_WOLF", "POWER_OF_WOLF"}}
         }, {
             name = "Holy Mail",
             status = false,
@@ -281,7 +241,7 @@ local differences = {
             status = false,
             mapTiles = {{address = 0x06BCF2, values = {0x01}}},
             mapX = 474,
-            mapY = 184,
+            mapY = 148,
             locks = {},
             reachable = true
         }, {
@@ -471,15 +431,14 @@ local differences = {
             mapY = 274,
             locks = {},
             reachable = true
-        },
-         {
+        }, {
             name = "Staroulite",
             status = false,
             mapTiles = {{address = 0x06C218, values = {0x40}}},
             mapX = 118,
             mapY = 264,
             locks = {{"FORM_OF_MIST"}}
-        },{
+        }, {
             name = "Reverse Caverns Diamond",
             status = false,
             mapTiles = {{address = 0x06C1BB, values = {0x40}}},

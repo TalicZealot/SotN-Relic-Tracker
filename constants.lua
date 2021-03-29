@@ -53,7 +53,7 @@ local constants = {
     mapBorderColor = 0xFFC0C0C0,
     settingsSubmenuOpenAddress = 0x03D04E,
     seedNameStartAddress = 0x1A78B4,
-    presetStartAddress = 0x1A78D4,
+    presetStartAddress = 0x1A78E1,
   },
   colors = {
     locationMapColorAllowed = 0xFF33129c,
