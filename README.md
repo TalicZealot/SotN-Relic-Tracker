@@ -1,4 +1,4 @@
-# This tracker will soon be deprecated.
+# This tracker is deprecated, go to [https://github.com/TalicZealot/SotnRandoTools](https://github.com/TalicZealot/SotnRandoTools)
 
 ## SotN Relic and Location check Autotracker (LEGACY)
 Autotracker LUA script for the Castlevania:SotN Randomizer https://sotn.io/
